@@ -35,12 +35,13 @@ body.light{
     color: #101010;
 }
 
-body.light i{
-    border: solid #101010;
+body.light a {
+    color:  #101010;
 }
 
 body.light #wb_switcher{
     border: 1px solid #101010;
+     color: #101010;
 }
 
 code {

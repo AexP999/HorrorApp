@@ -14,9 +14,9 @@ export default function ThemeSwitcher () {
 
   return (
 
-    <div>
 
-      <i onClick={ themeToggle } className="fa fa-adjust" id="wb_switcher" aria-hidden="true"></i>
-    </div>
+
+    <i onClick={ themeToggle } className="fa fa-adjust" id="wb_switcher" aria-hidden="true"></i>
+
   );
 }
