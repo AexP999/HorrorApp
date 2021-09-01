@@ -1,0 +1,64 @@
+.header{
+    display: flex;
+	width: 90%;
+	height: 10vh;
+	margin: auto;
+	align-items: center;
+    transition: all 0.5s;
+}
+
+
+.logo-container,
+.nav-links,
+.cart {
+    display: flex;
+}
+
+.logo-container{
+    flex: 1;
+}
+
+.logo-container img{
+    position: absolute;
+    top: 0px;
+    left: -10px;
+    height: 300px;
+}
+
+nav{
+    flex: 2;
+}
+
+.nav-links{
+    justify-content: space-around;
+	list-style: none;
+}
+
+.nav-links a{
+    color: whitesmoke;
+	font-size: 14px;
+	text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+.nav-links li a i{
+    border: none
+}
+
+@keyframes navLinkFade{
+    from{
+        opacity: 0;
+        transform: translateX(0px);
+    }
+    to{
+        opacity: 1;
+        transform: translateX(50px);
+    }
+}
+
+.footer img{
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    top:10vh
+}
