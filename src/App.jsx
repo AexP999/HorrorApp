@@ -1,33 +1,13 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-
-} from "react-router-dom";
-
 import './App.css';
-import Home from './components/Home/Home.jsx';
-import Login from './components/Login/Login';
+import { Slider } from './components/Slider/Slider';
 
-const App = () => {
+function App () {
   return (
-    <Router>
-      <div className='App'>
-
-
-        <Switch>
-          <Route path="/" component={ Home } exact />
-          <Route path="/login" component={ Login } />
-
-          <Route>
-            <h2>404 Page not found</h2>
-          </Route>
-
-        </Switch>
-      </div>
-    </Router>
+    <div className="App">
+      <Slider />
+    </div>
   );
-};
+}
 
 export default App;
