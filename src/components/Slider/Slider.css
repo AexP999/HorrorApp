@@ -8,6 +8,7 @@
     align-items: center;
   
     overflow: hidden;
+   
     
 }
  
@@ -25,4 +26,8 @@
  
 .slider-img-next {
     transform: translateX(100%);
+}
+
+img {
+   border-radius:20px
 }
