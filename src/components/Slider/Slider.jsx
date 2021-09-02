@@ -26,9 +26,10 @@ export default function Slider () {
       // Меняем состояние
       setActiveIndex((current) => {
         // Вычисляем индекс следующего слайда, который должен вывестись
-        const res = current === img.length - 1 ? 0 : current + 1;
+        return (current === img.length - 1 ? 0 : current + 1);
         // Возвращаем индекс
-        return res;
+
+
       });
     }, 6000);
     // Выключаем интервал
