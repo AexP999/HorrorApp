@@ -1,8 +1,7 @@
 import React from 'react';
-
-
 import './Home.css';
 import Header from '../Header/Header';
+import Slider from '../Slider/Slider';
 
 export default function Home (props) {
   return (
@@ -13,7 +12,7 @@ export default function Home (props) {
         className='Home-Header'
       />
       <div className='Home-Body'>
-
+        <Slider />
       </div>
 
 

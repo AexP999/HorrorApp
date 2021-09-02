@@ -1,11 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
 import './Slider.css';
-import slide1 from "../img/slide1.jpg";
-import slide2 from "../img/slide2.jpg";
-import slide3 from "../img/slide3.jpg";
-import slide4 from "../img/slide4.jpg";
-import slide5 from "../img/slide5.jpg";
+import slide1 from "../../img/slide1.jpg";
+import slide2 from "../../img/slide2.jpg";
+import slide3 from "../../img/slide3.jpg";
+import slide4 from "../../img/slide4.jpg";
+import slide5 from "../../img/slide5.jpg";
 
 
 const img = [
@@ -16,7 +16,7 @@ const img = [
   <img key={ slide5 } src={ slide5 } alt='slide5' />,
 ];
 
-export function Slider () {
+export default function Slider () {
   const [ activeIndex, setActiveIndex ] = useState(0);
 
   // Хук Effect
