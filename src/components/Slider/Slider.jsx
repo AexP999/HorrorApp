@@ -9,11 +9,11 @@ import slide5 from "../img/slide5.jpg";
 
 
 const img = [
-  <img key={ 1 } src={ slide1 } alt='' />,
-  <img key={ 2 } src={ slide2 } alt='' />,
-  <img key={ 3 } src={ slide3 } alt='' />,
-  <img key={ 4 } src={ slide4 } alt='' />,
-  <img key={ 5 } src={ slide5 } alt='' />,
+  <img key={ slide1 } src={ slide1 } alt='slide1' />,
+  <img key={ slide2 } src={ slide2 } alt='slide2' />,
+  <img key={ slide3 } src={ slide3 } alt='slide3' />,
+  <img key={ slide4 } src={ slide4 } alt='slide4' />,
+  <img key={ slide5 } src={ slide5 } alt='slide5' />,
 ];
 
 export function Slider () {
@@ -30,7 +30,7 @@ export function Slider () {
         // Возвращаем индекс
         return res;
       });
-    }, 3000);
+    }, 6000);
     // Выключаем интервал
     return () => clearInterval();
   }, []);
@@ -43,11 +43,13 @@ export function Slider () {
   return (
     <div className="slider">
       <div className="slider-img slider-img-prev"
-        key={ prevImgIndex }>
+        key={ prevImgIndex }
+      >
         { img[ prevImgIndex ] }
       </div>
       <div className="slider-img"
-        key={ activeIndex }>
+        key={ activeIndex }
+      >
         { img[ activeIndex ] }
       </div>
       <div className="slider-img slider-img-next"
