@@ -29,7 +29,7 @@ export default function Slider () {
         return (current === img.length - 1 ? 0 : current + 1);
 
       });
-    }, 10000);
+    }, 100000);
 
     return () => clearInterval();
   }, []);
@@ -41,7 +41,7 @@ export default function Slider () {
 
   return (
     <div className='container'>
-      <i className='fas fa-chevron-left' onClick={ () => setActiveIndex(activeIndex ? activeIndex - 1 : img.length - 1) }></i>
+      <i className='leftbtn fas fa-chevron-left' onClick={ () => setActiveIndex(activeIndex ? activeIndex - 1 : img.length - 1) }></i>
 
       <div className="slider">
         <div className="slider-img slider-img-prev"
@@ -61,7 +61,7 @@ export default function Slider () {
 
       </div>
 
-      <i className='fas fa-chevron-right' onClick={ () => setActiveIndex(activeIndex === img.length - 1 ? 0 : activeIndex + 1) }></i>
+      <i className='rightbtn fas fa-chevron-right' onClick={ () => setActiveIndex(activeIndex === img.length - 1 ? 0 : activeIndex + 1) }></i>
     </div >
   );
 }

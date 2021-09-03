@@ -33,17 +33,22 @@
 .slider-img img {
    border-radius:20px;
    width: 100%;
-   margin: 0 70px;
+   margin: 0 50px;
    
 }
 
 .container {
     display: flex;
     align-items: center;
-    /* justify-content: space-between;*/
+   
 } 
 
 .container i {
     font-size: 70px;
- 
+}
+.rightbtn {
+    margin-right: 3rem;
+}
+.leftbtn {
+  margin-left: 3rem;  
 }
