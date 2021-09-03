@@ -23,7 +23,7 @@ export default function Slider () {
   useEffect(() => {
 
     setInterval(() => {
-      debugger;
+
       setActiveIndex((current) => {
         // Вычисляем индекс следующего слайда, который должен вывестись
         return (current === img.length - 1 ? 0 : current + 1);
