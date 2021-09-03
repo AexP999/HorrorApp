@@ -60,8 +60,8 @@ export default function Slider () {
         </div>
 
       </div>
-
-      <button onClick={ () => setActiveIndex(activeIndex === img.length - 1 ? 0 : activeIndex + 1) }>fwd</button>
+      {/* 
+      <button className='bbtn' onClick={ () => setActiveIndex(activeIndex === img.length - 1 ? 0 : activeIndex + 1) }>fwd</button> */}
     </div>
   );
 }
