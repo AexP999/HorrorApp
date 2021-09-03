@@ -1,23 +1,24 @@
 .slider {
     position: relative;
     width: 100%;
-    height: 500px;
+    height: 300px;
     margin: auto;
     box-sizing: border-box;
     display: flex;
     align-items: center;
-  
-    overflow: hidden;
-   
-    
+    justify-content: center;
+    /* overflow: hidden;  */
 }
- 
+
 .slider-img {
     position: absolute;
-    padding:20px;
+    padding:40px;
     width: 100%;
-    height: 500px;
+    height: auto;
     transition: all 1.5s;
+    display: flex;
+    justify-content: center;
+    
 }
  
 .slider-img-prev {
@@ -28,7 +29,17 @@
     transform: translateX(100%);
 }
 
-img {
+.slider-img img {
    border-radius:20px;
- 
+   width: 100%;
+   
+   
+}
+
+button {
+  position: absolute;
+
+}
+.fbtn {
+    left: 20px;
 }

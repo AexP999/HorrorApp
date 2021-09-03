@@ -4,6 +4,7 @@ import Header from '../Header/Header';
 import Slider from '../Slider/Slider';
 
 export default function Home (props) {
+
   return (
     <div className='Home'>
 
@@ -14,9 +15,10 @@ export default function Home (props) {
       <div className='Home-Body'>
         <Slider />
       </div>
+      <main style={ { height: '100vh' } }>
 
-
-    </div>
+      </main>
+    </div >
 
 
   );

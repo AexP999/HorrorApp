@@ -27,6 +27,8 @@
 body{
 	font-family: 'Poppins', sans-serif;
     background: #101010;
+    background-image: url(img/footer_moon_and_house.png);
+    background-size: cover;
     color: rgb(223, 150, 150);
 }
 
