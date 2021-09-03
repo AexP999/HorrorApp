@@ -19,20 +19,18 @@ const img = [
 export default function Slider () {
   const [ activeIndex, setActiveIndex ] = useState(0);
 
-  // Хук Effect
+
   useEffect(() => {
-    // Запускаем интервал
+
     setInterval(() => {
-      // Меняем состояние
+
       setActiveIndex((current) => {
         // Вычисляем индекс следующего слайда, который должен вывестись
         return (current === img.length - 1 ? 0 : current + 1);
-        // Возвращаем индекс
-
 
       });
-    }, 6000);
-    // Выключаем интервал
+    }, 10000);
+
     return () => clearInterval();
   }, []);
 
@@ -42,22 +40,29 @@ export default function Slider () {
   const nextImgIndex = activeIndex === img.length - 1 ? 0 : activeIndex + 1;
 
   return (
-    <div className="slider">
-      <div className="slider-img slider-img-prev"
-        key={ prevImgIndex }
-      >
-        { img[ prevImgIndex ] }
+    <div className='container'>
+      <i className='fas fa-chevron-left' onClick={ () => setActiveIndex(activeIndex ? activeIndex - 1 : img.length - 1) }></i>
+
+      <div className="slider">
+        <div className="slider-img slider-img-prev"
+          key={ prevImgIndex } >
+          { img[ prevImgIndex ] }
+        </div>
+
+        <div className="slider-img"
+          key={ activeIndex } >
+          { img[ activeIndex ] }
+        </div>
+
+        <div className="slider-img slider-img-next"
+          key={ nextImgIndex } >
+          { img[ nextImgIndex ] }
+        </div>
+
       </div>
-      <div className="slider-img"
-        key={ activeIndex }
-      >
-        { img[ activeIndex ] }
-      </div>
-      <div className="slider-img slider-img-next"
-        key={ nextImgIndex }>
-        { img[ nextImgIndex ] }
-      </div>
-    </div>
+
+      <i className='fas fa-chevron-right' onClick={ () => setActiveIndex(activeIndex === img.length - 1 ? 0 : activeIndex + 1) }></i>
+    </div >
   );
 }
 // a

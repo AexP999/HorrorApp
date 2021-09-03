@@ -39,9 +39,7 @@ export default function Header ({ userName }) {
           </li>
         </ul>
       </nav>
-      <div className="footer">
-        <img src="images\desktop\footer moon and house.png" alt="" />
-      </div>
+
 
     </div>
   );
