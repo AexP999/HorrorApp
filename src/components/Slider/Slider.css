@@ -2,7 +2,7 @@
     position: relative;
     width: 100%;
     height: 500px;
-    margin: 40px;
+    /* margin: 40px; */
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -12,8 +12,9 @@
 
 .slider-img {
     position: absolute;
-    padding:40px;
+    /* padding:40px; */
     width: 100%;
+    /* margin: 20px 0; */
     height: auto;
     transition: all 1.5s;
     display: flex;
@@ -32,19 +33,17 @@
 .slider-img img {
    border-radius:20px;
    width: 100%;
-   
+   margin: 0 70px;
    
 }
 
-button {
-  position: absolute;
+.container {
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between;*/
+} 
 
-}
-.fbtn {
-    left: 20px;
-    top:200px
-}
-.bbtn {
-    right: -20px;
-    top:200px
+.container i {
+    font-size: 70px;
+ 
 }

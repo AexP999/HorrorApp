@@ -40,8 +40,8 @@ export default function Slider () {
   const nextImgIndex = activeIndex === img.length - 1 ? 0 : activeIndex + 1;
 
   return (
-    <div style={ { display: 'flex' } }>
-      <button className='fbtn' onClick={ () => setActiveIndex(activeIndex ? activeIndex - 1 : img.length - 1) }>back</button>
+    <div className='container'>
+      <i className='fas fa-chevron-left' onClick={ () => setActiveIndex(activeIndex ? activeIndex - 1 : img.length - 1) }></i>
 
       <div className="slider">
         <div className="slider-img slider-img-prev"
@@ -60,8 +60,8 @@ export default function Slider () {
         </div>
 
       </div>
-      {/* 
-      <button className='bbtn' onClick={ () => setActiveIndex(activeIndex === img.length - 1 ? 0 : activeIndex + 1) }>fwd</button> */}
-    </div>
+
+      <i className='fas fa-chevron-right' onClick={ () => setActiveIndex(activeIndex === img.length - 1 ? 0 : activeIndex + 1) }></i>
+    </div >
   );
 }
