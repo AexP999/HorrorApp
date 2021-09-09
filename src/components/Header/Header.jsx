@@ -35,6 +35,9 @@ export default function Header ({ userName }) {
             <Link to="/login">Логин</Link>
           </li>
           <li>
+            <Link to="/admin">Админ</Link>
+          </li>
+          <li>
             <ThemeSwitcher />
           </li>
         </ul>
