@@ -6,9 +6,36 @@
   margin: 10px;
   padding: 5px;
 }
-.input-cont label {
-  display: flex;
-  width: 350px;
-  justify-content: space-between;
 
+.input-cont{
+  display: flex;
+  flex-direction: column;
+}
+.input-name {
+ display: flex;
+  width: 280px;
+  justify-content: space-between;
+  margin: 5px 0; 
+}
+
+.input-name input{
+  width: 120px;
+}
+
+.actw-wid{
+  width: 100%;
+  justify-content: flex-start;
+
+}
+
+.add-item{
+cursor:pointer;
+position:static;
+/* left:100%; */
+width: 20px;
+
+}
+.titles-width{
+  width:  140px;
+   background-color: blueviolet;
 }

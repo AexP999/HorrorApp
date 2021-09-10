@@ -3,174 +3,232 @@ import { FilmContext } from '../Context';
 
 import './Admin.css';
 
+const initFilmsData = {
+  director: [ { rewards: [], name: '', photo: '' } ],
+  images: [ '' ],
+  _id: '',
+  name: '',
+  year: '',
+  country: '',
+  category: '',
+  actors: [ { rewards: [], name: '', photo: '' }, ],
+  poster: '',
+  trailer: ''
+};
 export default function Admin () {
-  //   const [ directorData, setDirectorData ] = useState({
-  //     rewards: [], name: { first: '', last: '' }, photo: ''
-  //   });
 
-  //   const [ actorData, setActorData ] = useState({
-  //     rewards: [], name: '', photo: ''
-  //   });
-
-  const [ filmsData, setFilmsData ] = useState({
-    director: { rewards: [], name: '', photo: '' },
-    images: [],
-    _id: '',
-    name: '',
-    year: '',
-    country: '',
-    category: '',
-    actors: { rewards: [], name: '', photo: '' },
-    poster: '',
-    trailer: ''
-  });
+  const [ filmsData, setFilmsData ] = useState(initFilmsData);
 
   const handleSubmit = () => {
     alert(JSON.stringify(filmsData, null, 2));
-    setFilmsData({
-      director: { rewards: [], name: '', photo: '' },
-      images: [],
-      _id: '',
-      name: '',
-      year: '',
-      country: '',
-      category: '',
-      actors: [ { rewards: [], name: '', photo: '', } ],
-      poster: '',
-      trailer: ''
-    });
+    setFilmsData(initFilmsData);
     // сброс данных после сабмита
   };
 
   const { films } = useContext(FilmContext);
   console.log('films', films);
 
-  const updateFilmData = (field, e) => {
+  const updateFilmData = (field, e, index) => {
 
     const { target: { value, name } } = e;
 
-    console.log(value, name, field);
+    console.log('updateFilmData', value, name, field, index);
 
     const copyFilmsData = JSON.parse(JSON.stringify(filmsData));
 
-    console.log('tepeof', typeof (filmsData.images));
-
+    if(Array.isArray(copyFilmsData[ field ])) {
+      name === '' ? copyFilmsData[ field ][ index ] = value : copyFilmsData[ field ][ index ][ name ] = value;
+      setFilmsData(copyFilmsData);
+      return;
+    }
     if(typeof ((filmsData[ field ])) === 'object') {
       copyFilmsData[ field ][ name ] = value;
       setFilmsData(copyFilmsData);
-
-    } else {
-      copyFilmsData[ name ] = value;
-      setFilmsData(copyFilmsData);
+      return;
     }
-
+    copyFilmsData[ name ] = value;
+    setFilmsData(copyFilmsData);
   };
 
-  console.log(filmsData);
+
+  const addItem = (field) => {
+    console.log('field', field);
+    const copyFilmsData = JSON.parse(JSON.stringify(filmsData));
+    if(field === 'images') {
+      copyFilmsData.images.push('');
+    } else {
+      copyFilmsData[ field ].push({ rewards: [], name: '', photo: '', });
+    }
+
+
+    setFilmsData(copyFilmsData);
+  };
+
+  console.log('render', filmsData);
 
   return (
     <div>
       <h1>Admin panel</h1>
       <div>
         <div className='input-cont'>
-          <label >Director's names:
-            <input
-              value={ filmsData.director.name }
-              onChange={ (e) => updateFilmData('director', e) }
-              type="text"
-              name='name'
-              placeholder='enter the director`s name'
-            />
-            { filmsData.director.name }
-          </label>
-          <label>Director's photo:
-            <input
-              value={ filmsData.director.photo }
-              onChange={ (e) => updateFilmData('director', e) }
-              type="text"
-              name='photo'
-              placeholder='enter director`s photo'
-            />
-            { filmsData.director.photo }
-          </label>
 
-          <label>Name:
+          <div className='input-name'><span className='titles-width'>Name:</span>
             <input
               value={ filmsData.name }
               onChange={ (e) => updateFilmData('', e) }
               type="text"
               name='name'
-              placeholder='enter film`s name'
+              placeholder='film`s name'
             />
-            { filmsData.name }
-          </label>
-          <label>Country:</label>
-          <input
-            value={ filmsData.country }
-            onChange={ (e) => updateFilmData('', e) }
-            type="text"
-            name='country'
-            placeholder='enter film`s country'
-          />
-          { filmsData.country }
+          </div>
 
-          <label>Year:
-            <input
-              value={ filmsData.year }
-              onChange={ (e) => updateFilmData('', e) }
-              type="number"
-              name='year'
-              placeholder='enter film`s year'
-            />
-            { filmsData.year }
-          </label>
-          <label>Poster:
-            <input
-              value={ filmsData.poster }
-              onChange={ (e) => updateFilmData('', e) }
-              type="text"
-              name='poster'
-              placeholder='enter film`s poster'
-            />
-            { filmsData.poster }
-          </label>
-          <label>Trailer:
+          <div className='input-name'><span className='titles-width'>Country:</span>
             <input
               value={ filmsData.country }
               onChange={ (e) => updateFilmData('', e) }
               type="text"
               name='country'
-              placeholder='enter film`s country'
+              placeholder='film`s country'
             />
-            { filmsData.country }
-          </label>
-          <label>Actors:
+          </div>
+
+          <div className='input-name'><span className='titles-width'>Year:</span>
             <input
-              value={ filmsData.actors.name }
-              onChange={ (e) => updateFilmData('actors', e) }
-              type="text"
-              name='name'
-              placeholder='enter actor`s name'
+              value={ filmsData.year }
+              onChange={ (e) => updateFilmData('', e) }
+              type="number"
+              name='year'
+              placeholder='film`s year'
             />
-            { filmsData.actors.name }
-          </label>
-          <label>Actor`s photo:
+          </div>
+
+          <div className='input-name'><span className='titles-width'>Category:</span>
             <input
-              value={ filmsData.actors.photo }
-              onChange={ (e) => updateFilmData('actors', e) }
+              value={ filmsData.category }
+              onChange={ (e) => updateFilmData('', e) }
               type="text"
-              name='photo'
-              placeholder='enter actor`s photo'
+              name='category'
+              placeholder='film`s category'
             />
-            { filmsData.actors.photo }
-          </label>
+          </div>
+
+          <div className='input-name actw-wid' ><span className='titles-width'>Director's names:</span>
+            <button onClick={ () => addItem('director') } className='add-item'>+</button>
+            <div>
+              { filmsData.director.map((director1, index) => {
+
+                return (
+                  <input key={ index }
+                    value={ director1.name }
+                    onChange={ (e) => updateFilmData('director', e, index) }
+                    type="text"
+                    name='name'
+                    placeholder='director`s name'
+                  />
+                );
+              }) }
+            </div>
+          </div>
+
+          <div className='input-name actw-wid'><span style={ { marginRight: '20px' } } className='titles-width'>Director's photo:</span>
+            <div>
+              { filmsData.director.map((director1, index) => {
+
+                return (
+                  <input key={ index }
+                    value={ director1.photo }
+                    onChange={ (e) => updateFilmData('director', e, index) }
+                    type="text"
+                    name='photo'
+                    placeholder='director`s photo'
+                  />
+                );
+              }) }
+            </div>
+          </div>
+
+
+          <div className='input-name actw-wid '><span className='titles-width'>Actor`s name:</span>
+            <button onClick={ () => addItem('actors') } className='add-item'>+</button>
+            <div>
+              { filmsData.actors.map((actor, index) => {
+
+                return (
+                  <input key={ index }
+                    value={ actor.name }
+                    onChange={ (e) => updateFilmData('actors', e, index) }
+                    type="text"
+                    name='name'
+                    placeholder='actor`s name'
+                  />
+                );
+              }) }
+            </div>
+          </div>
+
+          <div className='input-name actw-wid '><span style={ { marginRight: '20px' } } className='titles-width'>Actor`s photo:</span>
+            <div >
+              { filmsData.actors.map((actor, index) => {
+
+                return (
+                  <input key={ index }
+                    value={ actor.photo }
+                    onChange={ (e) => updateFilmData('actors', e, index) }
+                    type="text"
+                    name='photo'
+                    placeholder='actor`s photo'
+                  />
+                );
+              }) }
+            </div>
+          </div>
+
+          <div className='input-name'><span className='titles-width'>Poster:</span>
+            <input
+              value={ filmsData.poster }
+              onChange={ (e) => updateFilmData('', e) }
+              type="text"
+              name='poster'
+              placeholder='film`s poster'
+            />
+          </div>
+
+          <div className='input-name'><span className='titles-width'>Trailer:</span>
+            <input
+              value={ filmsData.trailer }
+              onChange={ (e) => updateFilmData('', e) }
+              type="text"
+              name='trailer'
+              placeholder='film`s country'
+            />
+
+          </div>
+
+          <div className='input-name actw-wid' ><span className='titles-width'>Images:</span>
+            <button onClick={ () => addItem('images') } className='add-item'>+</button>
+            <div>
+              { filmsData.images.map((image, index) => {
+
+                return (
+                  <input key={ index }
+                    value={ image.name }
+                    onChange={ (e) => updateFilmData('images', e, index) }
+                    type="text"
+                    name=''
+                    placeholder='images'
+                  />
+                );
+              }) }
+            </div>
+          </div>
+
         </div>
         <button onClick={ handleSubmit }>Submit</button>
       </div>
 
       <div>
         <div style={ { color: 'antiquewhite' } }>
-          { JSON.stringify(films[ 0 ], 2, 3) }
+          {/* { JSON.stringify(films[ 0 ], 2, 3) } */ }
 
         </div>
         { (films.map((film, i) => {
