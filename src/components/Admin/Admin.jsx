@@ -1,27 +1,17 @@
+/* eslint-disable no-octal-escape */
 import React, { useContext, useState } from 'react';
 import { FilmContext } from '../Context';
-
+import { INITFILMSDATA, PATHTODATANODE } from '../../constants/constants';
 import './Admin.css';
 
-const initFilmsData = {
-  director: [ { rewards: [], name: '', photo: '' } ],
-  images: [ '' ],
-  _id: '',
-  name: '',
-  year: '',
-  country: '',
-  category: '',
-  actors: [ { rewards: [], name: '', photo: '' }, ],
-  poster: '',
-  trailer: ''
-};
+
 export default function Admin () {
 
-  const [ filmsData, setFilmsData ] = useState(initFilmsData);
+  const [ filmsData, setFilmsData ] = useState(INITFILMSDATA);
 
   const handleSubmit = () => {
     alert(JSON.stringify(filmsData, null, 2));
-    setFilmsData(initFilmsData);
+    setFilmsData(INITFILMSDATA);
     // сброс данных после сабмита
   };
 
@@ -231,24 +221,44 @@ export default function Admin () {
           {/* { JSON.stringify(films[ 0 ], 2, 3) } */ }
 
         </div>
-        { (films.map((film, i) => {
-          return (
-            <div className='film-info' key={ film.name + i }>
+        <div className='films-out' >
+          { (films.map((film, i) => {
+            return (
 
-              <div >Name: { film.name }</div>
-              <div >Country: { film.country }</div>
-              <div >Category: { film.category }</div>
-              <div >Director: { film.director.name } { film.director.photo } { film.director.reward }</div>
-              <div >Year: { film.year }</div>
-              <div >Actors: { film.actors.map((actor, i) => {
-                return (
-                  <div key={ actor + i }>{ actor.name } { actor.photo }</div>
-                );
-              }) }
+              <div className='film-info' key={ film.name + i }>
+
+                <div >Name: { film.name }</div>
+                <div >Country: { film.country }</div>
+                <div >Category: { film.category }</div>
+                <div >Director:{ film.director.map((director1, i) => {
+                  return (
+                    <div key={ director1._id }>{ director1.name }  <img src={ `${ PATHTODATANODE }/${ film._id }/actors_img/${ director1.photo }` } alt="" /> </div>
+                  );
+                }) }
+                </div>
+                <div >Year: { film.year }</div>
+
+
+                <div >Poster:  <img src={ `${ PATHTODATANODE }/${ film._id }/poster/${ film.poster }` } alt="" /> </div>
+
+                <div >Actors: { film.actors.map((actor, i) => {
+                  return (
+                    <div key={ i }>{ actor.name } { <img src={ `${ PATHTODATANODE }/${ film._id }/actors_img/${ actor.photo }` } alt="" /> }</div>
+                  );
+                }) }
+                </div>
+                <div >Images: { film.images.map((image, i) => {
+                  return (
+                    <div key={ i }>{ <img src={ `${ PATHTODATANODE }/${ film._id }/img/${ image }` } alt="" /> }</div>
+                  );
+                }) }
+                </div>
+
+
               </div>
-            </div>
-          );
-        })) }
+            );
+          })) }
+        </div>
       </div>
     </div>
   );

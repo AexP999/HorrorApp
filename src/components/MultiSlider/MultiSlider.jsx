@@ -34,15 +34,15 @@ export default function MultiSlider () {
   useEffect(() => {
 
     const sliderWidth = document.getElementById('width1').offsetWidth;
-    console.log(sliderCurrentWidth);
+    // console.log(sliderCurrentWidth);
     setSliderCurrentWidth(sliderWidth);
 
     const element = document.querySelector('.sliderEl');
     const sliderElWidth = element.offsetWidth;
-    console.log('sliderElWidth', sliderElWidth);
+    // console.log('sliderElWidth', sliderElWidth);
 
     const marginWidth = 2 * parseInt(getComputedStyle(element, true).marginLeft);
-    console.log('marginWidth', marginWidth);
+    // console.log('marginWidth', marginWidth);
 
     const elementsPerPage = Math.floor(sliderCurrentWidth / (sliderElWidth + marginWidth));
     console.log(elementsPerPage);

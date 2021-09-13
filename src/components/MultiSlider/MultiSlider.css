@@ -33,7 +33,7 @@
 }
 
 
-.container {
+.container-mult {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -41,7 +41,9 @@
 } 
 
 .container i {
-    font-size: 70px;
+    font-size: 40px;
+    opacity: 50%;
+    cursor: pointer;
   }
 .rightbtn {
     margin-right: 3rem;

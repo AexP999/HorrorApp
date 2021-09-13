@@ -6,7 +6,7 @@ import Home from './components/Home/Home.jsx';
 import Login from './components/Login/Login';
 import Admin from './components/Admin/Admin';
 import Header from '../src/components/Header/Header';
-import PATHTO from './constants/constants';
+import { PATHTO } from './constants/constants';
 import { FilmContext } from './components/Context';
 
 const FilmContextProvider = ({ children }) => {

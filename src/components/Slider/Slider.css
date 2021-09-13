@@ -1,7 +1,7 @@
 .slider {
     position: relative;
-    width: 100%;
-    height: 500px;
+    width: 90%;
+    height: 350px;
     /* margin: 40px; */
     box-sizing: border-box;
     display: flex;
@@ -12,7 +12,7 @@
 
 .slider-img {
     position: absolute;
-    /* padding:40px; */
+    padding:  50px ;
     width: 100%;
     /* margin: 20px 0; */
     height: auto;
@@ -44,11 +44,11 @@
 } 
 
 .container i {
-    font-size: 70px;
+    font-size: 30px;
 }
 .rightbtn {
-    margin-right: 3rem;
+    margin-right: 2rem;
 }
 .leftbtn {
-  margin-left: 3rem;  
+  margin-left: 2rem;  
 }
