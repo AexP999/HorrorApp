@@ -2,7 +2,6 @@ import React from 'react';
 import './Header.css';
 import { Link } from "react-router-dom";
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
-// import { map } from 'underscore'
 
 export default function Header ({ userName }) {
 

@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
+import { FilmContext } from '../Context.js';
+import { PATHTODATANODE } from '../../constants/constants';
+import { Link } from "react-router-dom";
+
 import poster1 from "../../img/poster1.jpg";
 import poster2 from "../../img/poster2.jpg";
 import poster3 from "../../img/poster3.jpg";
@@ -12,97 +16,94 @@ import poster10 from "../../img/poster10.jpg";
 
 import './MultiSlider.css';
 
-const images = [
-  <img key={ poster2 } src={ poster2 } alt='slide2' />,
-  <img key={ poster3 } src={ poster3 } alt='slide3' />,
-  <img key={ poster1 } src={ poster1 } alt='slide1' />,
-  <img key={ poster4 } src={ poster4 } alt='slide4' />,
-  <img key={ poster5 } src={ poster5 } alt='slide5' />,
-  <img key={ poster6 } src={ poster6 } alt='slide6' />,
-  <img key={ poster7 } src={ poster7 } alt='slide7' />,
-  <img key={ poster8 } src={ poster8 } alt='slide8' />,
-  <img key={ poster9 } src={ poster9 } alt='slide9' />,
-  <img key={ poster10 } src={ poster10 } alt='slide10' />,
+const postersArr = [
+  // <img src={ poster3 } alt='slide3' />,
+  // <img src={ poster1 } alt='slide1' />,
+  // <img src={ poster4 } alt='slide4' />,
+  // <img src={ poster5 } alt='slide5' />,
+  // <img src={ poster2 } alt='slide2' />,
+  // <img src={ poster6 } alt='slide6' />,
+  // <img src={ poster7 } alt='slide7' />,
+  // <img src={ poster8 } alt='slide8' />,
+  // <img src={ poster9 } alt='slide9' />,
+  // <img src={ poster10 } alt='slide10' />,
 ];
 
 export default function MultiSlider () {
   const [ activeIndex, setActiveIndex ] = useState(0);
-  const [ sliderCurrentWidth, setSliderCurrentWidth ] = useState(1200);
-  // const wrapperRef = useRef(Array(images.length).fill(createRef()));
+
+  const { films } = useContext(FilmContext);
+
+  if(postersArr.length === 0) {
+    <nav>
+      { films.map((film) => {
+        return (
+          postersArr.push(
+            <Link to="/filmscard" >
+              <img key={ film._id } src={ `${ PATHTODATANODE }/${ film._id }/poster/${ film.poster }` } alt='' />
+            </Link>
+          )
+
+        );
+      }) }
+    </nav>;
+  }
+
+  // const [ sliderCurrentWidth, setSliderCurrentWidth ] = useState(0);
+  // const wrapperRef = useRef(Array(postersArr.length).fill(createRef()));
   const wrapperRef = [];
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    const sliderWidth = document.getElementById('width1').offsetWidth;
-    // console.log(sliderCurrentWidth);
-    setSliderCurrentWidth(sliderWidth);
+  //   const sliderWidth = document.getElementById('width1').offsetWidth;
+  //   // console.log(sliderCurrentWidth);
+  //   setSliderCurrentWidth(sliderWidth);
 
-    const element = document.querySelector('.sliderEl');
-    const sliderElWidth = element.offsetWidth;
-    // console.log('sliderElWidth', sliderElWidth);
+  //   const element = document.querySelector('.sliderEl');
+  //   const sliderElWidth = element.offsetWidth;
+  //   // console.log('sliderElWidth', sliderElWidth);
 
-    const marginWidth = 2 * parseInt(getComputedStyle(element, true).marginLeft);
-    // console.log('marginWidth', marginWidth);
+  //   const marginWidth = 2 * parseInt(getComputedStyle(element, true).marginLeft);
+  //   // console.log('marginWidth', marginWidth);
 
-    const elementsPerPage = Math.floor(sliderCurrentWidth / (sliderElWidth + marginWidth));
-    console.log(elementsPerPage);
+  //   const elementsPerPage = Math.floor(sliderCurrentWidth / (sliderElWidth + marginWidth));
+  //   console.log(elementsPerPage);
 
-  }, [ sliderCurrentWidth ]);
+  // }, [ sliderCurrentWidth ]);
 
   const moveRight = () => {
-    images.push(images.shift());
+    postersArr.push(postersArr.shift());
 
     setActiveIndex(activeIndex + 1);
   };
 
   const moveLeft = () => {
-    images.unshift(images.pop());
+    postersArr.unshift(postersArr.pop());
 
     for(let key = 0; key < wrapperRef.length; key++) {
       wrapperRef[ key ].style.transform = 'rotateY(30deg)';
 
     }
-
-    // const wrapper = wrapperRef
-    // console.log('wrapper', wrapper);
-    // wrapper.classList.toggle('effectOn');
-    // setInterval(() => {
-
-    // }, 1000);
     setActiveIndex(activeIndex - 1);
   };
 
-  const prevImgIndex = activeIndex ? activeIndex - 1 : images.length - 1;
-
-  const nextImgIndex = activeIndex === images.length - 1 ? 0 : activeIndex + 1;
-
-  console.log('prevImgIndex', prevImgIndex, 'activeIndex', activeIndex, 'nextImgIndex', nextImgIndex,);
-
   return (
-    <div className='container'>
-      <i className='leftbtn fas fa-chevron-left' onClick={ () => moveLeft() }></i>
+    <div style={ { textAlign: 'center', margin: '20px' } }>
+      <h1>Recomended to you</h1>
+      <div className='container'>
+        <i className='leftbtn fas fa-chevron-left' onClick={ () => moveLeft() }></i>
 
-      <div className="slider-m" id='width1'>
-        {/* <div className="slider-img-m slider-img-prev"
-          key={ prevImgIndex } >
-          { img[ prevImgIndex ] }
+        <div className="slider-m" id='width1'>
+
+          { postersArr.map((poster, i) => <div
+            ref={ ref => wrapperRef[ i ] = ref }
+            className="sliderEl" key={ i } >{ poster }</div>) }
+
         </div>
 
-        <div className="slider-img-m"
-          key={ activeIndex } >
-          { img[ activeIndex ] }
-        </div>
-
-        <div className="slider-img-m slider-img-next"
-          key={ nextImgIndex } >
-          { img[ nextImgIndex ] }
-        </div> */}
-        { images.map((image, i) => <div ref={ ref => wrapperRef[ i ] = ref } className="sliderEl" key={ i } >{ image }</div>) }
-
-      </div>
-
-      <i className='rightbtn fas fa-chevron-right' onClick={ () => moveRight() }></i>
-    </div >
+        <i className='rightbtn fas fa-chevron-right' onClick={ () => moveRight() }></i>
+      </div >
+    </div>
   );
 
 

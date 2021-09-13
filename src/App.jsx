@@ -6,6 +6,7 @@ import Home from './components/Home/Home.jsx';
 import Login from './components/Login/Login';
 import Admin from './components/Admin/Admin';
 import Header from '../src/components/Header/Header';
+import FilmsCard from './components/FilmsCard/FilmsCard';
 import { PATHTO } from './constants/constants';
 import { FilmContext } from './components/Context';
 
@@ -45,6 +46,7 @@ const App = () => {
             <Route path="/" component={ Home } exact />
             <Route path="/login" component={ Login } />
             <Route path="/admin" component={ Admin } />
+            <Route path="/filmscard" component={ FilmsCard } />
             <Route><h2>
               404 Page not found</h2>
             </Route>

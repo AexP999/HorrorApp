@@ -13,6 +13,7 @@ export default function Admin () {
     alert(JSON.stringify(filmsData, null, 2));
     setFilmsData(INITFILMSDATA);
     // сброс данных после сабмита
+
   };
 
   const { films } = useContext(FilmContext);

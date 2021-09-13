@@ -2,21 +2,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { FilmContext } from '../Context';
 import { PATHTODATANODE } from '../../constants/constants';
+import { Link } from "react-router-dom";
 import './Slider.css';
-// import slide1 from "../../img/slide1.jpg";
-// import slide2 from "../../img/slide2.jpg";
-// import slide3 from "../../img/slide3.jpg";
-// import slide4 from "../../img/slide4.jpg";
-// import slide5 from "../../img/slide5.jpg";
 
 const img = [];
-// const img = [
-//   <img key={ slide1 } src={ slide1 } alt='slide1' />,
-//   <img key={ slide2 } src={ slide2 } alt='slide2' />,
-//   <img key={ slide3 } src={ slide3 } alt='slide3' />,
-//   <img key={ slide4 } src={ slide4 } alt='slide4' />,
-//   <img key={ slide5 } src={ slide5 } alt='slide5' />,
-// ];
 
 export default function Slider () {
   const [ activeIndex, setActiveIndex ] = useState(0);
@@ -24,12 +13,18 @@ export default function Slider () {
 
   if(img.length === 0) {
 
-    films.map((film) => {
-      return (
-        img.push(<img key={ film._id } src={ `${ PATHTODATANODE }/${ film._id }/img/${ film.images[ 0 ] }` } alt='' />
-        )
-      );
-    });
+    <nav>
+      { films.map((film) => {
+        return (
+          img.push(
+            <Link to="/filmscard" >
+              <img key={ film._id } src={ `${ PATHTODATANODE }/${ film._id }/img/${ film.images[ 0 ] }` } alt='' />
+            </Link>
+          )
+
+        );
+      }) }
+    </nav>;
   }
 
 
@@ -43,7 +38,7 @@ export default function Slider () {
         return (current === img.length - 1 ? 0 : current + 1);
 
       });
-    }, 10000);
+    }, 10000000);
 
     return () => clearInterval();
   }, []);
