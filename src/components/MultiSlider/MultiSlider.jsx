@@ -3,16 +3,16 @@ import { FilmContext } from '../Context.js';
 import { PATHTODATANODE } from '../../constants/constants';
 import { Link } from "react-router-dom";
 
-import poster1 from "../../img/poster1.jpg";
-import poster2 from "../../img/poster2.jpg";
-import poster3 from "../../img/poster3.jpg";
-import poster4 from "../../img/poster4.jpg";
-import poster5 from "../../img/poster5.jpg";
-import poster6 from "../../img/poster6.jpg";
-import poster7 from "../../img/poster7.jpg";
-import poster8 from "../../img/poster8.jpg";
-import poster9 from "../../img/poster9.jpg";
-import poster10 from "../../img/poster10.jpg";
+// import poster1 from "../../img/poster1.jpg";
+// import poster2 from "../../img/poster2.jpg";
+// import poster3 from "../../img/poster3.jpg";
+// import poster4 from "../../img/poster4.jpg";
+// import poster5 from "../../img/poster5.jpg";
+// import poster6 from "../../img/poster6.jpg";
+// import poster7 from "../../img/poster7.jpg";
+// import poster8 from "../../img/poster8.jpg";
+// import poster9 from "../../img/poster9.jpg";
+// import poster10 from "../../img/poster10.jpg";
 
 import './MultiSlider.css';
 

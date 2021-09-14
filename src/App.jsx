@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import './App.css';
@@ -9,26 +9,15 @@ import Header from '../src/components/Header/Header';
 import FilmsCard from './components/FilmsCard/FilmsCard';
 import { PATHTO } from './constants/constants';
 import { FilmContext } from './components/Context';
+import UseFetch from './components/UseFetch';
+
+const url = `${ PATHTO.HOST_NAME }/films`;
 
 const FilmContextProvider = ({ children }) => {
-  const [ films, setFilms ] = useState([]);
-
-  const fetchData = useCallback(async () => {
-    try {
-      const response = await fetch(`${ PATHTO.HOST_NAME }/films`);
-      const result = await response.json();
-      setFilms(result);
-    } catch(error) {
-      console.log('Ошибка загрузки заданий', error);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchData();
-  }, [ fetchData ]);
+  const { isLoading, films } = UseFetch(url);
 
   return <FilmContext.Provider value={
-    { films }
+    { films, isLoading }
   }>
     { children }
   </FilmContext.Provider>;
@@ -36,22 +25,27 @@ const FilmContextProvider = ({ children }) => {
 };
 
 const App = () => {
-
+  const isLoading = useContext(FilmContext);
   return (
     <FilmContextProvider>
       <main className='App'>
-        <Router>
-          <Header />
-          <Switch>
-            <Route path="/" component={ Home } exact />
-            <Route path="/login" component={ Login } />
-            <Route path="/admin" component={ Admin } />
-            <Route path="/filmscard" component={ FilmsCard } />
-            <Route><h2>
-              404 Page not found</h2>
-            </Route>
-          </Switch>
-        </Router>
+        { isLoading ? <h4>Loading...</h4>
+          :
+          <Router>
+            < Header />
+            <Switch>
+              <Route path="/" component={ Home } exact />
+              <Route path="/login" component={ Login } />
+              <Route path="/admin" component={ Admin } />
+              <Route path="/filmscard/:id">
+                <FilmsCard />
+              </Route>
+              <Route><h2>
+                404 Page not found</h2>
+              </Route>
+            </Switch>
+          </Router>
+        }
       </main>
     </FilmContextProvider>
   );

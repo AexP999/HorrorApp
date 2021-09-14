@@ -2,11 +2,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { FilmContext } from '../Context';
 import { PATHTODATANODE } from '../../constants/constants';
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+
 import './Slider.css';
 
 const img = [];
-
 export default function Slider () {
   const [ activeIndex, setActiveIndex ] = useState(0);
   const { films } = useContext(FilmContext);
@@ -17,7 +17,8 @@ export default function Slider () {
       { films.map((film) => {
         return (
           img.push(
-            <Link to="/filmscard" >
+            <Link to={ `/filmscard/${ film._id }` } >
+
               <img key={ film._id } src={ `${ PATHTODATANODE }/${ film._id }/img/${ film.images[ 0 ] }` } alt='' />
             </Link>
           )
@@ -38,7 +39,7 @@ export default function Slider () {
         return (current === img.length - 1 ? 0 : current + 1);
 
       });
-    }, 10000000);
+    }, 10000);
 
     return () => clearInterval();
   }, []);
