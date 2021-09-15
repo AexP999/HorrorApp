@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { FilmContext } from '../Context';
 import { PATHTODATANODE } from '../../constants/constants';
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import './Slider.css';
 

@@ -1,0 +1,59 @@
+.filmCard-container{
+  display: flex;
+  justify-content: center;
+  margin: 0 100px;
+}
+
+.filmCard-container h1{
+margin: 30px 0;
+font-size: 40px;
+}
+.fimCard-body{
+  width: 100%;
+  text-align:left;
+}
+
+.film-details{
+ text-align: left;
+}
+
+.filmCard-container h2{
+margin: 30px 0;
+font-size: 30px;
+}
+.directors-actors-cont{
+
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.card-inner{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 130px;
+  height: 200px;
+  margin: 0 20px 20px 0
+}
+.img-cont{
+  
+  border-radius: 130px;
+  overflow: hidden;
+  width: 130px;
+  height: 130px;
+  position: relative;
+   
+}
+
+.img-cont img{
+  width: 100%;
+ 
+  position: absolute;
+  top: -5%;
+  
+}
+
+.dir-act-text{
+  margin: 15px 0 0 5px;
+  font-size: 14px;
+}
