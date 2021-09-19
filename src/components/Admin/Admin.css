@@ -1,7 +1,6 @@
 .film-info {
-  /* display: flex; */
-
-  /* width: auto; */
+  display: flex;
+  flex-wrap: wrap;
   border: 1px solid white;
   border-radius: 10px;
   margin: 10px;
@@ -13,7 +12,7 @@
   flex-direction: column;
 }
 .input-name {
- display: flex;
+  display: flex;
   width: 280px;
   justify-content: space-between;
   margin: 5px 0; 
@@ -30,17 +29,26 @@
 }
 
 .add-item{
-cursor:pointer;
-position:static;
-/* left:100%; */
-width: 20px;
+  cursor:pointer;
+  position:static;
+  width: 20px;
 
 }
 .titles-width{
   width:  140px;
-   background-color: blueviolet;
+  background-color: blueviolet;
 }
 
 .films-out img {
-height: 200px;
+  
+  height: 100px;
+
+}
+
+.actors-cont {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  justify-content: space-around;
 }
