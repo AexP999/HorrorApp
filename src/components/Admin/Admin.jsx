@@ -1,12 +1,8 @@
-/* eslint-disable no-octal-escape */
-import React, { useState, useEffect, useCallback } from 'react';
-// import { FilmContext } from '../Context';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect, } from 'react';
 import { PATHTO } from '../../constants/constants';
 import { INITFILMSDATA, PATHTODATANODE } from '../../constants/constants';
-// import UseFetch from '../UseFetch';
 import './Admin.css';
-
-
 
 export default function Admin () {
 
@@ -16,13 +12,14 @@ export default function Admin () {
   const [ fetching, setFetching ] = useState(true);
   const [ maxNumberPages, setmaxNumberPages ] = useState(0);
 
-  const url = `${ PATHTO.HOST_NAME }/films?page=${ currentPage + 1 }&limit=3`;
-  console.log('url', url);
+  const url = `${ PATHTO.HOST_NAME }/films?page=${ currentPage + 1 }&limit=2`;
+
   useEffect(() => {
     async function fetchData () {
       console.log('fetching');
       const response = await fetch(`${ url }`);
       const { result, totalPages } = await response.json();
+      console.log('result', result);
       console.log(result, totalPages);
       setFilms([ ...films, ...result ]);
       setCurrentPage(prev => prev + 1);
@@ -33,32 +30,6 @@ export default function Admin () {
     if(fetching) { fetchData(); };
   }, [ fetching ]);
 
-  // const fetchData = useCallback(async () => {
-
-  //   try {
-  //     const response = await fetch(`${ url }`);
-  //     const { result, totalPages } = await response.json();
-  //     console.log(result, totalPages);
-  //     console.log('setTotal page');
-  //     setmaxNumberPages(totalPages);
-  //     console.log('setFilms');
-  //     setFilms([ ...films, ...result ]);
-  //     console.log('setCurPage');
-  //     setCurrentPage(prev => prev + 1);
-  //     console.log('setfetching');
-  //     setFetching(false);
-  //   } catch(error) {
-  //     console.log('Ошибка загрузки заданий', error);
-  //   }
-
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log('fetchings', fetching);
-  //   if(fetching) { fetchData(); };
-  // }, [ fetching ]);
-
-
   useEffect(() => {
     document.addEventListener('scroll', scrollHandler);
     return () => {
@@ -67,14 +38,10 @@ export default function Admin () {
   }, [ fetching ]);
 
   const scrollHandler = (e) => {
-    console.log('<100', e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100, 'c<p', currentPage < maxNumberPages);
-    console.log('currentPage', currentPage, 'maxNumberPages',
-      maxNumberPages);
 
     if((e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100) && (currentPage < maxNumberPages)) {
       setFetching(true);
     };
-
   };
 
   const handleSubmit = () => {
@@ -83,7 +50,6 @@ export default function Admin () {
     // сброс данных после сабмита
   };
 
-  // const { films } = useContext(FilmContext);
   console.log('films', films);
 
   const updateFilmData = (field, e, index) => {
@@ -108,7 +74,6 @@ export default function Admin () {
     setFilmsData(copyFilmsData);
   };
 
-
   const addItem = (field) => {
     console.log('field', field);
     const copyFilmsData = JSON.parse(JSON.stringify(filmsData));
@@ -117,7 +82,6 @@ export default function Admin () {
     } else {
       copyFilmsData[ field ].push({ rewards: [], name: '', photo: '', });
     }
-
 
     setFilmsData(copyFilmsData);
   };
@@ -285,16 +249,11 @@ export default function Admin () {
       </div>
 
       <div>
-        <div style={ { color: 'antiquewhite' } }>
-          {/* { JSON.stringify(films[ 0 ], 2, 3) } */ }
-
-        </div>
+        <div style={ { color: 'antiquewhite' } }></div>
         <div className='films-out' >
           { (films.map((film, i) => {
             return (
-
               <div className='film-info' key={ film.name + i }>
-
                 <div >Name: { film.name }</div>
                 <div >Country: { film.country }</div>
                 <div >Category: { film.category }</div>
@@ -305,7 +264,6 @@ export default function Admin () {
                 }) }
                 </div>
                 <div style={ { display: 'flex' } } >Year: { film.year }</div>
-
 
                 <div >Poster:  <img src={ `${ PATHTODATANODE }/${ film._id }/poster/${ film.poster }` } alt="" /> </div>
 
@@ -321,7 +279,6 @@ export default function Admin () {
                   );
                 }) }
                 </div>
-
 
               </div>
             );
