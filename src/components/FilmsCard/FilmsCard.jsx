@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 // import { FilmContext } from '../Context';
 import UseFetch from '../UseFetch';
 import { PATHTO, PATHTODATANODE } from '../../constants/constants';

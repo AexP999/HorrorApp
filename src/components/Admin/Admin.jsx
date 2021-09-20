@@ -1,5 +1,5 @@
 /* eslint-disable no-octal-escape */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 // import { FilmContext } from '../Context';
 import { PATHTO } from '../../constants/constants';
 import { INITFILMSDATA, PATHTODATANODE } from '../../constants/constants';
@@ -12,40 +12,67 @@ export default function Admin () {
 
   const [ filmsData, setFilmsData ] = useState(INITFILMSDATA);
   const [ films, setFilms ] = useState([]);
-  const [ currentPage, setCurrentPage ] = useState(1);
-  const [ isLoading, setIsLoading ] = useState(true);
-  const [ totalPages, setTotalPages ] = useState(1);
+  const [ currentPage, setCurrentPage ] = useState(0);
+  const [ fetching, setFetching ] = useState(true);
+  const [ maxNumberPages, setmaxNumberPages ] = useState(0);
 
-  const url = `${ PATHTO.HOST_NAME }/films?page=${ currentPage }&limit=3`;
-
+  const url = `${ PATHTO.HOST_NAME }/films?page=${ currentPage + 1 }&limit=3`;
+  console.log('url', url);
   useEffect(() => {
     async function fetchData () {
       console.log('fetching');
       const response = await fetch(`${ url }`);
-      const result = await response.json();
-      console.log('result', result);
-      setFilms([ ...films, ...result.result ]);
-      setCurrentPage(currentPage + 1);
-      setTotalPages(result.totalPages);
-      setIsLoading(false);
+      const { result, totalPages } = await response.json();
+      console.log(result, totalPages);
+      setFilms([ ...films, ...result ]);
+      setCurrentPage(prev => prev + 1);
+      setmaxNumberPages(totalPages);
+      setFetching(false);
 
     }
-    if(isLoading) { fetchData(); };
-  }, [ isLoading ]);
+    if(fetching) { fetchData(); };
+  }, [ fetching ]);
+
+  // const fetchData = useCallback(async () => {
+
+  //   try {
+  //     const response = await fetch(`${ url }`);
+  //     const { result, totalPages } = await response.json();
+  //     console.log(result, totalPages);
+  //     console.log('setTotal page');
+  //     setmaxNumberPages(totalPages);
+  //     console.log('setFilms');
+  //     setFilms([ ...films, ...result ]);
+  //     console.log('setCurPage');
+  //     setCurrentPage(prev => prev + 1);
+  //     console.log('setfetching');
+  //     setFetching(false);
+  //   } catch(error) {
+  //     console.log('Ошибка загрузки заданий', error);
+  //   }
+
+  // }, []);
+
+  // useEffect(() => {
+  //   console.log('fetchings', fetching);
+  //   if(fetching) { fetchData(); };
+  // }, [ fetching ]);
+
 
   useEffect(() => {
     document.addEventListener('scroll', scrollHandler);
     return () => {
       document.removeEventListener('scroll', scrollHandler);
     };
-  }, []);
+  }, [ fetching ]);
 
-  console.log('currentPage', currentPage, 'totalPages', totalPages, '<', currentPage < totalPages);
   const scrollHandler = (e) => {
-    console.log('<100', e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100);
-    console.log(currentPage < totalPages);
-    if((e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100) && (currentPage < totalPages)) {
-      setIsLoading(true);
+    console.log('<100', e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100, 'c<p', currentPage < maxNumberPages);
+    console.log('currentPage', currentPage, 'maxNumberPages',
+      maxNumberPages);
+
+    if((e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100) && (currentPage < maxNumberPages)) {
+      setFetching(true);
     };
 
   };
