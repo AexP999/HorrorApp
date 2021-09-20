@@ -16,11 +16,11 @@ export default function Admin () {
 
   useEffect(() => {
     async function fetchData () {
-      console.log('fetching');
+      // console.log('fetching');
       const response = await fetch(`${ url }`);
       const { result, totalPages } = await response.json();
-      console.log('result', result);
-      console.log(result, totalPages);
+      // console.log('result', result);
+      // console.log(result, totalPages);
       setFilms([ ...films, ...result ]);
       setCurrentPage(prev => prev + 1);
       setmaxNumberPages(totalPages);
@@ -39,24 +39,42 @@ export default function Admin () {
 
   const scrollHandler = (e) => {
 
-    if((e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100) && (currentPage < maxNumberPages)) {
-      setFetching(true);
-    };
+    if((e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100) 
+      && (currentPage < maxNumberPages)) setFetching(true);
   };
-
-  const handleSubmit = () => {
-    alert(JSON.stringify(filmsData, null, 2));
+  
+  function dataToSend () {
+    const fd = new FormData();
+    // for(let [name, value] of filesToSend) {
+    //   fd.append(name, value);
+    // }
+    // removing _id from filmsData
+    const tmpData = {...filmsData}
+    delete tmpData._id;
+    fd.append('data', JSON.stringify(tmpData));
+    console.log([...fd]);
+    return fd;
+}
+  const handleSubmit = async (e)=>{
+    // alert(JSON.stringify(filmsData, null, 2));
+    e.preventDefault();
+    const sendData = dataToSend();
+        try{
+                const response = await fetch(`${PATHTO.HOST_NAME}/films`, {
+                    method: 'POST',
+                    body: sendData,
+                });
+                const result = await response.json();
+                console.log(result);
+            } catch (error) {
+                  console.log('Ошибка загрузки заданий', error);
+            }
     setFilmsData(INITFILMSDATA);
-    // сброс данных после сабмита
   };
-
-  console.log('films', films);
 
   const updateFilmData = (field, e, index) => {
 
     const { target: { value, name } } = e;
-
-    console.log('updateFilmData', value, name, field, index);
 
     const copyFilmsData = JSON.parse(JSON.stringify(filmsData));
 
@@ -75,7 +93,7 @@ export default function Admin () {
   };
 
   const addItem = (field) => {
-    console.log('field', field);
+    // console.log('field', field);
     const copyFilmsData = JSON.parse(JSON.stringify(filmsData));
     if(field === 'images') {
       copyFilmsData.images.push('');
@@ -85,8 +103,6 @@ export default function Admin () {
 
     setFilmsData(copyFilmsData);
   };
-
-  console.log('render', filmsData);
 
   return (
     <div>
