@@ -7,19 +7,68 @@ import './Admin.css';
 export default function Admin () {
 
   const [ filmsData, setFilmsData ] = useState(INITFILMSDATA);
-  // const [ films, setFilms ] = useState([]);
+  const [ filesToSend, setFilesToSend ] = useState(new FormData());
 
-  const handleSubmit = () => {
-    alert(JSON.stringify(filmsData, null, 2));
+  const addFiles = (e) => {
+    const { target: { name, files } } = e;
+    debugger;
+    let fd = new FormData();
+    for(let [ name, value ] of filesToSend) {
+      fd.append(name, value);
+    }
+    fd.delete(name);
+    const filesToLoad = Array.from(files);
+    filesToLoad.forEach(file => {
+      fd.append(name, file);
+    });
+
+    console.log([ ...fd ]);
+    setFilesToSend(fd);
+
+    let copyFilmsData = JSON.parse(JSON.stringify(filmsData));
+    if(filesToLoad.length > 1) {
+      filesToLoad.forEach(file => {
+        copyFilmsData[ name ].push(file.name);
+      });
+    } else {
+      copyFilmsData[ name ] = files[ 0 ].name;
+    }
+
+    setFilmsData(copyFilmsData);
+  };
+
+  function dataToSend () {
+    const fd = new FormData();
+    for(let [ name, value ] of filesToSend) {
+      fd.append(name, value);
+    }
+    // removing _id from filmsData
+    const tmpData = JSON.parse(JSON.stringify(filmsData));
+    delete tmpData._id;
+    fd.append('data', JSON.stringify(tmpData));
+    console.log([ ...fd ]);
+    return fd;
+  }
+  const handleSubmit = async (e) => {
+    // e.preventDefault();
+    const sendData = dataToSend();
+    try {
+      const response = await fetch(`${ PATHTO.HOST_NAME }/films`, {
+        method: 'POST',
+        body: sendData,
+      });
+      const result = await response.json();
+      console.log(result);
+    } catch(error) {
+      console.log('Ошибка загрузки заданий', error);
+    }
     setFilmsData(INITFILMSDATA);
-    // сброс данных после сабмита
   };
 
   const updateFilmData = (field, e, index) => {
 
-    const { target: { value, name } } = e;
 
-    console.log('updateFilmData', 'value', value, 'name', name, 'field', field, 'index', index);
+    const { target: { value, name } } = e;
 
     const copyFilmsData = JSON.parse(JSON.stringify(filmsData));
 
@@ -34,11 +83,12 @@ export default function Admin () {
       return;
     }
     copyFilmsData[ name ] = value;
+    console.log(copyFilmsData);
     setFilmsData(copyFilmsData);
   };
 
   const addItem = (field) => {
-    console.log('field', field);
+    // console.log('field', field);
     const copyFilmsData = JSON.parse(JSON.stringify(filmsData));
     if(field === 'images') {
       copyFilmsData.images.push('');
@@ -48,8 +98,6 @@ export default function Admin () {
 
     setFilmsData(copyFilmsData);
   };
-
-  console.log('render', filmsData);
 
   return (
     <div>
@@ -169,10 +217,10 @@ export default function Admin () {
 
           <div className='input-name'><span className='titles-width'>Poster:</span>
             <input
-              value={ filmsData.poster }
-              onChange={ (e) => updateFilmData('', e) }
-              type="text"
+              onChange={ addFiles }
+              type="file"
               name='poster'
+              multiple
               placeholder='film`s poster'
             />
           </div>
@@ -183,26 +231,18 @@ export default function Admin () {
               onChange={ (e) => updateFilmData('', e) }
               type="text"
               name='trailer'
-              placeholder='film`s country'
+              placeholder='film`s trailer'
             />
           </div>
 
-          <div className='input-name actw-wid' ><span className='titles-width'>Images:</span>
-            <button onClick={ () => addItem('images') } className='add-item'>+</button>
-            <div>
-              { filmsData.images.map((image, index) => {
-
-                return (
-                  <input key={ index }
-                    value={ image.name }
-                    onChange={ (e) => updateFilmData('images', e, index) }
-                    type="text"
-                    name=''
-                    placeholder='images'
-                  />
-                );
-              }) }
-            </div>
+          <div className='input-name' ><span className='titles-width'>Images:</span>
+            <input
+              onChange={ addFiles }
+              type="file"
+              name='images'
+              multiple
+              placeholder='film`s images'
+            />
           </div>
 
         </div>
