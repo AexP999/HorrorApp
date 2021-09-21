@@ -9,25 +9,31 @@ export default function Admin () {
   const [ filmsData, setFilmsData ] = useState(INITFILMSDATA);
   const [filesToSend, setFilesToSend] = useState(new FormData());
   
-  const addSingleFile=(e)=>{
-    const {target:{value, name, files} } = e;
-  
-    const fileName = value.split('\\').pop().split('/').pop();
-    
-    // взять из стекйта
+  const addFiles=(e)=>{
+    const {target:{name, files} } = e;
+    debugger
     let fd=new FormData();
-    
     for(let [name, value] of filesToSend) {
-        fd.append(name, value);
-      }
-    fd.delete(name)
-    fd.append(name, files[0]);
+      fd.append(name, value);
+    }
+    fd.delete(name);
+    const filesToLoad = Array.from(files);
+    filesToLoad.forEach(file=>{
+      fd.append(name, file);
+    })
+    
     console.log([...fd]);
     setFilesToSend(fd);
     
     let copyFilmsData = JSON.parse(JSON.stringify(filmsData));
-    
-    copyFilmsData[name] = fileName;
+    if (filesToLoad.length>1){
+      filesToLoad.forEach(file=>{
+        copyFilmsData[name].push(file.name)
+      })
+    }else {
+      copyFilmsData[name] = files[0].name;
+    }
+
     setFilmsData(copyFilmsData);
   }
 
@@ -44,7 +50,7 @@ export default function Admin () {
     return fd;
 }
   const handleSubmit = async (e)=>{
-    e.preventDefault();
+    // e.preventDefault();
     const sendData = dataToSend();
         try{
            const response = await fetch(`${PATHTO.HOST_NAME}/films`, {
@@ -210,9 +216,10 @@ export default function Admin () {
 
           <div className='input-name'><span className='titles-width'>Poster:</span>
             <input
-              onChange={addSingleFile}
+              onChange={addFiles}
               type="file"
               name='poster'
+              multiple
               placeholder='film`s poster'
             />
           </div>
@@ -227,22 +234,14 @@ export default function Admin () {
             />
           </div>
 
-          <div className='input-name actw-wid' ><span className='titles-width'>Images:</span>
-            <button onClick={ () => addItem('images') } className='add-item'>+</button>
-            <div>
-              { filmsData.images.map((image, index) => {
-
-                return (
-                  <input key={ index }
-                    value={ image.name }
-                    onChange={ (e) => updateFilmData('images', e, index) }
-                    type="text"
-                    name=''
-                    placeholder='images'
-                  />
-                );
-              }) }
-            </div>
+          <div className='input-name' ><span className='titles-width'>Images:</span>
+          <input
+              onChange={addFiles}
+              type="file"
+              name='images'
+              multiple
+              placeholder='film`s images'
+            />
           </div>
 
         </div>
