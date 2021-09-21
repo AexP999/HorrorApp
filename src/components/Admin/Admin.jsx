@@ -11,23 +11,26 @@ export default function Admin () {
   const [ currentPage, setCurrentPage ] = useState(0);
   const [ fetching, setFetching ] = useState(true);
   const [ maxNumberPages, setmaxNumberPages ] = useState(0);
+  const [filesToSend, setFilesToSend] = useState(new FormData());
 
   const url = `${ PATHTO.HOST_NAME }/films?page=${ currentPage + 1 }&limit=2`;
 
-  useEffect(() => {
-    async function fetchData () {
-      // console.log('fetching');
-      const response = await fetch(`${ url }`);
-      const { result, totalPages } = await response.json();
-      // console.log('result', result);
-      // console.log(result, totalPages);
-      setFilms([ ...films, ...result ]);
-      setCurrentPage(prev => prev + 1);
-      setmaxNumberPages(totalPages);
-      setFetching(false);
+  async function fetchData () {
+    // console.log('fetching');
+    const response = await fetch(`${ url }`);
+    const { result, totalPages } = await response.json();
+    // console.log('result', result);
+    // console.log(result, totalPages);
+    setFilms([ ...films, ...result ]);
+    setCurrentPage(prev => prev + 1);
+    setmaxNumberPages(totalPages);
+    setFetching(false);
 
-    }
-    if(fetching) { fetchData(); };
+  }
+
+  useEffect(() => {
+    fetchData ()
+       if(fetching) { fetchData(); };
   }, [ fetching ]);
 
   useEffect(() => {
@@ -43,38 +46,60 @@ export default function Admin () {
       && (currentPage < maxNumberPages)) setFetching(true);
   };
   
+  const addSingleFile=(e)=>{
+    const {target:{value, name, files} } = e;
+  
+    const fileName = value.split('\\').pop().split('/').pop();
+    
+    // const file = document.getElementsByName(name);
+    // взять из стекйта
+    let fd=new FormData();
+    
+    for(let [name, value] of filesToSend) {
+        fd.append(name, value);
+      }
+    fd.delete(name)
+    fd.append(name, files[0]);
+    console.log([...fd]);
+    setFilesToSend(fd);
+    
+    let copyFilmsData = JSON.parse(JSON.stringify(filmsData));
+    
+    copyFilmsData[name] = fileName;
+    setFilmsData(copyFilmsData);
+  }
+
   function dataToSend () {
     const fd = new FormData();
-    // for(let [name, value] of filesToSend) {
-    //   fd.append(name, value);
-    // }
+    for(let [name, value] of filesToSend) {
+      fd.append(name, value);
+    }
     // removing _id from filmsData
-    const tmpData = {...filmsData}
+    const tmpData = JSON.parse(JSON.stringify(filmsData));
     delete tmpData._id;
     fd.append('data', JSON.stringify(tmpData));
     console.log([...fd]);
     return fd;
 }
   const handleSubmit = async (e)=>{
-    // alert(JSON.stringify(filmsData, null, 2));
     e.preventDefault();
     const sendData = dataToSend();
         try{
-                const response = await fetch(`${PATHTO.HOST_NAME}/films`, {
-                    method: 'POST',
-                    body: sendData,
-                });
-                const result = await response.json();
-                console.log(result);
-            } catch (error) {
-                  console.log('Ошибка загрузки заданий', error);
-            }
+           const response = await fetch(`${PATHTO.HOST_NAME}/films`, {
+               method: 'POST',
+               body: sendData,
+           });
+           const result = await response.json();
+           console.log(result);
+        } catch (error) {
+              console.log('Ошибка загрузки заданий', error);
+        }
     setFilmsData(INITFILMSDATA);
   };
 
   const updateFilmData = (field, e, index) => {
 
-    const { target: { value, name } } = e;
+    const { target: { value, name} } = e;
 
     const copyFilmsData = JSON.parse(JSON.stringify(filmsData));
 
@@ -89,6 +114,7 @@ export default function Admin () {
       return;
     }
     copyFilmsData[ name ] = value;
+    console.log(copyFilmsData);
     setFilmsData(copyFilmsData);
   };
 
@@ -223,9 +249,10 @@ export default function Admin () {
 
           <div className='input-name'><span className='titles-width'>Poster:</span>
             <input
-              value={ filmsData.poster }
-              onChange={ (e) => updateFilmData('', e) }
-              type="text"
+              // value={ filmsData.poster }
+              onChange={addSingleFile}
+              // onChange={ (e) => updateFilmData('', e) }
+              type="file"
               name='poster'
               placeholder='film`s poster'
             />
@@ -237,7 +264,7 @@ export default function Admin () {
               onChange={ (e) => updateFilmData('', e) }
               type="text"
               name='trailer'
-              placeholder='film`s country'
+              placeholder='film`s trailer'
             />
 
           </div>
@@ -273,9 +300,9 @@ export default function Admin () {
                 <div >Name: { film.name }</div>
                 <div >Country: { film.country }</div>
                 <div >Category: { film.category }</div>
-                <div style={ { display: 'flex' } } >Director:{ film.director.map((director1, i) => {
+                <div style={ { display: 'flex' } } >Director:{ film.director.map((director, i) => {
                   return (
-                    <div key={ director1._id }>{ director1.name }  <img src={ `${ PATHTODATANODE }/${ film._id }/actors_img/${ director1.photo }` } alt="" /> </div>
+                    <div key={ director.name+i }>{ director.name }  <img src={ `${ PATHTODATANODE }/${ film._id }/actors_img/${ director.photo }` } alt="" /> </div>
                   );
                 }) }
                 </div>
