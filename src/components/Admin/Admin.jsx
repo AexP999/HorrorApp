@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, } from 'react';
-// import { PATHTO } from '../../constants/constants';
+import { PATHTO } from '../../constants/constants';
 import { INITFILMSDATA } from '../../constants/constants';
 import './Admin.css';
 
@@ -19,7 +19,7 @@ export default function Admin () {
 
     const { target: { value, name } } = e;
 
-    console.log('updateFilmData', value, name, field, index);
+    console.log('updateFilmData', 'value', value, 'name', name, 'field', field, 'index', index);
 
     const copyFilmsData = JSON.parse(JSON.stringify(filmsData));
 

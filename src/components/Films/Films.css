@@ -16,7 +16,14 @@
 }
 
 .posterEl img{
-  height: 300px;
-  margin:10px;
+  height: 100%;
+  width:100%;
   border-radius: 5%;
+}
+
+.posterEl {
+  margin:10px;
+  width: 240px;
+  height: 330px;
+  background-color: burlywood;
 }
