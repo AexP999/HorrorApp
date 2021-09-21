@@ -26,8 +26,8 @@ export default function Header ({ userName }) {
             </Link>
           </li>
           <li>
-            <Link to="/message">
-              <i className="fa fa-bell"></i>
+            <Link to="/films">Фильмы
+              {/* <i className="fa fa-bell"></i> */ }
             </Link>
           </li>
           <li>

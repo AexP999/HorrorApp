@@ -7,6 +7,7 @@ import Login from './components/Login/Login';
 import Admin from './components/Admin/Admin';
 import Header from '../src/components/Header/Header';
 import FilmsCard from './components/FilmsCard/FilmsCard';
+import Films from './components/Films/Films';
 import { PATHTO } from './constants/constants';
 import { FilmContext } from './components/Context';
 import UseFetch from './components/UseFetch';
@@ -37,6 +38,7 @@ const App = () => {
               <Route path="/" component={ Home } exact />
               <Route path="/login" component={ Login } />
               <Route path="/admin" component={ Admin } />
+              <Route path="/films" component={ Films } />
               <Route path="/filmscard/:id">
                 <FilmsCard />
               </Route>

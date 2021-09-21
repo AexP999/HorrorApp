@@ -40,13 +40,14 @@
 
 .nav-links a{
     color: whitesmoke;
-	font-size: 1.2rem;
+	font-size: 1rem;
 	text-decoration: none;
     font-family: 'Poppins', sans-serif;
 }
 
 .nav-links li a i{
-    border: none
+    border: none;
+    font-size: 1rem;
 }
 
 @keyframes navLinkFade{

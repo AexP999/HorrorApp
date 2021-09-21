@@ -28,8 +28,6 @@ export default function Slider () {
     </nav>;
   }
 
-
-
   useEffect(() => {
 
     setInterval(() => {
@@ -49,7 +47,7 @@ export default function Slider () {
   // Вычисляем индекс следующего слайда
   const nextImgIndex = activeIndex === img.length - 1 ? 0 : activeIndex + 1;
 
-  console.log('films', films, 'img', img);
+
   return (
     <div className='container'>
       <i className='leftbtn fas fa-chevron-left' onClick={ () => setActiveIndex(activeIndex ? activeIndex - 1 : img.length - 1) }></i>
