@@ -5,21 +5,22 @@ const PATHTO ={
     POSTER :'poster',
     TRAILER :'trailer',
     FRAMES: 'img',
-    LIMIT:6
+    LIMIT:3
 }
 
 const INITFILMSDATA = {
-director: [ { rewards: [], name: '', photo: '' } ],
+director: [ { rewards: [], name: 'dir1', photo: '' } ],
 images: [],
 _id: '',
-name: '',
-year: '',
-country: '',
-category: '',
-actors: [ { rewards: [], name: '', photo: '' }, ],
+name: 'name',
+year: '2015',
+country: 'usa',
+category: 'hor',
+actors: [ { rewards: [], name: 'actor1', photo: '' }, ],
 poster: '',
-trailer: ''
+trailer: 'trailer',
 };
+
 
 const PATHTODATANODE = 'http://localhost:3001'
 

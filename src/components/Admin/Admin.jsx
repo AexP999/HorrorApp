@@ -1,25 +1,67 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, } from 'react';
-// import { PATHTO } from '../../constants/constants';
+import { PATHTO } from '../../constants/constants';
 import { INITFILMSDATA } from '../../constants/constants';
 import './Admin.css';
 
 export default function Admin () {
 
   const [ filmsData, setFilmsData ] = useState(INITFILMSDATA);
-  // const [ films, setFilms ] = useState([]);
+  const [filesToSend, setFilesToSend] = useState(new FormData());
+  
+  const addSingleFile=(e)=>{
+    const {target:{value, name, files} } = e;
+  
+    const fileName = value.split('\\').pop().split('/').pop();
+    
+    // взять из стекйта
+    let fd=new FormData();
+    
+    for(let [name, value] of filesToSend) {
+        fd.append(name, value);
+      }
+    fd.delete(name)
+    fd.append(name, files[0]);
+    console.log([...fd]);
+    setFilesToSend(fd);
+    
+    let copyFilmsData = JSON.parse(JSON.stringify(filmsData));
+    
+    copyFilmsData[name] = fileName;
+    setFilmsData(copyFilmsData);
+  }
 
-  const handleSubmit = () => {
-    alert(JSON.stringify(filmsData, null, 2));
+  function dataToSend () {
+    const fd = new FormData();
+    for(let [name, value] of filesToSend) {
+      fd.append(name, value);
+    }
+    // removing _id from filmsData
+    const tmpData = JSON.parse(JSON.stringify(filmsData));
+    delete tmpData._id;
+    fd.append('data', JSON.stringify(tmpData));
+    console.log([...fd]);
+    return fd;
+}
+  const handleSubmit = async (e)=>{
+    e.preventDefault();
+    const sendData = dataToSend();
+        try{
+           const response = await fetch(`${PATHTO.HOST_NAME}/films`, {
+               method: 'POST',
+               body: sendData,
+           });
+           const result = await response.json();
+           console.log(result);
+        } catch (error) {
+              console.log('Ошибка загрузки заданий', error);
+        }
     setFilmsData(INITFILMSDATA);
-    // сброс данных после сабмита
   };
 
   const updateFilmData = (field, e, index) => {
 
-    const { target: { value, name } } = e;
-
-    console.log('updateFilmData', value, name, field, index);
+    const { target: { value, name} } = e;
 
     const copyFilmsData = JSON.parse(JSON.stringify(filmsData));
 
@@ -34,11 +76,12 @@ export default function Admin () {
       return;
     }
     copyFilmsData[ name ] = value;
+    console.log(copyFilmsData);
     setFilmsData(copyFilmsData);
   };
 
   const addItem = (field) => {
-    console.log('field', field);
+    // console.log('field', field);
     const copyFilmsData = JSON.parse(JSON.stringify(filmsData));
     if(field === 'images') {
       copyFilmsData.images.push('');
@@ -48,8 +91,6 @@ export default function Admin () {
 
     setFilmsData(copyFilmsData);
   };
-
-  console.log('render', filmsData);
 
   return (
     <div>
@@ -169,9 +210,8 @@ export default function Admin () {
 
           <div className='input-name'><span className='titles-width'>Poster:</span>
             <input
-              value={ filmsData.poster }
-              onChange={ (e) => updateFilmData('', e) }
-              type="text"
+              onChange={addSingleFile}
+              type="file"
               name='poster'
               placeholder='film`s poster'
             />
@@ -183,7 +223,7 @@ export default function Admin () {
               onChange={ (e) => updateFilmData('', e) }
               type="text"
               name='trailer'
-              placeholder='film`s country'
+              placeholder='film`s trailer'
             />
           </div>
 
