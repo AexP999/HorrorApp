@@ -1,0 +1,22 @@
+.all-films-header{
+  text-align: center;
+}
+
+.all-films-cont{
+}
+
+.all-films-table{
+  /* height: 300px; */
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 30px;
+
+}
+
+.posterEl img{
+  height: 300px;
+  margin:10px;
+  border-radius: 5%;
+}

@@ -3,13 +3,8 @@ import './Home.css';
 
 import Slider from '../Slider/Slider';
 import MultiSlider from '../MultiSlider/MultiSlider';
-// import Test from '../Test';
-
 
 export default function Home (props) {
-
-
-
 
   return (
     <div className='Home'>
@@ -19,7 +14,6 @@ export default function Home (props) {
       </div>
       <main style={ { height: '100vh' } }>
         <MultiSlider />
-        {/* <Test /> */ }
       </main>
     </div >
 

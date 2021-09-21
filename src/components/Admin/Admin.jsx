@@ -1,56 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, } from 'react';
-import { PATHTO } from '../../constants/constants';
-import { INITFILMSDATA, PATHTODATANODE } from '../../constants/constants';
+import React, { useState, } from 'react';
+// import { PATHTO } from '../../constants/constants';
+import { INITFILMSDATA } from '../../constants/constants';
 import './Admin.css';
 
 export default function Admin () {
 
   const [ filmsData, setFilmsData ] = useState(INITFILMSDATA);
-  const [ films, setFilms ] = useState([]);
-  const [ currentPage, setCurrentPage ] = useState(0);
-  const [ fetching, setFetching ] = useState(true);
-  const [ maxNumberPages, setmaxNumberPages ] = useState(0);
-
-  const url = `${ PATHTO.HOST_NAME }/films?page=${ currentPage + 1 }&limit=2`;
-
-  useEffect(() => {
-    async function fetchData () {
-      console.log('fetching');
-      const response = await fetch(`${ url }`);
-      const { result, totalPages } = await response.json();
-      console.log('result', result);
-      console.log(result, totalPages);
-      setFilms([ ...films, ...result ]);
-      setCurrentPage(prev => prev + 1);
-      setmaxNumberPages(totalPages);
-      setFetching(false);
-
-    }
-    if(fetching) { fetchData(); };
-  }, [ fetching ]);
-
-  useEffect(() => {
-    document.addEventListener('scroll', scrollHandler);
-    return () => {
-      document.removeEventListener('scroll', scrollHandler);
-    };
-  }, [ fetching ]);
-
-  const scrollHandler = (e) => {
-
-    if((e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100) && (currentPage < maxNumberPages)) {
-      setFetching(true);
-    };
-  };
+  // const [ films, setFilms ] = useState([]);
 
   const handleSubmit = () => {
     alert(JSON.stringify(filmsData, null, 2));
     setFilmsData(INITFILMSDATA);
     // сброс данных после сабмита
   };
-
-  console.log('films', films);
 
   const updateFilmData = (field, e, index) => {
 
@@ -169,7 +132,6 @@ export default function Admin () {
             </div>
           </div>
 
-
           <div className='input-name actw-wid '><span className='titles-width'>Actor`s name:</span>
             <button onClick={ () => addItem('actors') } className='add-item'>+</button>
             <div>
@@ -223,7 +185,6 @@ export default function Admin () {
               name='trailer'
               placeholder='film`s country'
             />
-
           </div>
 
           <div className='input-name actw-wid' ><span className='titles-width'>Images:</span>
@@ -246,44 +207,6 @@ export default function Admin () {
 
         </div>
         <button onClick={ handleSubmit }>Submit</button>
-      </div>
-
-      <div>
-        <div style={ { color: 'antiquewhite' } }></div>
-        <div className='films-out' >
-          { (films.map((film, i) => {
-            return (
-              <div className='film-info' key={ film.name + i }>
-                <div >Name: { film.name }</div>
-                <div >Country: { film.country }</div>
-                <div >Category: { film.category }</div>
-                <div style={ { display: 'flex' } } >Director:{ film.director.map((director1, i) => {
-                  return (
-                    <div key={ director1._id }>{ director1.name }  <img src={ `${ PATHTODATANODE }/${ film._id }/actors_img/${ director1.photo }` } alt="" /> </div>
-                  );
-                }) }
-                </div>
-                <div style={ { display: 'flex' } } >Year: { film.year }</div>
-
-                <div >Poster:  <img src={ `${ PATHTODATANODE }/${ film._id }/poster/${ film.poster }` } alt="" /> </div>
-
-                <div style={ { display: 'flex' } } >Actors: { film.actors.map((actor, i) => {
-                  return (
-                    <div className='actors-cont' key={ i }><div>{ actor.name }</div> { <img src={ `${ PATHTODATANODE }/${ film._id }/actors_img/${ actor.photo }` } alt="" /> }</div>
-                  );
-                }) }
-                </div>
-                <div style={ { display: 'flex', flexWrap: 'wrap' } } >Images: { film.images.map((image, i) => {
-                  return (
-                    <div style={ { margin: '5px 5px' } } key={ i }>{ <img src={ `${ PATHTODATANODE }/${ film._id }/img/${ image }` } alt="" /> }</div>
-                  );
-                }) }
-                </div>
-
-              </div>
-            );
-          })) }
-        </div>
       </div>
     </div>
   );

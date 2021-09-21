@@ -35,6 +35,8 @@ body{
 body.light{
     background: rgb(216, 211, 211);
     color: #101010;
+    background-image: url(img/footer_moon_and_house.png);
+    background-size: cover;
 }
 
 body.light a {
@@ -42,7 +44,7 @@ body.light a {
 }
 
 body.light #wb_switcher{
-    border: 1px solid #101010;
+    
      color: #101010;
 }
 
