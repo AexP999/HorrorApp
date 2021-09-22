@@ -13,14 +13,15 @@
 }
 .input-name {
   display: flex;
-  width: 280px;
+  width: 380px;
   justify-content: space-between;
   margin: 5px 0; 
 }
 
 .input-name input{
-  width: 120px;
+  width: 200px;
 }
+
 
 .actw-wid{
   width: 100%;
