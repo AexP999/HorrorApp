@@ -223,6 +223,7 @@ export default function Admin () {
               placeholder='film`s poster'
             />
           </div>
+          <div>{!!filesToSend.has('poster') && filesToSend.getAll('poster').map( el=> <div>{el.name}</div>)}</div>
 
           <div className='input-name'><span className='titles-width'>Trailer:</span>
             <input
@@ -243,6 +244,7 @@ export default function Admin () {
               placeholder='film`s images'
             />
           </div>
+          <div>{!!filesToSend.has('images') && filesToSend.getAll('images').map( el=> <div>{el.name}</div>)}</div>
 
         </div>
         <button onClick={ handleSubmit }>Submit</button>
