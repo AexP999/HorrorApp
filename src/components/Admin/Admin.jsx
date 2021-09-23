@@ -11,7 +11,7 @@ export default function Admin () {
   
   const addFiles=(e)=>{
     const {target:{name, files} } = e;
-    debugger
+
     let fd=new FormData();
     for(let [name, value] of filesToSend) {
       fd.append(name, value);
@@ -223,7 +223,7 @@ export default function Admin () {
               placeholder='film`s poster'
             />
           </div>
-          <div>{!!filesToSend.has('poster') && filesToSend.getAll('poster').map( el=> <div>{el.name}</div>)}</div>
+          <div>{!!filesToSend.has('poster') && filesToSend.getAll('poster').map( el=> <span>{'| '+el.name+' |'}</span>)}</div>
 
           <div className='input-name'><span className='titles-width'>Trailer:</span>
             <input
@@ -244,7 +244,7 @@ export default function Admin () {
               placeholder='film`s images'
             />
           </div>
-          <div>{!!filesToSend.has('images') && filesToSend.getAll('images').map( el=> <div>{el.name}</div>)}</div>
+          <div>{!!filesToSend.has('images') && filesToSend.getAll('images').map( el=> <span>{'| '+el.name+' |'}</span>)}</div>
 
         </div>
         <button onClick={ handleSubmit }>Submit</button>
