@@ -11,12 +11,10 @@ export default function Admin () {
 
   const addFiles = (e) => {
     const { target: { name, files } } = e;
-
     let fd = new FormData();
     for(let [ name, value ] of filesToSend) {
       fd.append(name, value);
     }
-
     fd.delete(name);
     const filesToLoad = Array.from(files);
     filesToLoad.forEach(file => {
@@ -27,6 +25,7 @@ export default function Admin () {
     setFilesToSend(fd);
 
     let copyFilmsData = JSON.parse(JSON.stringify(filmsData));
+
     if(filesToLoad.length > 1) {
       filesToLoad.forEach(file => {
         copyFilmsData[ name ].push(file.name);
@@ -34,6 +33,28 @@ export default function Admin () {
     } else {
       copyFilmsData[ name ] = files[ 0 ].name;
     }
+
+    setFilmsData(copyFilmsData);
+  };
+
+  const addPhotoFiles = (field, e, index) => {
+    const { target: { name, files } } = e;
+    let fd = new FormData();
+    for(let [ name, value ] of filesToSend) {
+      fd.append(name, value);
+    }
+
+    const filesToLoad = Array.from(files);
+    filesToLoad.forEach(file => {
+      fd.append('actors', file);
+    });
+
+    console.log([ ...fd ]);
+    setFilesToSend(fd);
+
+    let copyFilmsData = JSON.parse(JSON.stringify(filmsData));
+    copyFilmsData[ field ][ index ][ name ] = filesToLoad[ 0 ].name;
+    console.log('copyFilmsData', copyFilmsData);
 
     setFilmsData(copyFilmsData);
   };
@@ -50,6 +71,7 @@ export default function Admin () {
     console.log([ ...fd ]);
     return fd;
   }
+
   const handleSubmit = async (e) => {
     // e.preventDefault();
     const sendData = dataToSend();
@@ -169,9 +191,8 @@ export default function Admin () {
 
                 return (
                   <input key={ index }
-                    value={ director1.photo }
-                    onChange={ (e) => updateFilmData('director', e, index) }
-                    type="text"
+                    onChange={ (e) => addPhotoFiles('director', e, index) }
+                    type="file"
                     name='photo'
                     placeholder='director`s photo'
                   />
@@ -204,9 +225,8 @@ export default function Admin () {
 
                 return (
                   <input key={ index }
-                    value={ actor.photo }
-                    onChange={ (e) => updateFilmData('actors', e, index) }
-                    type="text"
+                    onChange={ (e) => addPhotoFiles('actors', e, index) }
+                    type="file"
                     name='photo'
                     placeholder='actor`s photo'
                   />
@@ -220,11 +240,12 @@ export default function Admin () {
               onChange={ addFiles }
               type="file"
               name='poster'
-              multiple
               placeholder='film`s poster'
             />
           </div>
-          <div>{ !!filesToSend.has('poster') && filesToSend.getAll('poster').map((el, i) => <div key={ i }>{ el.name }</div>) }</div>
+          <div>{ !!filesToSend.has('poster') && filesToSend.getAll('poster').map(el => <span>{ '| ' + el.name + ' |' }</span>) }</div>
+
+          <div>{ !!filesToSend.has('poster') && filesToSend.getAll('poster').map(el => <span key={ el.name }>{ '| ' + el.name + ' |' }</span>) }</div>
 
           <div className='input-name'><span className='titles-width'>Trailer:</span>
             <input
@@ -245,7 +266,7 @@ export default function Admin () {
               placeholder='film`s images'
             />
           </div>
-          <div>{ !!filesToSend.has('images') && filesToSend.getAll('images').map(el => <div>{ el.name }</div>) }</div>
+          <div>{ !!filesToSend.has('images') && filesToSend.getAll('images').map(el => <span key={ el.name }>{ '| ' + el.name + ' |' }</span>) }</div>
 
         </div>
         <button onClick={ handleSubmit }>Submit</button>
