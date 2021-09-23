@@ -16,7 +16,7 @@ name: 'name',
 year: '2015',
 country: 'usa',
 category: 'hor',
-actors: [ { rewards: [], name: 'actor1', photo: '' }, ],
+actors: [ { rewards: [], name: 'actor1', photo: '' } ],
 poster: '',
 trailer: 'trailer',
 };
