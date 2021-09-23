@@ -123,7 +123,7 @@ export default function Admin () {
 
   return (
     <div>
-      <h1>Admin panel</h1>
+      {/* <h1>Admin panel</h1> */}
       <div>
         <div className='input-cont'>
 
