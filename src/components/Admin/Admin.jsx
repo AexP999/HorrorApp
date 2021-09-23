@@ -43,23 +43,17 @@ export default function Admin () {
     for(let [name, value] of filesToSend) {
       fd.append(name, value);
     }
-    fd.delete(name);
+
     const filesToLoad = Array.from(files);
     filesToLoad.forEach(file=>{
-      fd.append(name, file);
+      fd.append('actors', file);
     })
     
     console.log([...fd]);
     setFilesToSend(fd);
     
     let copyFilmsData = JSON.parse(JSON.stringify(filmsData));
-    if (filesToLoad.length>1){
-      filesToLoad.forEach(file=>{
-        copyFilmsData[name].push(file.name)
-      })
-    }else {
-      copyFilmsData[name] = files[0].name;
-    }
+    copyFilmsData[field][name] = files[0].name;
 
     setFilmsData(copyFilmsData);
   }
@@ -251,7 +245,7 @@ export default function Admin () {
             />
           </div>
 
-          <div>{!!filesToSend.has('poster') && filesToSend.getAll('poster').map( el=> <div>{el.name}</div>)}</div>
+          <div>{!!filesToSend.has('poster') && filesToSend.getAll('poster').map( el=> <span>{'| '+el.name+' |'}</span>)}</div>
   
           <div className='input-name'><span className='titles-width'>Trailer:</span>
             <input
@@ -272,7 +266,7 @@ export default function Admin () {
               placeholder='film`s images'
             />
           </div>
-          <div>{!!filesToSend.has('images') && filesToSend.getAll('images').map( el=> <div>{el.name}</div>)}</div>
+          <div>{!!filesToSend.has('images') && filesToSend.getAll('images').map( el=> <span>{'| '+el.name+' |'}</span>)}</div>
 
         </div>
         <button onClick={ handleSubmit }>Submit</button>
