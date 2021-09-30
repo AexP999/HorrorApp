@@ -1,12 +1,18 @@
 import React from 'react';
+import { Link, useRouteMatch } from 'react-router-dom';
+import './Films.css'
 
 function FilmEditList({films}) {
+    let { url } = useRouteMatch();
     return (
-        <div >
+        <div>
             { films.map(film => 
-                <div key={ film._id }>
-                    <span>{film.name+' '}</span>
-                    <span>{film.year+' '}</span>
+                <div className ="film-item" key={ film._id }>
+                    <div className ="film-name" >
+                        <Link to={`${url}/${film._id}`}>{ film.name } </Link>
+                    </div>
+                    <div className ="film-year" >{ film.year}</div>
+                    <button>Delete film</button>
                 </div>
             ) }
         </div>

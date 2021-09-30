@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, } from 'react';
+import React, { useEffect, useState, } from 'react';
 import { PATHTO } from '../../constants/constants';
 import { INITFILMSDATA } from '../../constants/constants';
 import './Admin.css';
 
-export default function Admin () {
+export default function Admin ({filmToEdit}) {
 
   const [ filmsData, setFilmsData ] = useState(INITFILMSDATA);
   const [filesToSend, setFilesToSend] = useState(new FormData());
@@ -120,6 +120,12 @@ export default function Admin () {
 
     setFilmsData(copyFilmsData);
   };
+
+  useEffect(()=>{
+    console.log('Admin',filmToEdit);
+    if(filmToEdit !== undefined) setFilmsData(filmToEdit)
+    else setFilmsData(INITFILMSDATA)
+  },[filmToEdit]);
 
   return (
     <div>

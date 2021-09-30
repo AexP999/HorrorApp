@@ -9,11 +9,11 @@ import {
 import Admin from './Admin';
 import FilmEditList from '../Films/FilmEditList'
 import Films from '../Films/Films';
+import FilmEdit from '../Films/FilmEdit';
 
 function AdminMenu() {
-    let { path, url } = useRouteMatch();
+    let { url } = useRouteMatch();
     return (
-        // <h2>Admin panel</h2>
         <div>
         <nav>
             <ul className="nav-links">
@@ -30,9 +30,12 @@ function AdminMenu() {
           <Route exact path={`${url}/create-film`}>
             <Admin />
           </Route>
-            <Route exact path={`${url}/edit-films`}>
-                <Films show='list'/>
-            </Route>
+          <Route exact path={`${url}/edit-films`}>
+              <Films show='list'/>
+          </Route>
+          <Route exact path={`${url}/edit-films/:filmID`}>
+              <FilmEdit/>
+          </Route>
         </Switch>
       </div>
     );
