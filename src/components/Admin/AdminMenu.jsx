@@ -7,7 +7,8 @@ import {
     useRouteMatch
   } from "react-router-dom";
 import Admin from './Admin';
-import FilmEditDelete from '../FilmEditDelete/FilmEditDelete'
+import FilmEditList from '../Films/FilmEditList'
+import Films from '../Films/Films';
 
 function AdminMenu() {
     let { path, url } = useRouteMatch();
@@ -30,7 +31,7 @@ function AdminMenu() {
             <Admin />
           </Route>
             <Route exact path={`${url}/edit-films`}>
-                <FilmEditDelete/>
+                <Films show='list'/>
             </Route>
         </Switch>
       </div>
