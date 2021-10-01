@@ -12,7 +12,6 @@
   flex-wrap: wrap;
   width: 100%;
   margin-top: 30px;
-
 }
 
 .posterEl img{
@@ -21,9 +20,23 @@
   border-radius: 5%;
 }
 
-.posterEl {
-  margin:10px;
-  width: 240px;
-  height: 330px;
-  background-color: burlywood;
+.film-item {
+  /* width: 700px; */
+  border: 1px solid grey;
+  display:flex;
+  flex-direction: row;
+ justify-content: center;
+  padding: 10px;
+}
+.film-name{
+  width: 30%
+}
+.film-year{
+  width: 10%
+}
+
+.film-item button{
+  background-color: red;
+  width:10%;
+
 }

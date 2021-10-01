@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import './App.css';
 import Home from './components/Home/Home.jsx';
 import Login from './components/Login/Login';
-import Admin from './components/Admin/Admin';
+import AdminMenu from './components/Admin/AdminMenu';
 import Header from '../src/components/Header/Header';
 import FilmsCard from './components/FilmsCard/FilmsCard';
 import Films from './components/Films/Films';
@@ -37,8 +37,9 @@ const App = () => {
             <Switch>
               <Route path="/" component={ Home } exact />
               <Route path="/login" component={ Login } />
-              <Route path="/admin" component={ Admin } />
-              <Route path="/films" component={ Films } />
+              <Route path="/admin" component={ AdminMenu } />
+              <Route path="/films"> <Films show='poster' /> 
+              </Route>
               <Route path="/filmscard/:id">
                 <FilmsCard />
               </Route>
