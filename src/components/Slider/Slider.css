@@ -1,4 +1,4 @@
-.slider {
+/* .slider {
     position: relative;
     width: 100%;
     height: 500px;
@@ -25,4 +25,63 @@
  
 .slider-img-next {
     transform: translateX(100%);
+} */
+
+.carousel{
+    overflow: hidden;
+    /* width: 1000px; */
+}
+
+.inner{
+    white-space: nowrap;
+    transition: transform .3s;
+    
+}
+
+.carousel-item{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* height: 370px; */
+    
+}
+
+.buttons-slider{
+    display: flex;
+    justify-content: center;    
+}
+
+.buttons-slider > button{
+    margin: 5px;
+
+}
+
+
+.carousel1{
+    overflow: hidden;
+    /* width: 1000px; */
+}
+
+.inner1{
+    white-space: nowrap;
+    transition: transform .3s;
+    
+}
+
+.carousel-item1{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    
+}
+
+.buttons-slider1{
+    display: flex;
+    justify-content: center;    
+}
+
+.buttons-slider1 > button{
+    margin: 5px;
+
 }
