@@ -13,13 +13,13 @@
 }
 .input-name {
   display: flex;
-  width: 388px;
+  width: 400px;
   justify-content: space-between;
   margin: 5px 0; 
 }
 
 .input-name input{
-  width: 220px;
+  width: 225px;
 }
 
 .multi-names-cont{
