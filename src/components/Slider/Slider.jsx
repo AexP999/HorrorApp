@@ -1,76 +1,68 @@
-
-import React, { useState, useEffect, useContext } from 'react';
-import { FilmContext } from '../Context';
-import { PATHTODATANODE } from '../../constants/constants';
-import { Link } from "react-router-dom";
-
+import React, { useState, useEffect } from 'react';
 import './Slider.css';
 
-const img = [];
-export default function Slider () {
+
+export const CarouselItem = ({ children, width }) => {
+  return (
+    <div className='carousel-item' style={ { width: width } }>
+      { children }
+    </div>
+  );
+};
+
+const Slider = ({ children }) => {
   const [ activeIndex, setActiveIndex ] = useState(0);
-  const { films } = useContext(FilmContext);
+  const [ doAutoSlidePaused, setDoAutoSlidePaused ] = useState(false);
 
-  if(img.length === 0) {
+  const updateIndex = (newIndex) => {
+    if(newIndex < 0) {
+      newIndex = React.Children.count(children) - 1;
 
-    <nav>
-      { films.map((film) => {
-        return (
-          img.push(
-            <Link to={ `/filmscard/${ film._id }` } >
-
-              <img key={ film._id } src={ `${ PATHTODATANODE }/${ film._id }/img/${ film.images[ 0 ] }` } alt='' />
-            </Link>
-          )
-
-        );
-      }) }
-    </nav>;
-  }
+    } else if(newIndex >= React.Children.count(children)) {
+      newIndex = 0;
+    }
+    setActiveIndex(newIndex);
+  };
 
   useEffect(() => {
-
-    setInterval(() => {
-
-      setActiveIndex((current) => {
-        // Вычисляем индекс следующего слайда, который должен вывестись
-        return (current === img.length - 1 ? 0 : current + 1);
-
-      });
-    }, 10000);
-
-    return () => clearInterval();
-  }, []);
-
-  // Вычисляем индекс предыдущего слайда
-  const prevImgIndex = activeIndex ? activeIndex - 1 : img.length - 1;
-  // Вычисляем индекс следующего слайда
-  const nextImgIndex = activeIndex === img.length - 1 ? 0 : activeIndex + 1;
-
+    const interval = setInterval(() => {
+      if(!doAutoSlidePaused) {
+        updateIndex(activeIndex + 1);
+      }
+    }, 3000);
+    return () => {
+      if(interval) {
+        clearInterval(interval);
+      }
+    };
+  });
 
   return (
-    <div className='container'>
-      <i className='leftbtn fas fa-chevron-left' onClick={ () => setActiveIndex(activeIndex ? activeIndex - 1 : img.length - 1) }></i>
+    <div>
+      <div className='carousel'
+        onMouseEnter={ () => setDoAutoSlidePaused(true) }
+        onMouseLeave={ () => setDoAutoSlidePaused(false) }
+      >
+        <i className='leftbtn fas fa-chevron-left' onClick={ () => updateIndex(activeIndex - 1) }></i>
 
-      <div className="slider">
-        <div className="slider-img slider-img-prev"
-          key={ prevImgIndex } >
-          { img[ prevImgIndex ] }
-        </div>
+        <div className="inner" style={ { transform: `translateX(-${ activeIndex * 100 }%)` } }
+        >
+          { React.Children.map(children, (child, i) => {
+            return React.cloneElement(child, { width: "100%" });
+          }
+          ) }
 
-        <div className="slider-img"
-          key={ activeIndex } >
-          { img[ activeIndex ] }
-        </div>
-
-        <div className="slider-img slider-img-next"
-          key={ nextImgIndex } >
-          { img[ nextImgIndex ] }
-        </div>
-
+        </div >
+        <i className='rightbtn fas fa-chevron-right' onClick={ () => updateIndex(activeIndex + 1) }></i>
       </div>
+    </div>
+    // {/* <div className="buttons-slider">
+    //     <button onClick={ () => updateIndex(activeIndex - 1) }>Prev</button>
+    //     <button onClick={ () => updateIndex(activeIndex + 1) }>Next</button>
 
-      <i className='rightbtn fas fa-chevron-right' onClick={ () => setActiveIndex(activeIndex === img.length - 1 ? 0 : activeIndex + 1) }></i>
-    </div >
+    //   </div> */}
+
+
   );
-}
+};
+export default Slider;

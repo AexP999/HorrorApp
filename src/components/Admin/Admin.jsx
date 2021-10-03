@@ -4,7 +4,7 @@ import { PATHTO } from '../../constants/constants';
 import { INITFILMSDATA } from '../../constants/constants';
 import './Admin.css';
 
-export default function Admin ({filmToEdit}) {
+export default function Admin ({ filmToEdit }) {
 
   const [ filmsData, setFilmsData ] = useState(INITFILMSDATA);
   const [ filesToSend, setFilesToSend ] = useState(new FormData());
@@ -121,15 +121,27 @@ export default function Admin ({filmToEdit}) {
     setFilmsData(copyFilmsData);
   };
 
-  useEffect(()=>{
-    console.log('Admin',filmToEdit);
-    if(filmToEdit !== undefined) setFilmsData(filmToEdit)
-    else setFilmsData(INITFILMSDATA)
-  },[filmToEdit]);
+  const delItem = (field) => {
+
+    const copyFilmsData = JSON.parse(JSON.stringify(filmsData));
+    if(field === 'images') {
+      copyFilmsData.images.pop('');
+    } else {
+      copyFilmsData[ field ].pop({ rewards: [], name: '', photo: '', });
+    }
+
+    setFilmsData(copyFilmsData);
+  };
+
+  useEffect(() => {
+    console.log('Admin', filmToEdit);
+    if(filmToEdit !== undefined) setFilmsData(filmToEdit);
+    else setFilmsData(INITFILMSDATA);
+  }, [ filmToEdit ]);
 
   return (
     <div>
-      {/* <h1>Admin panel</h1> */}
+      {/* <h1>Admin panel</h1> */ }
       <div>
         <div className='input-cont'>
 
@@ -173,71 +185,84 @@ export default function Admin ({filmToEdit}) {
             />
           </div>
 
-          <div className='input-name actw-wid' ><span className='titles-width'>Director's names:</span>
-            <button onClick={ () => addItem('director') } className='add-item'>+</button>
-            <div>
-              { filmsData.director.map((director1, index) => {
+          <div className='btn-grp'>
+            <div className='input-name actw-wid' >
+              <div className='btn-grp'>
+                <span className='titles-width'>Director's names:</span>
+                <button onClick={ () => addItem('director') } className='add-item'>+</button>
+                <button onClick={ () => delItem('director') } className='add-item'>-</button>
+              </div>
 
-                return (
-                  <input key={ index }
-                    value={ director1.name }
-                    onChange={ (e) => updateFilmData('director', e, index) }
-                    type="text"
-                    name='name'
-                    placeholder='director`s name'
-                  />
-                );
-              }) }
+              <div className='multi-names-cont'>
+                { filmsData.director.map((director1, index) => {
+
+                  return (
+                    <input key={ index }
+                      value={ director1.name }
+                      onChange={ (e) => updateFilmData('director', e, index) }
+                      type="text"
+                      name='name'
+                      placeholder='director`s name'
+                    />
+                  );
+                }) }
+              </div>
+            </div>
+
+            <div className='input-name actw-wid'><span style={ { marginRight: '20px' } } className='titles-width'>Director's photo:</span>
+              <div >
+                { filmsData.director.map((director1, index) => {
+
+                  return (
+                    <input key={ index }
+                      onChange={ (e) => addPhotoFiles('director', e, index) }
+                      type="file"
+                      name='photo'
+                      placeholder='director`s photo'
+                    />
+                  );
+                }) }
+              </div>
             </div>
           </div>
 
-          <div className='input-name actw-wid'><span style={ { marginRight: '20px' } } className='titles-width'>Director's photo:</span>
-            <div>
-              { filmsData.director.map((director1, index) => {
+          <div className='btn-grp'>
+            <div className='input-name actw-wid '>
+              <div className='btn-grp' >
+                <span className='titles-width'>Actor`s name:</span>
+                <button onClick={ () => addItem('actors') } className='add-item'>+</button>
+                <button onClick={ () => delItem('actors') } className='add-item'>-</button>
+              </div>
+              <div>
+                { filmsData.actors.map((actor, index) => {
 
-                return (
-                  <input key={ index }
-                    onChange={ (e) => addPhotoFiles('director', e, index) }
-                    type="file"
-                    name='photo'
-                    placeholder='director`s photo'
-                  />
-                );
-              }) }
+                  return (
+                    <input key={ index }
+                      value={ actor.name }
+                      onChange={ (e) => updateFilmData('actors', e, index) }
+                      type="text"
+                      name='name'
+                      placeholder='actor`s name'
+                    />
+                  );
+                }) }
+              </div>
             </div>
-          </div>
 
-          <div className='input-name actw-wid '><span className='titles-width'>Actor`s name:</span>
-            <button onClick={ () => addItem('actors') } className='add-item'>+</button>
-            <div>
-              { filmsData.actors.map((actor, index) => {
+            <div className='input-name actw-wid '><span style={ { marginRight: '20px' } } className='titles-width'>Actor`s photo:</span>
+              <div >
+                { filmsData.actors.map((actor, index) => {
 
-                return (
-                  <input key={ index }
-                    value={ actor.name }
-                    onChange={ (e) => updateFilmData('actors', e, index) }
-                    type="text"
-                    name='name'
-                    placeholder='actor`s name'
-                  />
-                );
-              }) }
-            </div>
-          </div>
-
-          <div className='input-name actw-wid '><span style={ { marginRight: '20px' } } className='titles-width'>Actor`s photo:</span>
-            <div >
-              { filmsData.actors.map((actor, index) => {
-
-                return (
-                  <input key={ index }
-                    onChange={ (e) => addPhotoFiles('actors', e, index) }
-                    type="file"
-                    name='photo'
-                    placeholder='actor`s photo'
-                  />
-                );
-              }) }
+                  return (
+                    <input key={ index }
+                      onChange={ (e) => addPhotoFiles('actors', e, index) }
+                      type="file"
+                      name='photo'
+                      placeholder='actor`s photo'
+                    />
+                  );
+                }) }
+              </div>
             </div>
           </div>
 

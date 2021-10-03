@@ -45,12 +45,7 @@
     opacity: 50%;
     cursor: pointer;
   }
-.rightbtn {
-    margin-right: 3rem;
-  }
-.leftbtn {
-    margin-left: 3rem;  
-  }
+
   
 .slider-m img {
     width: 150px;

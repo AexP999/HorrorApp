@@ -13,22 +13,31 @@
 }
 .input-name {
   display: flex;
-  width: 380px;
+  width: 388px;
   justify-content: space-between;
   margin: 5px 0; 
 }
 
 .input-name input{
-  width: 200px;
+  width: 220px;
 }
 
+.multi-names-cont{
+  display: flex;
+  flex-direction: column;
+}
 
 .actw-wid{
-  width: 100%;
-  justify-content: flex-start;
-
+  width: 25%;
+  flex-direction: column;
 }
 
+.btn-grp{
+  display: flex;
+}
+.btn-grp button{
+margin-left: 3px;
+}
 .add-item{
   cursor:pointer;
   position:static;
@@ -36,7 +45,7 @@
 
 }
 .titles-width{
-  width:  140px;
+  width:  160px;
   background-color: blueviolet;
 }
 

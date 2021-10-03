@@ -5,7 +5,7 @@ const PATHTO ={
     POSTER :'poster',
     TRAILER :'trailer',
     FRAMES: 'img',
-    LIMIT:20
+    LIMIT:10
 }
 
 const INITFILMSDATA = {

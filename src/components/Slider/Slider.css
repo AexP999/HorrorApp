@@ -1,25 +1,22 @@
-.slider {
+/* .slider {
     position: relative;
-    width: 90%;
-    height: 350px;
-    /* margin: 40px; */
+    width: 100%;
+    height: 500px;
+    margin: auto;
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    justify-content: center;
-    overflow: hidden; 
+  
+    overflow: hidden;
+    border: 20px;
 }
-
+ 
 .slider-img {
     position: absolute;
-    padding:  50px ;
+    padding:20px;
     width: 100%;
-    /* margin: 20px 0; */
-    height: auto;
-    transition: all 1.5s;
-    display: flex;
-    justify-content: center;
-    
+    height: 500px;
+    transition: all 1s;
 }
  
 .slider-img-prev {
@@ -28,27 +25,81 @@
  
 .slider-img-next {
     transform: translateX(100%);
-}
+} */
 
-.slider-img img {
-   border-radius:20px;
-   width: 100%;
-
-   
-}
-
-.container {
+.carousel{
+    position: relative;
+    overflow: hidden;
     display: flex;
-    align-items: center;
-   
-} 
-
-.container i {
+    /* width: 1000px; */
+}
+.carousel i{
+    position: absolute;
+    top:50%;
+    cursor: pointer;
+    z-index:5;
     font-size: 30px;
+    
 }
+
 .rightbtn {
-    margin-right: 2rem;
-}
+    right: 5%;
+  }
 .leftbtn {
-  margin-left: 2rem;  
+    left:5%  
+  }
+
+.inner{
+    white-space: nowrap;
+    transition: transform .3s;    
+}
+
+.carousel-item{
+    
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 370px;
+    
+}
+
+.buttons-slider{
+    display: flex;
+    justify-content: center;    
+}
+
+.buttons-slider > button{
+    margin: 5px;
+
+}
+
+
+.carousel1{
+    overflow: hidden;
+    /* width: 1000px; */
+}
+
+.inner1{
+    white-space: nowrap;
+    transition: transform .3s;
+    
+}
+
+.carousel-item1{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    
+}
+
+.buttons-slider1{
+    display: flex;
+    justify-content: center;    
+}
+
+.buttons-slider1 > button{
+    margin: 5px;
+    
+
 }
