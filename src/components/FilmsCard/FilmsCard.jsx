@@ -42,9 +42,9 @@ export default function FilmsCard (props) {
             </div>
 
             <iframe width="70%" height="400" src={ `${ films.trailer }` }
-              title="YouTube video player" frameborder="0"
+              title="YouTube video player" frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen>
+              allowFullScreen>
             </iframe>
 
             <h2>Актеры и создатели</h2>
