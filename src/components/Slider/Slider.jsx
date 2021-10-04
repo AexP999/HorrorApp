@@ -10,15 +10,14 @@ export const CarouselItem = ({ children, width }) => {
   );
 };
 
-const Slider = ({ children }) => {
+const Slider = ({ children, imgOnScreen, imgToSlide }) => {
   const [ activeIndex, setActiveIndex ] = useState(0);
   const [ doAutoSlidePaused, setDoAutoSlidePaused ] = useState(false);
 
   const updateIndex = (newIndex) => {
     if(newIndex < 0) {
-      newIndex = React.Children.count(children) - 1;
-
-    } else if(newIndex >= React.Children.count(children)) {
+      newIndex = Math.ceil(React.Children.count(children) / imgToSlide) - 1;
+    } else if(newIndex >= Math.ceil(React.Children.count(children) / imgToSlide)) {
       newIndex = 0;
     }
     setActiveIndex(newIndex);
@@ -45,10 +44,10 @@ const Slider = ({ children }) => {
       >
         <i className='leftbtn fas fa-chevron-left' onClick={ () => updateIndex(activeIndex - 1) }></i>
 
-        <div className="inner" style={ { transform: `translateX(-${ activeIndex * 100 }%)` } }
+        <div className="inner" style={ { transform: `translateX(-${ activeIndex * 100 / imgOnScreen * imgToSlide }%)` } }
         >
           { React.Children.map(children, (child, i) => {
-            return React.cloneElement(child, { width: "100%" });
+            return React.cloneElement(child, { width: `${ 100 / imgOnScreen }%` });
           }
           ) }
 
