@@ -228,7 +228,7 @@ export default function Admin ({ filmToEdit }) {
           <div className='btn-grp'>
             <div className='input-name actw-wid '>
               <div className='btn-grp' >
-                <span className='titles-width'>Actor`s name:</span>
+                <span className='titles-width'>Actor`s name & photo:</span>
                 <button onClick={ () => addItem('actors') } className='add-item'>+</button>
                 <button onClick={ () => delItem('actors') } className='add-item'>-</button>
               </div>
@@ -236,25 +236,15 @@ export default function Admin ({ filmToEdit }) {
                 { filmsData.actors.map((actor, index) => {
 
                   return (
-                    <input key={ index }
-                      value={ actor.name }
-                      onChange={ (e) => updateFilmData('actors', e, index) }
-                      type="text"
-                      name='name'
-                      placeholder='actor`s name'
-                    />
-                  );
-                }) }
-              </div>
-            </div>
-
-            <div className='input-name actw-wid '><span style={ { marginRight: '20px' } } className='titles-width'>Actor`s photo:</span>
-              <div >
-                { filmsData.actors.map((actor, index) => {
-
-                  return (
                     <div>
-                      <input key={ index }
+                        <input key={ index }
+                          value={ actor.name }
+                          onChange={ (e) => updateFilmData('actors', e, index) }
+                          type="text"
+                          name='name'
+                          placeholder='actor`s name'
+                        />
+                        <input key={ index }
                         onChange={ (e) => addPhotoFiles('actors', e, index) }
                         type="file"
                         name='photo'
@@ -266,6 +256,19 @@ export default function Admin ({ filmToEdit }) {
                 }) }
               </div>
             </div>
+
+            {/* <div className='input-name actw-wid '><span style={ { marginRight: '20px' } } className='titles-width'>Actor`s photo:</span>
+              <div >
+                { filmsData.actors.map((actor, index) => {
+
+                  return (
+                    <div>
+                      
+                    </div>
+                  );
+                }) }
+              </div>
+            </div> */}
             
           </div>
 
