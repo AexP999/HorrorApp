@@ -190,53 +190,49 @@ export default function Admin ({ filmToEdit }) {
                 <span className='titles-width'>Director's names:</span>
                 <button onClick={ () => addItem('director') } className='add-item'>+</button>
                 <button onClick={ () => delItem('director') } className='add-item'>-</button>
+                <span  className='titles-width'>Directors`s photo:</span>
               </div>
 
-              <div className='multi-names-cont'>
-                { filmsData.director.map((director1, index) => {
+              <div>
+                { filmsData.director.map((director, index) => {
 
                   return (
-                    <input key={ index }
-                      value={ director1.name }
-                      onChange={ (e) => updateFilmData('director', e, index) }
-                      type="text"
-                      name='name'
-                      placeholder='director`s name'
-                    />
+                    <div style={{display:'flex',alignItems:'center'}}>
+                        <input key={ index }
+                          value={ director.name }
+                          onChange={ (e) => updateFilmData('director', e, index) }
+                          type="text"
+                          name='name'
+                          placeholder='director`s name'
+                        />
+                        <input key={ index }
+                          onChange={ (e) => addPhotoFiles('director', e, index) }
+                          type="file"
+                          name='photo'
+                          placeholder='director`s photo'
+                        />
+                        {!!director.photoSrc && <img src={director.photoSrc} alt={index} />}
+                    </div>
                   );
                 }) }
               </div>
             </div>
 
-            <div className='input-name actw-wid'><span style={ { marginRight: '20px' } } className='titles-width'>Director's photo:</span>
-              <div >
-                { filmsData.director.map((director1, index) => {
-
-                  return (
-                    <input key={ index }
-                      onChange={ (e) => addPhotoFiles('director', e, index) }
-                      type="file"
-                      name='photo'
-                      placeholder='director`s photo'
-                    />
-                  );
-                }) }
-              </div>
-            </div>
           </div>
 
           <div className='btn-grp'>
             <div className='input-name actw-wid '>
               <div className='btn-grp' >
-                <span className='titles-width'>Actor`s name & photo:</span>
+                <span className='titles-width'>Actor`s name:</span>
                 <button onClick={ () => addItem('actors') } className='add-item'>+</button>
                 <button onClick={ () => delItem('actors') } className='add-item'>-</button>
+                <span  className='titles-width'>Actor`s photo:</span>
               </div>
               <div>
                 { filmsData.actors.map((actor, index) => {
 
                   return (
-                    <div>
+                    <div style={{display:'flex',alignItems:'center'}}>
                         <input key={ index }
                           value={ actor.name }
                           onChange={ (e) => updateFilmData('actors', e, index) }
@@ -256,34 +252,21 @@ export default function Admin ({ filmToEdit }) {
                 }) }
               </div>
             </div>
-
-            {/* <div className='input-name actw-wid '><span style={ { marginRight: '20px' } } className='titles-width'>Actor`s photo:</span>
-              <div >
-                { filmsData.actors.map((actor, index) => {
-
-                  return (
-                    <div>
-                      
-                    </div>
-                  );
-                }) }
-              </div>
-            </div> */}
-            
           </div>
 
           <div className='input-name'><span className='titles-width'>Poster:</span>
-            <input
-              onChange={ addFiles }
-              type="file"
-              name='poster'
-              placeholder='film`s poster'
-            />
           </div>
-          {filmsData.posterSrc && <img src={filmsData.posterSrc} alt={filmsData.poster} />}
+            <div style={{display:'flex',alignItems:'center'}}>
+              <input
+                onChange={ addFiles }
+                type="file"
+                name='poster'
+                placeholder='film`s poster'
+              />
+              {filmsData.posterSrc && <img src={filmsData.posterSrc} alt={filmsData.poster} />}
+              <div>{ !!filesToSend.has('poster') && filesToSend.getAll('poster').map(el => <span key={ el.name }>{ '| ' + el.name + ' |' }</span>) }</div>
+            </div>
           
-          <div>{ !!filesToSend.has('poster') && filesToSend.getAll('poster').map(el => <span key={ el.name }>{ '| ' + el.name + ' |' }</span>) }</div>
-
           <div className='input-name'><span className='titles-width'>Trailer:</span>
             <input
               value={ filmsData.trailer }
@@ -295,6 +278,8 @@ export default function Admin ({ filmToEdit }) {
           </div>
 
           <div className='input-name' ><span className='titles-width'>Images:</span>
+          </div>
+          <div style={{display:'flex',alignItems:'center'}}>
             <input
               onChange={ addFiles }
               type="file"
@@ -302,9 +287,9 @@ export default function Admin ({ filmToEdit }) {
               multiple
               placeholder='film`s images'
             />
+            {!!filmsData.imagesSrc && filmsData.imagesSrc.map((imageSrc, index)=> <img src={imageSrc} alt={index} />)}
+            <div>{ !!filesToSend.has('images') && filesToSend.getAll('images').map(el => <span key={ el.name }>{ '| ' + el.name + ' |' }</span>) }</div>
           </div>
-          <div>{ !!filesToSend.has('images') && filesToSend.getAll('images').map(el => <span key={ el.name }>{ '| ' + el.name + ' |' }</span>) }</div>
-
         </div>
         <button onClick={ handleSubmit }>Submit</button>
       </div>

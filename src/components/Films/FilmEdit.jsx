@@ -23,8 +23,9 @@ function FilmEdit(props) {
     if (filmById) {
         filmById.posterSrc=`${ PATHTO.HOST_NAME }/${filmID}/${PATHTO.POSTER}/${filmById.poster}`;
         filmById.actors.forEach(actor=>actor.photoSrc=`${ PATHTO.HOST_NAME }/${filmID}/${PATHTO.ACTORS_PHOTO}/${actor.photo}`);
-        filmById.director.forEach(director=>director.photoSrc='');
-        // filmById.images.forEach(img=>img.photoSrc='');
+        filmById.director.forEach(director=>director.photoSrc=`${ PATHTO.HOST_NAME }/${filmID}/${PATHTO.ACTORS_PHOTO}/${director.photo}`);
+        filmById.imagesSrc=[];
+        filmById.images.forEach(img=>filmById.imagesSrc.push(`${ PATHTO.HOST_NAME }/${filmID}/${PATHTO.FRAMES}/${img}`));
     }
     console.log(filmById);
     return (
