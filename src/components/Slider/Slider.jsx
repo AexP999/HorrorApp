@@ -45,10 +45,10 @@ const Slider = ({ children }) => {
       >
         <i className='leftbtn fas fa-chevron-left' onClick={ () => updateIndex(activeIndex - 1) }></i>
 
-        <div className="inner" style={ { transform: `translateX(-${ activeIndex * 50 }%)` } }
+        <div className="inner" style={ { transform: `translateX(-${ activeIndex * 100 }%)` } }
         >
           { React.Children.map(children, (child, i) => {
-            return React.cloneElement(child, { width: "25%" });
+            return React.cloneElement(child, { width: "100%" });
           }
           ) }
 
