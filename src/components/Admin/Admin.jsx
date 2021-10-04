@@ -141,7 +141,6 @@ export default function Admin ({ filmToEdit }) {
 
   return (
     <div>
-      {/* <h1>Admin panel</h1> */ }
       <div>
         <div className='input-cont'>
 
@@ -254,16 +253,20 @@ export default function Admin ({ filmToEdit }) {
                 { filmsData.actors.map((actor, index) => {
 
                   return (
-                    <input key={ index }
-                      onChange={ (e) => addPhotoFiles('actors', e, index) }
-                      type="file"
-                      name='photo'
-                      placeholder='actor`s photo'
-                    />
+                    <div>
+                      <input key={ index }
+                        onChange={ (e) => addPhotoFiles('actors', e, index) }
+                        type="file"
+                        name='photo'
+                        placeholder='actor`s photo'
+                      />
+                      {!!actor.photoSrc && <img src={actor.photoSrc} alt={index} />}
+                    </div>
                   );
                 }) }
               </div>
             </div>
+            
           </div>
 
           <div className='input-name'><span className='titles-width'>Poster:</span>
@@ -274,8 +277,8 @@ export default function Admin ({ filmToEdit }) {
               placeholder='film`s poster'
             />
           </div>
-          <div>{ !!filesToSend.has('poster') && filesToSend.getAll('poster').map(el => <span>{ '| ' + el.name + ' |' }</span>) }</div>
-
+          {filmsData.posterSrc && <img src={filmsData.posterSrc} alt={filmsData.poster} />}
+          
           <div>{ !!filesToSend.has('poster') && filesToSend.getAll('poster').map(el => <span key={ el.name }>{ '| ' + el.name + ' |' }</span>) }</div>
 
           <div className='input-name'><span className='titles-width'>Trailer:</span>

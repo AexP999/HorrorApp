@@ -12,15 +12,23 @@ function FilmEdit(props) {
         const response = await fetch(url);
         const film = await response.json();
         setFilm(film);
+        
     }
     useEffect(()=>{
         filmFetch();
-    },[])
-    
+       
+        
+    },[]);
+
+    if (filmById) {
+        filmById.posterSrc=`${ PATHTO.HOST_NAME }/${filmID}/${PATHTO.POSTER}/${filmById.poster}`;
+        filmById.actors.forEach(actor=>actor.photoSrc=`${ PATHTO.HOST_NAME }/${filmID}/${PATHTO.ACTORS_PHOTO}/${actor.photo}`);
+        filmById.director.forEach(director=>director.photoSrc='');
+        // filmById.images.forEach(img=>img.photoSrc='');
+    }
+    console.log(filmById);
     return (
         <div>   
-            {<h3>{filmID}</h3>}
-            {console.log('FilmEdit', filmById)}
             <Admin filmToEdit={filmById}/>
         </div>
     );
