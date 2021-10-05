@@ -211,7 +211,7 @@ export default function Admin ({ filmToEdit }) {
                           name='photo'
                           placeholder='director`s photo'
                         />
-                        {!!director.photoSrc && <img src={director.photoSrc} alt={index} />}
+                        {!!director.photoSrc && <img className='image-preview' src={director.photoSrc} alt={index} />}
                     </div>
                   );
                 }) }
@@ -246,7 +246,7 @@ export default function Admin ({ filmToEdit }) {
                         name='photo'
                         placeholder='actor`s photo'
                       />
-                      {!!actor.photoSrc && <img src={actor.photoSrc} alt={index} />}
+                      {!!actor.photoSrc && <img className='image-preview' src={actor.photoSrc} alt={index} />}
                     </div>
                   );
                 }) }
@@ -263,7 +263,7 @@ export default function Admin ({ filmToEdit }) {
                 name='poster'
                 placeholder='film`s poster'
               />
-              {filmsData.posterSrc && <img src={filmsData.posterSrc} alt={filmsData.poster} />}
+              {filmsData.posterSrc && <img className='image-preview' src={filmsData.posterSrc} alt={filmsData.poster} />}
               <div>{ !!filesToSend.has('poster') && filesToSend.getAll('poster').map(el => <span key={ el.name }>{ '| ' + el.name + ' |' }</span>) }</div>
             </div>
           
@@ -287,7 +287,7 @@ export default function Admin ({ filmToEdit }) {
               multiple
               placeholder='film`s images'
             />
-            {!!filmsData.imagesSrc && filmsData.imagesSrc.map((imageSrc, index)=> <img src={imageSrc} alt={index} />)}
+            {!!filmsData.imagesSrc && filmsData.imagesSrc.map((imageSrc, index)=> <img className='image-preview' src={imageSrc} alt={index} />)}
             <div>{ !!filesToSend.has('images') && filesToSend.getAll('images').map(el => <span key={ el.name }>{ '| ' + el.name + ' |' }</span>) }</div>
           </div>
         </div>
