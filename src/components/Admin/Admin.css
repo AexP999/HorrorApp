@@ -62,7 +62,7 @@ margin-right: 3px;
   justify-content: space-around;
 }
 
-img {
+.image-preview {
   max-width: 50px;
   max-height: 50px;
 }
