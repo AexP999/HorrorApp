@@ -50,7 +50,7 @@ export default function Home (props) {
           }) }
         </Slider>
         <h1 style={ { textAlign: 'center', margin: '30px' } }>Recomended to you</h1>
-        <Slider slideOn={ false } imgOnScreen={ 6 } imgToSlide={ 2 } >
+        <Slider slideOn={ false } imgOnScreen={ 6 } imgToSlide={ 4 } >
           { postersArr.map((image, i) => {
             return <CarouselItem key={ i }>{ image }</CarouselItem>;
           }) }
