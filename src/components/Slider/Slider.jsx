@@ -10,7 +10,12 @@ export const CarouselItem = ({ children, width }) => {
   );
 };
 
-const Slider = ({ children, imgOnScreen, imgToSlide }) => {
+const Slider = ({
+  children,
+  imgOnScreen,
+  imgToSlide,
+  slideOn
+}) => {
   const [ activeIndex, setActiveIndex ] = useState(0);
   const [ doAutoSlidePaused, setDoAutoSlidePaused ] = useState(false);
 
@@ -25,7 +30,7 @@ const Slider = ({ children, imgOnScreen, imgToSlide }) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if(!doAutoSlidePaused) {
+      if(!doAutoSlidePaused && slideOn) {
         updateIndex(activeIndex + 1);
       }
     }, 3000);
@@ -36,13 +41,15 @@ const Slider = ({ children, imgOnScreen, imgToSlide }) => {
     };
   });
 
+
   return (
-    <div>
+    <div className="slider-cont" >
+      <i className='leftbtn fas fa-chevron-left' onClick={ () => updateIndex(activeIndex - 1) }></i>
+
       <div className='carousel'
         onMouseEnter={ () => setDoAutoSlidePaused(true) }
         onMouseLeave={ () => setDoAutoSlidePaused(false) }
       >
-        <i className='leftbtn fas fa-chevron-left' onClick={ () => updateIndex(activeIndex - 1) }></i>
 
         <div className="inner" style={ { transform: `translateX(-${ activeIndex * 100 / imgOnScreen * imgToSlide }%)` } }
         >
@@ -52,8 +59,8 @@ const Slider = ({ children, imgOnScreen, imgToSlide }) => {
           ) }
 
         </div >
-        <i className='rightbtn fas fa-chevron-right' onClick={ () => updateIndex(activeIndex + 1) }></i>
       </div>
+      <i className='rightbtn fas fa-chevron-right' onClick={ () => updateIndex(activeIndex + 1) }></i>
     </div>
     // {/* <div className="buttons-slider">
     //     <button onClick={ () => updateIndex(activeIndex - 1) }>Prev</button>

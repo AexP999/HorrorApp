@@ -53,9 +53,9 @@ export default function FilmsCard (props) {
                 return (
                   <div className='card-inner' key={ director1._id } >
 
-                    <div className='img-cont'>
+                    <div className='img-cont circle'>
 
-                      <img src={ `${ PATHTODATANODE }/${ films._id }/actors_img/${ director1.photo }` } alt="" />
+                      <img width={ 100 } src={ `${ PATHTODATANODE }/${ films._id }/actors_img/${ director1.photo }` } alt="" />
                     </div>
                     <div className='dir-act-text'>
                       <div style={ { fontWeight: '700' } }>{ director1.name }</div> режисер</div>
@@ -67,7 +67,7 @@ export default function FilmsCard (props) {
               <>{ films.actors.map((actor) => {
                 return (
                   <div className='card-inner' key={ actor._id }>
-                    <div className='img-cont'>
+                    <div className='img-cont circle'>
                       { <img src={ `${ PATHTODATANODE }/${ films._id }/actors_img/${ actor.photo }` } alt="" /> }
                     </div >
                     <div className='dir-act-text'>

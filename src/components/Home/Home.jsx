@@ -19,7 +19,7 @@ export default function Home (props) {
         return (
           img.push(
             <Link to={ `/filmscard/${ film._id }` } >
-              <img key={ film._id } src={ `${ PATHTO.HOST_NAME }/${ film._id }/img/${ film.images[ 0 ] }` } alt='' />
+              <img className='bigslider' key={ film._id } src={ `${ PATHTO.HOST_NAME }/${ film._id }/img/${ film.images[ 0 ] }` } alt='' />
             </Link>
           )
         );
@@ -32,7 +32,7 @@ export default function Home (props) {
         return (
           postersArr.push(
             <Link to={ `/filmscard/${ film._id }` } >
-              <img key={ film._id } src={ `${ PATHTO.HOST_NAME }/${ film._id }/poster/${ film.poster }` } alt='' />
+              <img className='multi-slider' key={ film._id } src={ `${ PATHTO.HOST_NAME }/${ film._id }/poster/${ film.poster }` } alt='' />
             </Link>
           )
 
@@ -44,13 +44,13 @@ export default function Home (props) {
   return (
     <div className='Home'>
       <div className='home-body'>
-        <Slider imgOnScreen={ 1 } imgToSlide={ 1 }>
+        <Slider slideOn={ true } imgOnScreen={ 1 } imgToSlide={ 1 }>
           { img.map((image, i) => {
             return <CarouselItem key={ i }>{ image }</CarouselItem>;
           }) }
         </Slider>
         <h1 style={ { textAlign: 'center', margin: '30px' } }>Recomended to you</h1>
-        <Slider imgOnScreen={ 5 } imgToSlide={ 1 } style={ { height: "200px" } }>
+        <Slider slideOn={ false } imgOnScreen={ 6 } imgToSlide={ 2 } >
           { postersArr.map((image, i) => {
             return <CarouselItem key={ i }>{ image }</CarouselItem>;
           }) }

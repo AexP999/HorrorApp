@@ -190,28 +190,28 @@ export default function Admin ({ filmToEdit }) {
                 <span className='titles-width'>Director's names:</span>
                 <button onClick={ () => addItem('director') } className='add-item'>+</button>
                 <button onClick={ () => delItem('director') } className='add-item'>-</button>
-                <span  className='titles-width'>Directors`s photo:</span>
+                <span className='titles-width'>Directors`s photo:</span>
               </div>
 
               <div>
                 { filmsData.director.map((director, index) => {
 
                   return (
-                    <div style={{display:'flex',alignItems:'center'}}>
-                        <input key={ index }
-                          value={ director.name }
-                          onChange={ (e) => updateFilmData('director', e, index) }
-                          type="text"
-                          name='name'
-                          placeholder='director`s name'
-                        />
-                        <input key={ index }
-                          onChange={ (e) => addPhotoFiles('director', e, index) }
-                          type="file"
-                          name='photo'
-                          placeholder='director`s photo'
-                        />
-                        {!!director.photoSrc && <img className='image-preview' src={director.photoSrc} alt={index} />}
+                    <div style={ { display: 'flex', alignItems: 'center' } }>
+                      <input key={ index }
+                        value={ director.name }
+                        onChange={ (e) => updateFilmData('director', e, index) }
+                        type="text"
+                        name='name'
+                        placeholder='director`s name'
+                      />
+                      <input key={ index }
+                        onChange={ (e) => addPhotoFiles('director', e, index) }
+                        type="file"
+                        name='photo'
+                        placeholder='director`s photo'
+                      />
+                      { !!director.photoSrc && <img className='image-preview' src={ director.photoSrc } alt={ index } /> }
                     </div>
                   );
                 }) }
@@ -226,27 +226,27 @@ export default function Admin ({ filmToEdit }) {
                 <span className='titles-width'>Actor`s name:</span>
                 <button onClick={ () => addItem('actors') } className='add-item'>+</button>
                 <button onClick={ () => delItem('actors') } className='add-item'>-</button>
-                <span  className='titles-width'>Actor`s photo:</span>
+                <span className='titles-width'>Actor`s photo:</span>
               </div>
               <div>
                 { filmsData.actors.map((actor, index) => {
 
                   return (
-                    <div style={{display:'flex',alignItems:'center'}}>
-                        <input key={ index }
-                          value={ actor.name }
-                          onChange={ (e) => updateFilmData('actors', e, index) }
-                          type="text"
-                          name='name'
-                          placeholder='actor`s name'
-                        />
-                        <input key={ index }
+                    <div style={ { display: 'flex', alignItems: 'center' } }>
+                      <input key={ index }
+                        value={ actor.name }
+                        onChange={ (e) => updateFilmData('actors', e, index) }
+                        type="text"
+                        name='name'
+                        placeholder='actor`s name'
+                      />
+                      <input key={ index }
                         onChange={ (e) => addPhotoFiles('actors', e, index) }
                         type="file"
                         name='photo'
                         placeholder='actor`s photo'
                       />
-                      {!!actor.photoSrc && <img className='image-preview' src={actor.photoSrc} alt={index} />}
+                      { !!actor.photoSrc && <img className='image-preview' src={ actor.photoSrc } alt={ index } /> }
                     </div>
                   );
                 }) }
@@ -256,17 +256,17 @@ export default function Admin ({ filmToEdit }) {
 
           <div className='input-name'><span className='titles-width'>Poster:</span>
           </div>
-            <div style={{display:'flex',alignItems:'center'}}>
-              <input
-                onChange={ addFiles }
-                type="file"
-                name='poster'
-                placeholder='film`s poster'
-              />
-              {filmsData.posterSrc && <img className='image-preview' src={filmsData.posterSrc} alt={filmsData.poster} />}
-              <div>{ !!filesToSend.has('poster') && filesToSend.getAll('poster').map(el => <span key={ el.name }>{ '| ' + el.name + ' |' }</span>) }</div>
-            </div>
-          
+          <div style={ { display: 'flex', alignItems: 'center' } }>
+            <input
+              onChange={ addFiles }
+              type="file"
+              name='poster'
+              placeholder='film`s poster'
+            />
+            { filmsData.posterSrc && <img className='image-preview' src={ filmsData.posterSrc } alt={ filmsData.poster } /> }
+            <div>{ !!filesToSend.has('poster') && filesToSend.getAll('poster').map(el => <span key={ el.name }>{ '| ' + el.name + ' |' }</span>) }</div>
+          </div>
+
           <div className='input-name'><span className='titles-width'>Trailer:</span>
             <input
               value={ filmsData.trailer }
@@ -279,7 +279,7 @@ export default function Admin ({ filmToEdit }) {
 
           <div className='input-name' ><span className='titles-width'>Images:</span>
           </div>
-          <div style={{display:'flex',alignItems:'center'}}>
+          <div style={ { display: 'flex', alignItems: 'center' } }>
             <input
               onChange={ addFiles }
               type="file"
@@ -287,7 +287,7 @@ export default function Admin ({ filmToEdit }) {
               multiple
               placeholder='film`s images'
             />
-            {!!filmsData.imagesSrc && filmsData.imagesSrc.map((imageSrc, index)=> <img className='image-preview' src={imageSrc} alt={index} />)}
+            { !!filmsData.imagesSrc && filmsData.imagesSrc.map((imageSrc, index) => <img className='image-preview' src={ imageSrc } alt={ index } />) }
             <div>{ !!filesToSend.has('images') && filesToSend.getAll('images').map(el => <span key={ el.name }>{ '| ' + el.name + ' |' }</span>) }</div>
           </div>
         </div>

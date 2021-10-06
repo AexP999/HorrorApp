@@ -2,11 +2,8 @@
   text-align: center;
 }
 
-.all-films-cont{
-}
-
 .all-films-table{
-  /* height: 300px; */
+ 
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -21,11 +18,10 @@
 }
 
 .film-item {
-  /* width: 700px; */
   border: 1px solid grey;
   display:flex;
   flex-direction: row;
- justify-content: center;
+  justify-content: center;
   padding: 10px;
 }
 .film-name{

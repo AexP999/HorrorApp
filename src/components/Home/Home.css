@@ -1,9 +1,20 @@
 .home-body img{
-  width: 100%;
-  height: 400px;
+  /* width: 100%;
+  height: 400px; */
 }
 /* .App1 img{
   width: 100%;
   padding: 10px;
   height: 230px;
 } */
+
+.bigslider{
+    width: 100%;
+  height: 400px;
+}
+
+.multi-slider{
+  width: 100%;
+  height: 250px;
+  border-radius: 5%;
+}
