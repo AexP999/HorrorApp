@@ -6,8 +6,6 @@ import FilmEditList from './FilmEditList';
 import FilmPoster from './FilmPoster';
 import './Films.css';
 
-const postersAllFilms = [];
-
 export default function Films ({ show }) {
   const [ films, setFilms ] = useState([]);
   const [ currentPage, setCurrentPage ] = useState(0);

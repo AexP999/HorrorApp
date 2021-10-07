@@ -9,11 +9,9 @@ import './FilmsCard.css';
 export default function FilmsCard (props) {
   const { id } = useParams();
 
-
   const url = `${ PATHTO.HOST_NAME }/films/${ id }  `;
 
-  const { isLoading, films } = UseFetch(url);
-  console.log('films', films);
+  const { films } = UseFetch(url);
 
   return (
     <div>

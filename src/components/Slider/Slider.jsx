@@ -43,10 +43,10 @@ const Slider = ({
 
 
   return (
-    <div className="slider-cont" >
+    <div className="slider-cont"  >
       <i className='leftbtn fas fa-chevron-left' onClick={ () => updateIndex(activeIndex - 1) }></i>
 
-      <div className='carousel'
+      <div className='carousel' id="width1"
         onMouseEnter={ () => setDoAutoSlidePaused(true) }
         onMouseLeave={ () => setDoAutoSlidePaused(false) }
       >

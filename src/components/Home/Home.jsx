@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FilmContext } from '../Context';
 import Slider, { CarouselItem } from '../Slider/Slider';
-import MultiSlider from '../MultiSlider/MultiSlider';
 import { PATHTO } from '../../constants/constants';
 import { Link } from "react-router-dom";
 import './Home.css';
@@ -10,8 +9,11 @@ const img = [];
 const postersArr = [];
 
 export default function Home (props) {
+
+  const [ windowSize, setWindowSize ] = useState({ width: 0, height: 0 });
   const { films } = useContext(FilmContext);
 
+  let numberOfImageOnScreen = 6;
   if(img.length === 0) {
 
     <nav>
@@ -41,6 +43,18 @@ export default function Home (props) {
     </nav>;
   }
 
+  useEffect(() => {
+    const updateSize = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+    window.addEventListener('resize', updateSize);
+    updateSize();
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+  console.log('size', windowSize);
+  numberOfImageOnScreen = Math.floor(windowSize.width * 0.9 / 185);
+  console.log('numberOfImageOnScreen', numberOfImageOnScreen);
+
   return (
     <div className='Home'>
       <div className='home-body'>
@@ -50,15 +64,12 @@ export default function Home (props) {
           }) }
         </Slider>
         <h1 style={ { textAlign: 'center', margin: '30px' } }>Recomended to you</h1>
-        <Slider slideOn={ false } imgOnScreen={ 6 } imgToSlide={ 4 } >
+        <Slider slideOn={ false } imgOnScreen={ numberOfImageOnScreen } imgToSlide={ numberOfImageOnScreen } >
           { postersArr.map((image, i) => {
             return <CarouselItem key={ i }>{ image }</CarouselItem>;
           }) }
         </Slider>
       </div>
-      {/* <main style={ { height: '100vh' } }>
-        <MultiSlider />
-      </main> */}
     </div >
 
 
