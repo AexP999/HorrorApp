@@ -3,6 +3,7 @@ import React, { useEffect, useState, } from 'react';
 import { PATHTO } from '../../constants/constants';
 import { INITFILMSDATA } from '../../constants/constants';
 import './Admin.css';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Admin ({ filmToEdit }) {
 
@@ -19,6 +20,7 @@ export default function Admin ({ filmToEdit }) {
     const filesToLoad = Array.from(files);
     filesToLoad.forEach(file => {
       fd.append(name, file);
+      dispalyImage(file, name,0,e);
     });
 
     console.log([ ...fd ]);
@@ -37,8 +39,22 @@ export default function Admin ({ filmToEdit }) {
     setFilmsData(copyFilmsData);
   };
 
+  const dispalyImage=(file,field,index, e)=>{
+    
+    let reader = new FileReader();
+    // const imgtag = document.createElement('img');
+    debugger
+    let imgtag = document.getElementById(`${field}${index}`);
+    imgtag.title = file.name;
+    reader.onload = function(e) {
+    imgtag.src = e.target.result;
+    };
+    // document.body.appendChild(imgtag);
+    reader.readAsDataURL(file);
+  }
   const addPhotoFiles = (field, e, index) => {
     const { target: { name, files } } = e;
+    
     let fd = new FormData();
     for(let [ name, value ] of filesToSend) {
       fd.append(name, value);
@@ -46,7 +62,9 @@ export default function Admin ({ filmToEdit }) {
 
     const filesToLoad = Array.from(files);
     filesToLoad.forEach(file => {
-      fd.append('actors', file);
+      fd.append(field, file);
+      // fd.append('actors', file);
+      dispalyImage(file, field,index,e);
     });
 
     console.log([ ...fd ]);
@@ -89,23 +107,24 @@ export default function Admin ({ filmToEdit }) {
   };
 
   const updateFilmData = (field, e, index) => {
-
     const { target: { value, name } } = e;
 
     const copyFilmsData = JSON.parse(JSON.stringify(filmsData));
-
+    
     if(Array.isArray(copyFilmsData[ field ])) {
       name === '' ? copyFilmsData[ field ][ index ] = value : copyFilmsData[ field ][ index ][ name ] = value;
+      console.log("Array field",copyFilmsData);
       setFilmsData(copyFilmsData);
       return;
     }
     if(typeof ((filmsData[ field ])) === 'object') {
       copyFilmsData[ field ][ name ] = value;
+      console.log("object field",copyFilmsData);
       setFilmsData(copyFilmsData);
       return;
     }
     copyFilmsData[ name ] = value;
-    console.log(copyFilmsData);
+    console.log("root field",copyFilmsData);
     setFilmsData(copyFilmsData);
   };
 
@@ -198,20 +217,21 @@ export default function Admin ({ filmToEdit }) {
 
                   return (
                     <div style={ { display: 'flex', alignItems: 'center' } }>
-                      <input key={ index }
+                      <input key={ uuidv4()}
                         value={ director.name }
                         onChange={ (e) => updateFilmData('director', e, index) }
                         type="text"
                         name='name'
                         placeholder='director`s name'
                       />
-                      <input key={ index }
+                      <input key={ uuidv4()}
                         onChange={ (e) => addPhotoFiles('director', e, index) }
                         type="file"
                         name='photo'
                         placeholder='director`s photo'
                       />
-                      { !!director.photoSrc && <img className='image-preview' src={ director.photoSrc } alt={ index } /> }
+                      <img id={`director${index}`} className='image-preview' alt={ director.name } /> 
+                      {/* { !!director.photoSrc && <img className='image-preview' src={ director.photoSrc } alt={ index } /> } */}
                     </div>
                   );
                 }) }
@@ -233,20 +253,22 @@ export default function Admin ({ filmToEdit }) {
 
                   return (
                     <div style={ { display: 'flex', alignItems: 'center' } }>
-                      <input key={ index }
-                        value={ actor.name }
+                      <input key={ uuidv4() }
+                        value={ filmsData.actors[index].name }
+                        // value={ actor.name }
                         onChange={ (e) => updateFilmData('actors', e, index) }
                         type="text"
                         name='name'
                         placeholder='actor`s name'
                       />
-                      <input key={ index }
+                      <input key={ uuidv4() }
                         onChange={ (e) => addPhotoFiles('actors', e, index) }
                         type="file"
                         name='photo'
                         placeholder='actor`s photo'
                       />
-                      { !!actor.photoSrc && <img className='image-preview' src={ actor.photoSrc } alt={ index } /> }
+                      <img id={`actors${index}`} className='image-preview' alt={ index } /> 
+                      {/* { !!actor.photoSrc && <img className='image-preview' src={ actor.photoSrc } alt={ index } /> } */}
                     </div>
                   );
                 }) }
@@ -263,8 +285,9 @@ export default function Admin ({ filmToEdit }) {
               name='poster'
               placeholder='film`s poster'
             />
-            { filmsData.posterSrc && <img className='image-preview' src={ filmsData.posterSrc } alt={ filmsData.poster } /> }
-            <div>{ !!filesToSend.has('poster') && filesToSend.getAll('poster').map(el => <span key={ el.name }>{ '| ' + el.name + ' |' }</span>) }</div>
+            <img id={`poster0`} className='image-preview' alt={ 'poster' } /> 
+            {/* { filmsData.posterSrc && <img className='image-preview' src={ filmsData.posterSrc } alt={ filmsData.poster } /> }
+            <div>{ !!filesToSend.has('poster') && filesToSend.getAll('poster').map(el => <span key={ uuidv4() }>{ '| ' + el.name + ' |' }</span>) }</div> */}
           </div>
 
           <div className='input-name'><span className='titles-width'>Trailer:</span>
@@ -286,9 +309,10 @@ export default function Admin ({ filmToEdit }) {
               name='images'
               multiple
               placeholder='film`s images'
-            />
-            { !!filmsData.imagesSrc && filmsData.imagesSrc.map((imageSrc, index) => <img className='image-preview' src={ imageSrc } alt={ index } />) }
-            <div>{ !!filesToSend.has('images') && filesToSend.getAll('images').map(el => <span key={ el.name }>{ '| ' + el.name + ' |' }</span>) }</div>
+              />
+              { !!filmsData.images && filmsData.images.map((image, index) => <img id={`images${index}`} className='image-preview' alt={ 'plug' } />) }
+              {/* { !!filmsData.imagesSrc && filmsData.imagesSrc.map((imageSrc, index) => <img key={uuidv4()} className='image-preview' src={ imageSrc } alt={ index } />) }
+            <div>{ !!filesToSend.has('images') && filesToSend.getAll('images').map(el => <span key={ uuidv4() }>{ '| ' + el.name + ' |' }</span>) }</div> */}
           </div>
         </div>
         <button onClick={ handleSubmit }>Submit</button>
