@@ -267,7 +267,7 @@ export default function Admin ({ filmToEdit }) {
                         name='photo'
                         placeholder='actor`s photo'
                       />
-                      <img id={`actors${index}`} className='image-preview' alt={ index } /> 
+                      <img id={`actors${index}`} className='image-preview' alt={``}/> 
                       {/* { !!actor.photoSrc && <img className='image-preview' src={ actor.photoSrc } alt={ index } /> } */}
                     </div>
                   );
