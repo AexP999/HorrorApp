@@ -24,15 +24,18 @@ export default function Admin ({ filmToEdit }) {
     const filesToLoad = Array.from(files);
     filesToLoad.forEach(file => {
       fd.append(name, file);
-      dispalyImage(file, name,0,e);
+      // dispalyImage(file, name,0,e);
     });
 
-    console.log([ ...fd ]);
+    console.log('addfiles fd',[ ...fd ]);
     setFilesToSend(fd);
-
+    
     let copyFilmsData = JSON.parse(JSON.stringify(filmsData));
-
+    console.log('filesToLoad',filesToLoad.length);
+    
     if(filesToLoad.length > 1) {
+      // let tmparr=[];
+      copyFilmsData[ name ]=[]
       filesToLoad.forEach(file => {
         copyFilmsData[ name ].push(file.name);
       });
@@ -43,20 +46,6 @@ export default function Admin ({ filmToEdit }) {
     setFilmsData(copyFilmsData);
   };
 
-  const dispalyImage=(file,field,index, e)=>{
-
-    let reader = new FileReader();
-    // const imgtag = document.createElement('img');
-    let imgtag = document.getElementById(`${field}${index}`);
-    if (imgtag !== null){
-      imgtag.title = file.name;
-      reader.onload = function(e) {
-        imgtag.src = e.target.result;
-      };
-      // document.body.appendChild(imgtag);
-      reader.readAsDataURL(file);
-    }
-  }
   const addPhotoFiles = (field, e, index) => {
     const { target: { name, files } } = e;
     
@@ -69,7 +58,7 @@ export default function Admin ({ filmToEdit }) {
     filesToLoad.forEach(file => {
       fd.append(field, file);
       // fd.append('actors', file);
-      dispalyImage(file, field,index,e);
+      // dispalyImage(file, field,index,e);
     });
 
     console.log([ ...fd ]);
@@ -270,11 +259,10 @@ export default function Admin ({ filmToEdit }) {
               </div>
             </div>
           </div>
-
-          <InputFileField fieldName={'poster'} images={filmsData.poster} onChangeFunction={addFiles} multiple={false} />
-          {/* <img id={`poster`} className='image-preview' alt={ 'poster' } /> */}
-          <ShowImages fieldName={'poster'} imageFiles={filesToSend} />
-
+          <div className='input-name'>
+            <InputFileField fieldName={'poster'} images={filmsData.poster} onChangeFunction={addFiles} multiple={false} />
+            <ShowImages fieldName={'poster'} imageFiles={filesToSend} />
+          </div>
           <InputField 
             value={filmsData.trailer} 
             fieldName={'trailer'} 
@@ -282,9 +270,10 @@ export default function Admin ({ filmToEdit }) {
             updateFilmData={updateFilmData} 
             inputType={'text'}
           />
-
-          <InputFileField fieldName={'images'} images={filmsData.images} onChangeFunction={addFiles} multiple={true} />
-          {/* <ShowImages fieldName={'images'} imageFiles={filesToSend} /> */}
+          <div className='input-name'>
+            <InputFileField fieldName={'images'} images={filmsData.images} onChangeFunction={addFiles} multiple={true} />
+            <ShowImages fieldName={'images'} imageFiles={filesToSend} />
+          </div>
          
         </div>
         <button onClick={ handleSubmit }>Submit</button>

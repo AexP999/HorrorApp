@@ -1,54 +1,29 @@
-import React from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useState, useEffect } from 'react';
 import '../Admin.css';
+import Preview from './Preview';
+import { v4 as uuidv4 } from 'uuid';
 
-// const dispalyImage=(file,field,index, e)=>{
-
-//     let reader = new FileReader();
-//     // const imgtag = document.createElement('img');
-    
-//     let imgtag = document.getElementById(`${field}${index}`);
-//     if (imgtag !== null){
-//       imgtag.title = file.name;
-//       reader.onload = function(e) {
-//         imgtag.src = e.target.result;
-//       };
-//       // document.body.appendChild(imgtag);
-//       reader.readAsDataURL(file);
-//     }
-//   }
 
 function ShowImages({fieldName, imageFiles}) {
     
-    const imgSrc=[];
-    
-    debugger
-    const filesToShow=[];
-    for(let [ name, value ] of imageFiles) {
-        if (name === fieldName) filesToShow.push(value);
-    }
-    // const destDiv=document.getElementById(fieldName);
-    filesToShow.forEach((file,index)=>{
-        let reader = new FileReader();
-        // let tag = document.createElement('img');
+    const [previewFile, setPreviewFile] = useState([]);
+  
+    useEffect(()=>{
         
-        // tag.title=file.name;
-        reader.onload = function(e) {
-          imgSrc.push(e.target.result);
-        };
-        reader.readAsDataURL(file);
-        // imgTags.push(tag);
-      })
-      console.log("ShowImages", imgSrc[0]);
+        let filesArray=[];
+        if(imageFiles){
+            for(let [name, value] of imageFiles) {
+              if(name === fieldName) filesArray.push(value);
+            }
+            setPreviewFile(filesArray);
+        }
+    },[imageFiles]);
+  
     return (
-        <div id={fieldName}>
-          
-        <img src={imgSrc[0]} alt='ww' />
-        {/* { imgSrc.map((src) => <img key={uuidv4() } src={src} alt='ww' />) } */}
+            <div style={ { display: 'flex', alignItems: 'center'} }  >
+                {previewFile && previewFile.map(file=> <Preview preview={file} key={uuidv4()}/>)}
+            </div>
+        );
 
-        {/* { imgTags.map((image,index) => document.getElementById(fieldName).appendChild(imgTags[index])) } */}
-        </div>
-    );
 }
-
 export default ShowImages;
