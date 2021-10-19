@@ -1,0 +1,83 @@
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.modal-window {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #FFF;
+  min-height: 200px;
+  width: 500px;
+  border-radius: 5px;
+  flex-direction: column;
+   color:#000
+}
+
+.modal-header {
+  min-height: 60px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  align-items: center;
+  position: relative;
+}
+
+.modal-title {
+  font-weight: bold;
+  
+}
+.modal-body{
+  display: flex;
+  justify-content: center;
+  
+}
+
+.cl-btn-2 {
+  position: absolute;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    right:0;
+    
+}
+.cl-btn-2 div {
+    cursor: pointer;
+    position: relative;  
+    height: 55px;
+    width: 35px;
+}
+.cl-btn-2 .leftright {
+    height: 4px;
+    width: 40px;
+    position: absolute;
+    margin-top: 24px;
+    background-color: #337AB7;
+    border-radius: 2px;
+    transform: rotate(45deg);
+    transition: all .3s ease-in;
+}
+.cl-btn-2 .rightleft {
+    height: 4px;
+    width: 40px;
+    position: absolute;
+    margin-top: 24px;
+    background-color: #337AB7;
+    border-radius: 2px;
+    transform: rotate(-45deg);
+    transition: all .3s ease-in;
+}
+.cl-btn-2 div:hover .leftright {
+    transform: rotate(-45deg);
+    background-color: #000;
+}
+.cl-btn-2 div:hover .rightleft {
+    transform: rotate(45deg);
+    background-color: #000;
+}

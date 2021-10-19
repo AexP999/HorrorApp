@@ -38,6 +38,7 @@
     width:100%
 }
 
+
 .nav-links a{
     color: whitesmoke;
 	font-size: 1rem;
@@ -45,9 +46,11 @@
     font-family: 'Poppins', sans-serif;
 }
 
-.nav-links li a i{
+.nav-links li {
+    color: whitesmoke;
     border: none;
     font-size: 1rem;
+    cursor: pointer;
 }
 
 @keyframes navLinkFade{
