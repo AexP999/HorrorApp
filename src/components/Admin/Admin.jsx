@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import InputField from './admin-components/InputField'
 import InputFileField from './admin-components/InputFileField'
 import ShowImages from './admin-components/ShowImages'
+import InputActorsData from './admin-components/InputActorsData';
 
 export default function Admin ({ filmToEdit }) {
 
@@ -15,26 +16,23 @@ export default function Admin ({ filmToEdit }) {
 
   const addFiles = (e) => {
     const { target: { name, files } } = e;
-    console.log('addfiles', files);
+    
     let fd = new FormData();
     for(let [ name, value ] of filesToSend) {
       fd.append(name, value);
     }
     fd.delete(name);
+    
     const filesToLoad = Array.from(files);
     filesToLoad.forEach(file => {
       fd.append(name, file);
-      // dispalyImage(file, name,0,e);
     });
 
-    console.log('addfiles fd',[ ...fd ]);
     setFilesToSend(fd);
     
     let copyFilmsData = JSON.parse(JSON.stringify(filmsData));
-    console.log('filesToLoad',filesToLoad.length);
     
     if(filesToLoad.length > 1) {
-      // let tmparr=[];
       copyFilmsData[ name ]=[]
       filesToLoad.forEach(file => {
         copyFilmsData[ name ].push(file.name);
@@ -57,16 +55,12 @@ export default function Admin ({ filmToEdit }) {
     const filesToLoad = Array.from(files);
     filesToLoad.forEach(file => {
       fd.append(field, file);
-      // fd.append('actors', file);
-      // dispalyImage(file, field,index,e);
     });
 
-    console.log([ ...fd ]);
     setFilesToSend(fd);
 
     let copyFilmsData = JSON.parse(JSON.stringify(filmsData));
     copyFilmsData[ field ][ index ][ name ] = filesToLoad[ 0 ].name;
-    console.log('copyFilmsData', copyFilmsData);
 
     setFilmsData(copyFilmsData);
   };
@@ -122,30 +116,6 @@ export default function Admin ({ filmToEdit }) {
     setFilmsData(copyFilmsData);
   };
 
-  const addItem = (field) => {
-    // console.log('field', field);
-    const copyFilmsData = JSON.parse(JSON.stringify(filmsData));
-    if(field === 'images') {
-      copyFilmsData.images.push('');
-    } else {
-      copyFilmsData[ field ].push({ rewards: [], name: '', photo: '', });
-    }
-
-    setFilmsData(copyFilmsData);
-  };
-
-  const delItem = (field) => {
-
-    const copyFilmsData = JSON.parse(JSON.stringify(filmsData));
-    if(field === 'images') {
-      copyFilmsData.images.pop('');
-    } else {
-      copyFilmsData[ field ].pop({ rewards: [], name: '', photo: '', });
-    }
-
-    setFilmsData(copyFilmsData);
-  };
-
   useEffect(() => {
     console.log('Admin', filmToEdit);
     if(filmToEdit !== undefined) setFilmsData(filmToEdit);
@@ -187,78 +157,21 @@ export default function Admin ({ filmToEdit }) {
             inputType={'text'}
           />
 
-          <div className='btn-grp'>
-            <div className='input-name actw-wid' >
-              <div className='btn-grp'>
-                <span className='titles-width'>Director's names:</span>
-                <button onClick={ () => addItem('director') } className='add-item'>+</button>
-                <button onClick={ () => delItem('director') } className='add-item'>-</button>
-                <span className='titles-width'>Directors`s photo:</span>
-              </div>
+          <InputActorsData 
+            field='director' 
+            filmsData={filmsData} 
+            setFilmsData={setFilmsData} 
+            updateFilmData={updateFilmData} 
+            addPhotoFiles={addPhotoFiles} 
+          />
+          <InputActorsData 
+            field='actors' 
+            filmsData={filmsData} 
+            setFilmsData={setFilmsData} 
+            updateFilmData={updateFilmData} 
+            addPhotoFiles={addPhotoFiles} 
+          />
 
-              <div>
-                { filmsData.director.map((director, index) => {
-
-                  return (
-                    <div style={ { display: 'flex', alignItems: 'center' }} key={ uuidv4()}>
-                      <input key={ uuidv4()}
-                        value={ director.name }
-                        onChange={ (e) => updateFilmData('director', e, index) }
-                        type="text"
-                        name='name'
-                        placeholder='director`s name'
-                      />
-                      <input key={ uuidv4()}
-                        onChange={ (e) => addPhotoFiles('director', e, index) }
-                        type="file"
-                        name='photo'
-                        placeholder='director`s photo'
-                      />
-                      <img id={`director${index}`} className='image-preview' alt={ director.name } /> 
-                      {/* { !!director.photoSrc && <img className='image-preview' src={ director.photoSrc } alt={ index } /> } */}
-                    </div>
-                  );
-                }) }
-              </div>
-            </div>
-
-          </div>
-
-          <div className='btn-grp'>
-            <div className='input-name actw-wid '>
-              <div className='btn-grp' >
-                <span className='titles-width'>Actor`s name:</span>
-                <button onClick={ () => addItem('actors') } className='add-item'>+</button>
-                <button onClick={ () => delItem('actors') } className='add-item'>-</button>
-                <span className='titles-width'>Actor`s photo:</span>
-              </div>
-              <div>
-                { filmsData.actors.map((actor, index) => {
-
-                  return (
-                    <div style={ { display: 'flex', alignItems: 'center' } } key={ uuidv4()}>
-                      <input key={ uuidv4() }
-                        value={ filmsData.actors[index].name }
-                        // value={ actor.name }
-                        onChange={ (e) => updateFilmData('actors', e, index) }
-                        type="text"
-                        name='name'
-                        placeholder='actor`s name'
-                      />
-                      <input key={ uuidv4() }
-                        onChange={ (e) => addPhotoFiles('actors', e, index) }
-                        type="file"
-                        name='photo'
-                        placeholder='actor`s photo'
-                      />
-                      <img id={`actors${index}`} className='image-preview' alt={``}/> 
-                      {/* { !!actor.photoSrc && <img className='image-preview' src={ actor.photoSrc } alt={ index } /> } */}
-                    </div>
-                  );
-                }) }
-              </div>
-            </div>
-          </div>
           <div className='input-name'>
             <InputFileField fieldName={'poster'} images={filmsData.poster} onChangeFunction={addFiles} multiple={false} />
             <ShowImages fieldName={'poster'} imageFiles={filesToSend} />
