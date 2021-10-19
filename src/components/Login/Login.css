@@ -1,0 +1,13 @@
+
+.body-cont{
+width: 250px; 
+margin: 10px
+}
+
+.body-cont h4, input, button{
+margin-bottom:10px ;
+}
+
+.body-cont button{
+  margin: 10px 10px 10px 0 ;
+}

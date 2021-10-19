@@ -2,10 +2,10 @@ import React from 'react';
 import './Header.css';
 import { Link } from "react-router-dom";
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
+import Login from '../Login/Login';
+import Registration from '../Registration/Registration';
 
 export default function Header ({ userName }) {
-
-
 
   return (
     <div className='header'>
@@ -30,8 +30,9 @@ export default function Header ({ userName }) {
               {/* <i className="fa fa-bell"></i> */ }
             </Link>
           </li>
-          <li>
-            <Link to="/login">Логин</Link>
+          <li style={ { display: 'flex' } }>
+            <Login />
+            <Registration />
           </li>
           <li>
             <Link to="/admin">Админ</Link>
@@ -43,6 +44,6 @@ export default function Header ({ userName }) {
       </nav>
 
 
-    </div>
+    </div >
   );
 }

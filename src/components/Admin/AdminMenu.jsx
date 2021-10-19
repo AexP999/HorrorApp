@@ -18,10 +18,10 @@ function AdminMenu () {
       <nav>
         <ul className="nav-links">
           <li>
-            <Link to={ `${ url }/create-film` }>insert new film</Link>
+            <Link to={ `${ url }/create-film` }><h2>insert new film</h2> </Link>
           </li>
           <li>
-            <Link to={ `${ url }/edit-films` }>edit/delete films</Link>
+            <Link to={ `${ url }/edit-films` }><h2>edit/delete films</h2></Link>
           </li>
         </ul>
       </nav>

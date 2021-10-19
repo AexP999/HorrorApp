@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import './App.css';
 import Home from './components/Home/Home.jsx';
-import Login from './components/Login/Login';
 import AdminMenu from './components/Admin/AdminMenu';
 import Header from '../src/components/Header/Header';
 import FilmsCard from './components/FilmsCard/FilmsCard';
@@ -36,9 +35,8 @@ const App = () => {
             < Header />
             <Switch>
               <Route path="/" component={ Home } exact />
-              <Route path="/login" component={ Login } />
               <Route path="/admin" component={ AdminMenu } />
-              <Route path="/films"> <Films show='poster' /> 
+              <Route path="/films"> <Films show='poster' />
               </Route>
               <Route path="/filmscard/:id">
                 <FilmsCard />
