@@ -3,7 +3,6 @@ import React, { useEffect, useState, } from 'react';
 import { PATHTO } from '../../constants/constants';
 import { INITFILMSDATA } from '../../constants/constants';
 import './Admin.css';
-import { v4 as uuidv4 } from 'uuid';
 import InputField from './admin-components/InputField'
 import InputFileField from './admin-components/InputFileField'
 import ShowImages from './admin-components/ShowImages'
@@ -14,33 +13,35 @@ export default function Admin ({ filmToEdit }) {
   const [ filmsData, setFilmsData ] = useState(INITFILMSDATA);
   const [ filesToSend, setFilesToSend ] = useState(new FormData());
 
-  const addFiles = (e) => {
-    const { target: { name, files } } = e;
+  const addFiles = (name, files) => {
     
     let fd = new FormData();
     for(let [ name, value ] of filesToSend) {
       fd.append(name, value);
     }
     fd.delete(name);
+    let filesToLoad=[];
     
-    const filesToLoad = Array.from(files);
-    filesToLoad.forEach(file => {
-      fd.append(name, file);
-    });
-
+    if (files){
+      filesToLoad = Array.from(files);
+      filesToLoad.forEach(file => {
+        fd.append(name, file);
+      });
+    }
     setFilesToSend(fd);
     
     let copyFilmsData = JSON.parse(JSON.stringify(filmsData));
-    
-    if(filesToLoad.length > 1) {
-      copyFilmsData[ name ]=[]
-      filesToLoad.forEach(file => {
-        copyFilmsData[ name ].push(file.name);
-      });
-    } else {
-      copyFilmsData[ name ] = files[ 0 ].name;
+    if(files.length === 0){
+      if( Array.isArray(copyFilmsData[ name ])) copyFilmsData[ name ]=[];
+      else copyFilmsData[ name ]='';
+    } else{
+      if(filesToLoad.length > 1) {
+        copyFilmsData[ name ]=[]
+        filesToLoad.forEach(file => {
+          copyFilmsData[ name ].push(file.name);
+        });
+      } else copyFilmsData[ name ] = files[ 0 ].name;
     }
-
     setFilmsData(copyFilmsData);
   };
 
@@ -79,7 +80,7 @@ export default function Admin ({ filmToEdit }) {
   }
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
+
     const sendData = dataToSend();
     try {
       const response = await fetch(`${ PATHTO.HOST_NAME }/films`, {
@@ -96,12 +97,12 @@ export default function Admin ({ filmToEdit }) {
 
   const updateFilmData = (field, e, index) => {
     const { target: { value, name } } = e;
-
+    debugger
     const copyFilmsData = JSON.parse(JSON.stringify(filmsData));
-    
+    console.log('copyFilmsData before - ', field, copyFilmsData[field])
     if(Array.isArray(copyFilmsData[ field ])) {
       name === '' ? copyFilmsData[ field ][ index ] = value : copyFilmsData[ field ][ index ][ name ] = value;
-      console.log("Array field",copyFilmsData);
+      console.log('copyFilmsData after - ', field, copyFilmsData[field])
       setFilmsData(copyFilmsData);
       return;
     }

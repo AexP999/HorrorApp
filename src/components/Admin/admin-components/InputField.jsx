@@ -10,7 +10,7 @@ function InputField({value,fieldName, placeholder, updateFilmData, inputType}) {
         <div className='input-name'><span className='titles-width'>{inputToUpperCase(fieldName)}:</span>
             <input
               value={ value }
-              onChange={ (e) => updateFilmData('', e) }
+              onChange={ updateFilmData && ((e) => updateFilmData('', e)) }
               type={inputType}
               name={fieldName}
               placeholder={placeholder}

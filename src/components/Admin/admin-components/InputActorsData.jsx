@@ -18,7 +18,7 @@ function InputActorsData({field, filmsData, setFilmsData, updateFilmData, addPho
     };
     
     return (
-        <div className='btn-grp'>
+      <div className='btn-grp'>
         <div className='input-name actw-wid' >
           <div className='btn-grp'>
             <span className='titles-width'>{`${inputToUpperCase(field)}'s names:`}</span>

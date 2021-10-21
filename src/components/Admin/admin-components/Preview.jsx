@@ -5,8 +5,8 @@ function Preview({preview}) {
     const [source, setSource] = useState([]);
     
     useEffect(()=>{
-        
-        if(preview){
+
+        if(preview && source !== preview){
             const reader = new FileReader();
             reader.onloadend = () => {
                 setSource(reader.result);
@@ -15,6 +15,7 @@ function Preview({preview}) {
         }
         return (()=>setSource([]))            
     },[preview]);
+    
     return (
         <>
             {source && <img className='image-preview' src={source} alt={''}/>}
