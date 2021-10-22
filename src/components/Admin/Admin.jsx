@@ -81,19 +81,66 @@ export default function Admin ({ filmToEdit }) {
     return fd;
   }
 
+  const removeField=(obj,fieldToRemove)=>{
+    for (let key in obj){
+      if ( key === fieldToRemove ) {
+        delete obj[key]
+      } else
+        if(Array.isArray(obj[key])){
+          obj[key].forEach(element=>{
+            removeField(element,fieldToRemove)
+          })
+        } else
+          if( typeof obj[key] === 'object'){ 
+            removeField(obj[key],fieldToRemove)
+          }  
+    }
+    return obj;
+  }
+  const fieldObjectToString=(obj, parentField, childField)=>{
+        
+    if(Array.isArray(obj[parentField])){
+      obj[parentField].forEach((element, index)=>{
+        if (childField in element){
+          element[childField]=element[childField].imageName;
+        } else {
+          console.log(parentField, element, element.imageName);
+          obj[parentField][index]=element.imageName
+          console.log(obj[parentField]);  
+        }
+      })
+    } else obj[parentField]=obj[parentField].imageName;
+    return obj;
+  }
+  const normaliseFilmsData=(filmInfo)=>{
+    // needs to remove '_id' field & transform each field like
+    // photo: { 
+    //   imageName:'', 
+    //   sourceBase:'', 
+    //   sourceLocal:''}
+    // to photo:'str' where str=imageName
+    let data = removeField(filmInfo,'_id');
+    data = fieldObjectToString(data, 'poster','photo');
+    data = fieldObjectToString(data, 'images','photo');
+    data = fieldObjectToString(data, 'director','photo');
+    data = fieldObjectToString(data, 'actors','photo');
+    return data;
+  };
   const handleSubmit = async (e) => {
 
-    const sendData = dataToSend();
-    try {
-      const response = await fetch(`${ PATHTO.HOST_NAME }/films`, {
-        method: 'POST',
-        body: sendData,
-      });
-      const result = await response.json();
-      console.log(result);
-    } catch(error) {
-      console.log('Ошибка загрузки заданий', error);
-    }
+    // const sendData = dataToSend();
+    // try {
+    //   const response = await fetch(`${ PATHTO.HOST_NAME }/films`, {
+    //     method: 'POST',
+    //     body: sendData,
+    //   });
+    //   const result = await response.json();
+    //   console.log(result);
+    // } catch(error) {
+    //   console.log('Ошибка загрузки заданий', error);
+    // }
+    const result = normaliseFilmsData(filmsData);
+    console.log('handleSubmit', result);
     setFilmsData(INITFILMSDATA);
   };
 
@@ -128,6 +175,7 @@ export default function Admin ({ filmToEdit }) {
     else setFilmsData(INITFILMSDATA);
   }, [ filmToEdit ]);
 
+  console.log('useEffect', filmsData );
   return (
     <div>
       <div>
@@ -163,7 +211,7 @@ export default function Admin ({ filmToEdit }) {
             inputType={'text'}
           />
 
-          <InputActorsData 
+          {/* <InputActorsData 
             field='director' 
             filmsData={filmsData} 
             setFilmsData={setFilmsData} 
@@ -176,7 +224,7 @@ export default function Admin ({ filmToEdit }) {
             setFilmsData={setFilmsData} 
             updateFilmsData={updateFilmData} 
             addPhotoFiles={addPhotoFiles} 
-          />
+          /> */}
 
           <div className='input-name'>
             <InputFileField fieldName={'poster'} images={filmsData.poster} onChangeFunction={addFiles} multiple={false} />

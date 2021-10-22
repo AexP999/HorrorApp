@@ -9,15 +9,33 @@ const PATHTO ={
 }
 
 const INITFILMSDATA = {
-director: [ { rewards: [], name: 'dir1', photo: '' } ],
-images: [],
+director: [ { 
+    rewards: [], 
+    name: 'dir1', 
+    photo: { 
+        imageName:'', 
+        sourceBase:'', 
+        sourceLocal:''}
+} ],
+// director: [ { rewards: [], name: 'dir1', photo: ''} ],
+// images: [],
+images: [{imageName:'', sourceBase:'', sourceLocal:''}],
 _id: '',
 name: 'name',
 year: '2015',
 country: 'usa',
 category: 'hor',
-actors: [ { rewards: [], name: 'actor1', photo: '' } ],
-poster: '',
+actors: [ { 
+    rewards: [], 
+    name: 'actor1', 
+    photo: { 
+        imageName:'', 
+        sourceBase:'', 
+        sourceLocal:''}
+} ],
+// actors: [ { rewards: [], name: 'actor1', photo: '' } ],
+// poster: '',
+poster: {imageName:'', sourceBase:'', sourceLocal:''},
 trailer: 'trailer',
 };
 
