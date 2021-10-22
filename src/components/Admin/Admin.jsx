@@ -13,41 +13,43 @@ export default function Admin ({ filmToEdit }) {
   const [ filmsData, setFilmsData ] = useState(INITFILMSDATA);
   const [ filesToSend, setFilesToSend ] = useState(new FormData());
 
-  const addFiles = (name, files) => {
+  const addFiles = (fieldName, files) => {
     
     let fd = new FormData();
     for(let [ name, value ] of filesToSend) {
       fd.append(name, value);
     }
-    fd.delete(name);
+    fd.delete(fieldName);
+    
     let filesToLoad=[];
     
     if (files){
       filesToLoad = Array.from(files);
       filesToLoad.forEach(file => {
-        fd.append(name, file);
+        fd.append(fieldName, file);
       });
     }
+   
     setFilesToSend(fd);
     
     let copyFilmsData = JSON.parse(JSON.stringify(filmsData));
     if(files.length === 0){
-      if( Array.isArray(copyFilmsData[ name ])) copyFilmsData[ name ]=[];
-      else copyFilmsData[ name ]='';
+      if( Array.isArray(copyFilmsData[ fieldName ])) copyFilmsData[ fieldName ]=[];
+      else copyFilmsData[ fieldName ]='';
     } else{
       if(filesToLoad.length > 1) {
-        copyFilmsData[ name ]=[]
+        copyFilmsData[ fieldName ]=[]
         filesToLoad.forEach(file => {
-          copyFilmsData[ name ].push(file.name);
+          copyFilmsData[ fieldName ].push(file.name);
         });
-      } else copyFilmsData[ name ] = files[ 0 ].name;
+      } else copyFilmsData[ fieldName ] = files[ 0 ].name;
     }
     setFilmsData(copyFilmsData);
   };
 
   const addPhotoFiles = (field, e, index) => {
     const { target: { name, files } } = e;
-    
+
     let fd = new FormData();
     for(let [ name, value ] of filesToSend) {
       fd.append(name, value);
@@ -57,9 +59,9 @@ export default function Admin ({ filmToEdit }) {
     filesToLoad.forEach(file => {
       fd.append(field, file);
     });
-
+    
     setFilesToSend(fd);
-
+    
     let copyFilmsData = JSON.parse(JSON.stringify(filmsData));
     copyFilmsData[ field ][ index ][ name ] = filesToLoad[ 0 ].name;
 
@@ -97,15 +99,18 @@ export default function Admin ({ filmToEdit }) {
 
   const updateFilmData = (field, e, index) => {
     const { target: { value, name } } = e;
-    debugger
+
     const copyFilmsData = JSON.parse(JSON.stringify(filmsData));
-    console.log('copyFilmsData before - ', field, copyFilmsData[field])
+
     if(Array.isArray(copyFilmsData[ field ])) {
-      name === '' ? copyFilmsData[ field ][ index ] = value : copyFilmsData[ field ][ index ][ name ] = value;
-      console.log('copyFilmsData after - ', field, copyFilmsData[field])
+      if (name.indexOf('name') !== -1) copyFilmsData[ field ][ index ].name = value;
+      else copyFilmsData[ field ][ index ].photo = value;
+      console.log('updateFilmData got array', copyFilmsData[ field ]);
+      // name === '' ? copyFilmsData[ field ][ index ] = value : copyFilmsData[ field ][ index ][ name ] = value;
       setFilmsData(copyFilmsData);
       return;
     }
+
     if(typeof ((filmsData[ field ])) === 'object') {
       copyFilmsData[ field ][ name ] = value;
       console.log("object field",copyFilmsData);
@@ -118,7 +123,7 @@ export default function Admin ({ filmToEdit }) {
   };
 
   useEffect(() => {
-    console.log('Admin', filmToEdit);
+    // console.log('Admin', filmToEdit);
     if(filmToEdit !== undefined) setFilmsData(filmToEdit);
     else setFilmsData(INITFILMSDATA);
   }, [ filmToEdit ]);
@@ -162,14 +167,14 @@ export default function Admin ({ filmToEdit }) {
             field='director' 
             filmsData={filmsData} 
             setFilmsData={setFilmsData} 
-            updateFilmData={updateFilmData} 
+            updateFilmsData={updateFilmData} 
             addPhotoFiles={addPhotoFiles} 
           />
           <InputActorsData 
             field='actors' 
             filmsData={filmsData} 
             setFilmsData={setFilmsData} 
-            updateFilmData={updateFilmData} 
+            updateFilmsData={updateFilmData} 
             addPhotoFiles={addPhotoFiles} 
           />
 

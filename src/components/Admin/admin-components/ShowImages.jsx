@@ -26,4 +26,4 @@ function ShowImages({fieldName, imageFiles}) {
         );
 
 }
-export default ShowImages;
+export default React.memo(ShowImages);

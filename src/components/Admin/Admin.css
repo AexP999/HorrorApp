@@ -28,7 +28,7 @@
 }
 
 .actw-wid{
-  width: 40%;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
 }
