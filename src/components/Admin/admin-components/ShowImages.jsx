@@ -6,23 +6,35 @@ import { v4 as uuidv4 } from 'uuid';
 
 function ShowImages({imageFiles}) {
     
-    const [previewFile, setPreviewFile] = useState([]);
+    const [previewData, setPreviewData] = useState([]);
   
     useEffect(()=>{
         
-        let filesArray=[];
-        if(Array.isArray(imageFiles)) 
-            imageFiles.forEach(item=>filesArray.push(item.sourceLocal))
-        else 
-            filesArray[0]=imageFiles.sourceLocal;
+        let filesArray=[]
+        let tmparr=[];
+        
+        if(!Array.isArray(imageFiles)) tmparr[0] = imageFiles;
+        else tmparr = imageFiles;
+
+        tmparr.forEach(item=>{
+            if(item.sourceLocal)
+                filesArray.push({image:item.sourceLocal, source:'local'})
+            else
+                filesArray.push({image:item.sourceBase, source:'server'})
+        })
     
-        setPreviewFile(filesArray);
-    
+        setPreviewData(filesArray);
     },[imageFiles]);
-  
+
     return (
             <div style={ { display: 'flex', alignItems: 'center'} }  >
-                {previewFile && previewFile.map(file=> <Preview preview={file}/>)}
+                {previewData && previewData.map(item => (
+                    <div>
+                        <Preview preview={item.image}/>
+                        <p>{!(item.image ==='') && (item.source)}</p>
+                    </div>
+                ))
+                }
             </div>
         );
 

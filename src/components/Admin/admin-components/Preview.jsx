@@ -4,12 +4,17 @@ function Preview({preview}) {
     
     const [source, setSource] = useState([]);
     useEffect(()=>{
+
         if(preview && source !== preview){
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setSource(reader.result);
-            };
-            reader.readAsDataURL(preview);
+            if(typeof preview === 'string'){
+                setSource(preview);
+            } else{
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setSource(reader.result);
+                };
+                reader.readAsDataURL(preview);
+            }
         }
         return (()=>setSource([]))            
     },[preview]);
