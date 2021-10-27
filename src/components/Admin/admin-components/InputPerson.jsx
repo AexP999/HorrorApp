@@ -1,15 +1,14 @@
 import React from 'react';
 
-function InputPerson({field, value, updateFilmsData, index}) {
+function InputPerson({field, value, updateFilmData, index}) {
     return (
         <div>
              <input
                     value={ value}
-                    onChange={ (e) => updateFilmsData(`${field}` , e, index) }
+                    onChange={ (e) => updateFilmData(field , e, index) }
                     type="text"
-                    name={`name${index}`}
+                    name='name'
                     placeholder='enter name'
-                    // key={`${field}${index}`}
                   />
         </div>
     );

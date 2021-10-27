@@ -7,63 +7,56 @@ import InputField from './admin-components/InputField'
 import InputFileField from './admin-components/InputFileField'
 import ShowImages from './admin-components/ShowImages'
 import InputActorsData from './admin-components/InputActorsData';
+import { cloneDeep} from 'lodash/fp';
 
 export default function Admin ({ filmToEdit }) {
-
+  
   const [ filmsData, setFilmsData ] = useState(INITFILMSDATA);
   const [ filesToSend, setFilesToSend ] = useState(new FormData());
 
-  const addFiles = (fieldName, files) => {
+  const addPhoto = (field, e, index)=>{
+    // adds photo to array 'actors' or 'directors'
+    console.log('addPhoto field index', field, index);
+    let { target: { files } } = e;
+    // console.log('addPhoto files', files);
+    let copyFilmsData = cloneDeep(filmsData);
     
-    let fd = new FormData();
-    for(let [ name, value ] of filesToSend) {
-      fd.append(name, value);
-    }
-    fd.delete(fieldName);
-    
-    let filesToLoad=[];
-    
-    if (files){
-      filesToLoad = Array.from(files);
-      filesToLoad.forEach(file => {
-        fd.append(fieldName, file);
-      });
-    }
-   
-    setFilesToSend(fd);
-    
-    let copyFilmsData = JSON.parse(JSON.stringify(filmsData));
-    if(files.length === 0){
-      if( Array.isArray(copyFilmsData[ fieldName ])) copyFilmsData[ fieldName ]=[];
-      else copyFilmsData[ fieldName ]='';
-    } else{
-      if(filesToLoad.length > 1) {
-        copyFilmsData[ fieldName ]=[]
-        filesToLoad.forEach(file => {
-          copyFilmsData[ fieldName ].push(file.name);
-        });
-      } else copyFilmsData[ fieldName ] = files[ 0 ].name;
-    }
-    setFilmsData(copyFilmsData);
-  };
+    if( files === undefined){
+      console.log('files undefined');
+      copyFilmsData[ field ][index].photo={imageName:'', sourceBase:'', sourceLocal:''};}
+    else{
+      // console.log('addPhoto before', copyFilmsData[ field ]);
+      copyFilmsData[ field ][index].photo={imageName:files[0].name, sourceBase:'', sourceLocal:files[0]};
+      // copyFilmsData[ field ][index].photo.sourceLocal = files[0];
+      // console.log('addPhoto', copyFilmsData[ field ]);
+    } 
+      setFilmsData(copyFilmsData);
+  }
+  
+  const addImageFiles = (field, e) => {
+    let { target: { files } } = e;
+    let copyFilmsData = cloneDeep(filmsData);
 
-  const addPhotoFiles = (field, e, index) => {
-    const { target: { name, files } } = e;
+    if (files !== undefined) files = Array.from(files);
+    // files == undefined means to clear file input 
 
-    let fd = new FormData();
-    for(let [ name, value ] of filesToSend) {
-      fd.append(name, value);
+    if( Array.isArray(copyFilmsData[ field ])){
+      let  tmp = copyFilmsData[ field ].filter( item => item.sourceLocal ==='');
+      copyFilmsData[ field ]=tmp;
     }
-
-    const filesToLoad = Array.from(files);
-    filesToLoad.forEach(file => {
-      fd.append(field, file);
-    });
+    else {
+      copyFilmsData[ field ].imageName ='';
+      copyFilmsData[ field ].sourceLocal = '';
+    }
     
-    setFilesToSend(fd);
-    
-    let copyFilmsData = JSON.parse(JSON.stringify(filmsData));
-    copyFilmsData[ field ][ index ][ name ] = filesToLoad[ 0 ].name;
+    if(files !== undefined && files.length > 0){
+      if(Array.isArray(copyFilmsData[ field ])) 
+          files.forEach(file => {
+            copyFilmsData[ field ].push({imageName:file.name, sourceBase:'', sourceLocal:file})
+          });
+      else 
+        copyFilmsData[ field ]={imageName:files[ 0 ].name, sourceBase:'', sourceLocal:files[ 0 ]};
+    }
 
     setFilmsData(copyFilmsData);
   };
@@ -104,10 +97,7 @@ export default function Admin ({ filmToEdit }) {
         if (childField in element){
           element[childField]=element[childField].imageName;
         } else {
-          console.log(parentField, element, element.imageName);
-          obj[parentField][index]=element.imageName
-          console.log(obj[parentField]);  
-        }
+          obj[parentField][index]=element.imageName}
       })
     } else obj[parentField]=obj[parentField].imageName;
     return obj;
@@ -146,26 +136,15 @@ export default function Admin ({ filmToEdit }) {
 
   const updateFilmData = (field, e, index) => {
     const { target: { value, name } } = e;
-
-    const copyFilmsData = JSON.parse(JSON.stringify(filmsData));
+    let copyFilmsData = cloneDeep(filmsData);
 
     if(Array.isArray(copyFilmsData[ field ])) {
-      if (name.indexOf('name') !== -1) copyFilmsData[ field ][ index ].name = value;
-      else copyFilmsData[ field ][ index ].photo = value;
-      console.log('updateFilmData got array', copyFilmsData[ field ]);
-      // name === '' ? copyFilmsData[ field ][ index ] = value : copyFilmsData[ field ][ index ][ name ] = value;
+      copyFilmsData[ field ][ index ].name = value;
       setFilmsData(copyFilmsData);
       return;
     }
 
-    if(typeof ((filmsData[ field ])) === 'object') {
-      copyFilmsData[ field ][ name ] = value;
-      console.log("object field",copyFilmsData);
-      setFilmsData(copyFilmsData);
-      return;
-    }
     copyFilmsData[ name ] = value;
-    console.log("root field",copyFilmsData);
     setFilmsData(copyFilmsData);
   };
 
@@ -211,24 +190,31 @@ export default function Admin ({ filmToEdit }) {
             inputType={'text'}
           />
 
-          {/* <InputActorsData 
+          <InputActorsData 
             field='director' 
             filmsData={filmsData} 
             setFilmsData={setFilmsData} 
-            updateFilmsData={updateFilmData} 
-            addPhotoFiles={addPhotoFiles} 
+            updateFilmData={updateFilmData} 
+            addPhotoFiles={addPhoto} 
           />
           <InputActorsData 
             field='actors' 
             filmsData={filmsData} 
             setFilmsData={setFilmsData} 
-            updateFilmsData={updateFilmData} 
-            addPhotoFiles={addPhotoFiles} 
-          /> */}
+            updateFilmData={updateFilmData} 
+            addPhotoFiles={addPhoto} 
+          />
 
           <div className='input-name'>
-            <InputFileField fieldName={'poster'} images={filmsData.poster} onChangeFunction={addFiles} multiple={false} />
-            <ShowImages fieldName={'poster'} imageFiles={filesToSend} />
+            <InputFileField 
+              fieldName={'poster'} 
+              images={filmsData.poster} 
+              onChangeFunction={addImageFiles} 
+              multiple={false}
+              showTitle={true}
+            />
+            <ShowImages imageFiles={filmsData.poster} />
+            {/* <ShowImages fieldName={'poster'} imageFiles={filmsData.poster} /> */}
           </div>
           <InputField 
             value={filmsData.trailer} 
@@ -238,8 +224,15 @@ export default function Admin ({ filmToEdit }) {
             inputType={'text'}
           />
           <div className='input-name'>
-            <InputFileField fieldName={'images'} images={filmsData.images} onChangeFunction={addFiles} multiple={true} />
-            <ShowImages fieldName={'images'} imageFiles={filesToSend} />
+            <InputFileField 
+              fieldName={'images'} 
+              images={filmsData.images} 
+              onChangeFunction={addImageFiles} 
+              multiple={true} 
+              showTitle={true}
+            />
+            <ShowImages imageFiles={filmsData.images} />
+            {/* <ShowImages fieldName={'images'} imageFiles={filmsData.images} /> */}
           </div>
          
         </div>

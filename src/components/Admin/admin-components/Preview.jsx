@@ -3,9 +3,7 @@ import React, { useEffect, useState } from 'react';
 function Preview({preview}) {
     
     const [source, setSource] = useState([]);
-    
     useEffect(()=>{
-
         if(preview && source !== preview){
             const reader = new FileReader();
             reader.onloadend = () => {

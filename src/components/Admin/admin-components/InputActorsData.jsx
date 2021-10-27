@@ -1,37 +1,34 @@
 import React from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import InputPerson from './InputPerson'
+import InputPerson from './InputPerson';
+import ShowImages from './ShowImages';
+import InputFileField from './InputFileField';
+import { cloneDeep} from 'lodash/fp';
 
-function InputActorsData({field, filmsData, setFilmsData, updateFilmsData, addPhotoFiles}) {
+function InputActorsData({field, filmsData, setFilmsData, updateFilmData, addPhotoFiles}) {
 
-    const logTime=()=> {
-      let date = new Date();
-      let seconds = date.getSeconds();
-      let miliseconds = date.getMilliseconds();
-      return `${seconds}:${miliseconds}`;
-    }
     function inputToUpperCase(str) {
         return str[0].toUpperCase() + str.slice(1);
     }
 
     const addRemoveItem = (field, action) => {
     
-      const copyFilmsData = JSON.parse(JSON.stringify(filmsData));
-        if (action==='ADD') 
-          copyFilmsData[ field ].push({ rewards: [], name: '', photo: '', });
-        else 
-          copyFilmsData[ field ].pop({ rewards: [], name: '', photo: '', });
+      console.log('InputActorsData filmsData', filmsData);
+      let copyFilmsData = cloneDeep(filmsData);
+      console.log('InputActorsData copyFilmsData', copyFilmsData[field]);
+      if (action==='ADD') 
+      copyFilmsData[ field ].push({ rewards: [], name: '', photo: {imageName:'', sourceBase:'', sourceLocal:'',} });
+      else 
+      copyFilmsData[ field ].pop();
   
       setFilmsData(copyFilmsData);
     };
-    // console.log('InputActorsData',logTime(), filmsData[field]);
     return (
       <div className='btn-grp'>
         <div className='input-name actw-wid' >
           <div className='btn-grp'>
             <span className='titles-width'>{`${inputToUpperCase(field)}'s names:`}</span>
-            <button onClick={ () => addRemoveItem(`${field}`, 'ADD') } className='add-item'>+</button>
-            <button onClick={ () => addRemoveItem(`${field}`, 'REMOVE') } className='add-item'>-</button>
+            <button onClick={ () => addRemoveItem(field, 'ADD') } className='add-item'>+</button>
+            <button onClick={ () => addRemoveItem(field, 'REMOVE') } className='add-item'>-</button>
             <span className='titles-width'>Photo:</span>
           </div>
 
@@ -40,12 +37,18 @@ function InputActorsData({field, filmsData, setFilmsData, updateFilmsData, addPh
 
               return (
                 <div style={ { display: 'flex', alignItems: 'center' }} key={`${field}${index}`}>
-                 <InputPerson field={field} value={person.name} updateFilmsData={updateFilmsData} index={index} />
-                    <input 
-                      // onChange={ (e) => addPhotoFiles(`${field}`, e, index) }
-                      type="file"
-                      name='photo'
-                    />
+                 <InputPerson field={field} value={person.name} updateFilmData={updateFilmData} index={index} />
+                 <InputFileField 
+                  fieldName={field} 
+                  images={person.photo.sourceLocal} 
+                  index={index}
+                  onChangeFunction={addPhotoFiles} 
+                  multiple={false}
+                  showTitle={false} 
+                />
+                 <ShowImages 
+                  imageFiles={person.photo}
+                />
                 </div>
               );
             }) }

@@ -18,8 +18,8 @@ director: [ {
         sourceLocal:''}
 } ],
 // director: [ { rewards: [], name: 'dir1', photo: ''} ],
-// images: [],
-images: [{imageName:'', sourceBase:'', sourceLocal:''}],
+// images: [{imageName:'', sourceBase:'', sourceLocal:''}],
+images: [],
 _id: '',
 name: 'name',
 year: '2015',
