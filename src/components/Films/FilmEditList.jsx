@@ -3,7 +3,7 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import './Films.css';
 
 function FilmEditList ({ films }) {
-    console.log('films', films);
+    console.log('FilmEditList', films);
     let { url } = useRouteMatch();
     return (
         <div>
@@ -20,4 +20,4 @@ function FilmEditList ({ films }) {
     );
 }
 
-export default FilmEditList;
+export default React.memo(FilmEditList);

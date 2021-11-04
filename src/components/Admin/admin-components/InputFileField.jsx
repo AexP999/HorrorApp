@@ -25,7 +25,9 @@ function InputFileField({fieldName, index, images, onChangeFunction, multiple, s
                   multiple={multiple}
                 />
                 <button onClick={(e)=>{
+                    console.log('InputFileField',ref.current.value);
                     ref.current.value = null;
+                    console.log('InputFileField',ref.current.value);
                     onChangeFunction(fieldName, e, index)}}
                 >Reset</button>
             </div>

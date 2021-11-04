@@ -16,46 +16,38 @@ export default function Admin ({ filmToEdit }) {
 
   const addPhoto = (field, e, index)=>{
     // adds photo to array 'actors' or 'directors'
-    console.log('addPhoto field index', field, index);
     let { target: { files } } = e;
-    // console.log('addPhoto files', files);
     let copyFilmsData = cloneDeep(filmsData);
     
-    if( files === undefined){
-      console.log('files undefined');
-      copyFilmsData[ field ][index].photo={imageName:'', sourceBase:'', sourceLocal:''};}
-    else{
-      // console.log('addPhoto before', copyFilmsData[ field ]);
-      copyFilmsData[ field ][index].photo={imageName:files[0].name, sourceBase:'', sourceLocal:files[0]};
-      // copyFilmsData[ field ][index].photo.sourceLocal = files[0];
-      // console.log('addPhoto', copyFilmsData[ field ]);
-    } 
-      setFilmsData(copyFilmsData);
+    if( files === undefined)
+      copyFilmsData[ field ][index].photo.sourceLocal='';
+    else
+      copyFilmsData[ field ][index].photo.sourceLocal=files[0];
+    setFilmsData(copyFilmsData);
   }
   
   const addImageFiles = (field, e) => {
+    // adds field photo to 'images' and 'poster'
     let { target: { files } } = e;
     let copyFilmsData = cloneDeep(filmsData);
 
+    // files == undefined means to clear file's input 
     if (files !== undefined) files = Array.from(files);
-    // files == undefined means to clear file input 
-
+    // clear previous files
     if( Array.isArray(copyFilmsData[ field ])){
       let  tmp = copyFilmsData[ field ].filter( item => item.sourceLocal ==='');
       copyFilmsData[ field ]=tmp;
     }
-    else {
-      copyFilmsData[ field ].imageName ='';
+    else 
       copyFilmsData[ field ].sourceLocal = '';
-    }
     
     if(files !== undefined && files.length > 0){
       if(Array.isArray(copyFilmsData[ field ])) 
-          files.forEach(file => {
-            copyFilmsData[ field ].push({imageName:file.name, sourceBase:'', sourceLocal:file})
-          });
+          files.forEach(file => 
+            copyFilmsData[ field ].push({imageName:'', sourceBase:'', sourceLocal:file})
+          );
       else 
-        copyFilmsData[ field ]={imageName:files[ 0 ].name, sourceBase:'', sourceLocal:files[ 0 ]};
+        copyFilmsData[ field ].sourceLocal=files[ 0 ];
     }
 
     setFilmsData(copyFilmsData);
@@ -75,6 +67,7 @@ export default function Admin ({ filmToEdit }) {
   }
 
   const removeField=(obj,fieldToRemove)=>{
+    // removes field 'fieldToRemove' from obj
     for (let key in obj){
       if ( key === fieldToRemove ) {
         delete obj[key]
@@ -91,6 +84,12 @@ export default function Admin ({ filmToEdit }) {
     return obj;
   }
   const fieldObjectToString=(obj, parentField, childField)=>{
+    //transforms each field like
+    // photo: { 
+    //   imageName:'', 
+    //   sourceBase:'', 
+    //   sourceLocal:''}
+    // to photo:'str' where str=imageName
         
     if(Array.isArray(obj[parentField])){
       obj[parentField].forEach((element, index)=>{
@@ -103,12 +102,7 @@ export default function Admin ({ filmToEdit }) {
     return obj;
   }
   const normaliseFilmsData=(filmInfo)=>{
-    // needs to remove '_id' field & transform each field like
-    // photo: { 
-    //   imageName:'', 
-    //   sourceBase:'', 
-    //   sourceLocal:''}
-    // to photo:'str' where str=imageName
+    // needs to remove '_id' field & transform 'photo'
     let data = removeField(filmInfo,'_id');
     data = fieldObjectToString(data, 'poster','photo');
     data = fieldObjectToString(data, 'images','photo');
@@ -129,12 +123,14 @@ export default function Admin ({ filmToEdit }) {
     // } catch(error) {
     //   console.log('Ошибка загрузки заданий', error);
     // }
+    console.log('handleSubmit before', filmsData);
     const result = normaliseFilmsData(filmsData);
-    console.log('handleSubmit', result);
+    console.log('handleSubmit after', result);
     setFilmsData(INITFILMSDATA);
   };
 
   const updateFilmData = (field, e, index) => {
+    //
     const { target: { value, name } } = e;
     let copyFilmsData = cloneDeep(filmsData);
 
@@ -147,10 +143,12 @@ export default function Admin ({ filmToEdit }) {
     copyFilmsData[ name ] = value;
     setFilmsData(copyFilmsData);
   };
-
+  
   useEffect(() => {
     // console.log('Admin', filmToEdit);
-    if(filmToEdit !== undefined) setFilmsData(filmToEdit);
+    if(filmToEdit !== undefined) {
+      setFilmsData(filmToEdit);
+    }
     else setFilmsData(INITFILMSDATA);
   }, [ filmToEdit ]);
 

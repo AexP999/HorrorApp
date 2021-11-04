@@ -2,7 +2,6 @@
 import React, { useState, useEffect, } from 'react';
 import { PATHTO } from '../../constants/constants';
 import FilmEditList from './FilmEditList';
-// import { Link } from "react-router-dom";
 import FilmPoster from './FilmPoster';
 import './Films.css';
 

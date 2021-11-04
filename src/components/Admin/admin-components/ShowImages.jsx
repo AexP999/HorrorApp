@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../Admin.css';
 import Preview from './Preview';
-import { v4 as uuidv4 } from 'uuid';
-
 
 function ShowImages({imageFiles}) {
     
