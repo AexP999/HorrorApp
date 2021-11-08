@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { FilmContext } from '../Context';
+import React, { useEffect, useState, memo } from 'react';
+// import { FilmContext } from '../Contexts/FilmContext';
 import Slider, { CarouselItem } from '../Slider/Slider';
 import { PATHTO } from '../../constants/constants';
 import { Link } from "react-router-dom";
@@ -8,28 +8,30 @@ import './Home.css';
 const img = [];
 const postersArr = [];
 
-export default function Home (props) {
+export default memo(function Home ({ films }) {
 
   const [ windowSize, setWindowSize ] = useState({ width: 0, height: 0 });
-  const { films } = useContext(FilmContext);
+  // const { films } = useContext(FilmContext);
 
+  console.log("HOME", films);
   let numberOfImageOnScreen = 6;
   if(img.length === 0) {
+    films &&
+      <nav>
+        { films.map((film) => {
+          return (
+            img.push(
+              <Link to={ `/filmscard/${ film._id }` } >
+                <img className='bigslider' key={ film._id } src={ `${ PATHTO.HOST_NAME }/${ film._id }/img/${ film.images[ 0 ] }` } alt='' />
+              </Link>
+            )
+          );
+        }) }
+      </nav>;
 
-    <nav>
-      { films.map((film) => {
-        return (
-          img.push(
-            <Link to={ `/filmscard/${ film._id }` } >
-              <img className='bigslider' key={ film._id } src={ `${ PATHTO.HOST_NAME }/${ film._id }/img/${ film.images[ 0 ] }` } alt='' />
-            </Link>
-          )
-        );
-      }) }
-    </nav>;
   }
   if(postersArr.length === 0) {
-    <nav>
+    films && <nav>
       { films.map((film) => {
         return (
           postersArr.push(
@@ -51,9 +53,9 @@ export default function Home (props) {
     updateSize();
     return () => window.removeEventListener('resize', updateSize);
   }, []);
-  console.log('size', windowSize);
+
   numberOfImageOnScreen = Math.floor(windowSize.width * 0.9 / 185);
-  console.log('numberOfImageOnScreen', numberOfImageOnScreen);
+
 
   return (
     <div className='Home'>
@@ -74,4 +76,4 @@ export default function Home (props) {
 
 
   );
-}
+});

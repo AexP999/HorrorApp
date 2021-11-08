@@ -2,13 +2,14 @@ import React from 'react';
 import './Header.css';
 import { Link } from "react-router-dom";
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
-import Login from '../Login/Login';
-import Registration from '../Registration/Registration';
+// import { FilmContext } from '../Contexts/FilmContext';
 
-export default function Header ({ userName }) {
+export default React.memo(function Header ({ userInfo }) {
 
+  // const { userInfo } = useContext(FilmContext);
+  console.log('USERINFO HEADER', userInfo);
   return (
-    <div className='header'>
+    <header className='header'>
       <div className="logo-container">
         <img src="images\desktop\logo bloody eyes.png" alt="logo" />
       </div>
@@ -27,16 +28,32 @@ export default function Header ({ userName }) {
           </li>
           <li>
             <Link to="/films">Фильмы
-              {/* <i className="fa fa-bell"></i> */ }
             </Link>
           </li>
-          <li style={ { display: 'flex' } }>
-            <Login />
-            <Registration />
-          </li>
-          <li>
-            <Link to="/admin">Админ</Link>
-          </li>
+          { userInfo.loggedIn
+            ? <li>
+              <i style={ { marginRight: '4px' } } className="far fa-user"></i>
+              <Link to="/logout">{ userInfo.email } Выйти </Link>
+            </li>
+            :
+            <>
+              <li>
+                <i style={ { marginRight: '4px' } } className="far fa-user"></i>
+                <Link to="/login">Войти</Link>
+              </li>
+              <li>
+                <Link to="/registration">Регистрация</Link>
+              </li>
+            </> }
+
+          { (userInfo.role === 'admin') && userInfo.loggedIn
+            ? <>
+              <li>
+                <Link to="/admin">Админ</Link>
+              </li>
+            </>
+            : null
+          }
           <li>
             <ThemeSwitcher />
           </li>
@@ -44,6 +61,6 @@ export default function Header ({ userName }) {
       </nav>
 
 
-    </div >
+    </header >
   );
-}
+});
