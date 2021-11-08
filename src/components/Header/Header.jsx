@@ -2,12 +2,12 @@ import React from 'react';
 import './Header.css';
 import { Link } from "react-router-dom";
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
-// import { FilmContext } from '../Contexts/FilmContext';
 
-export default React.memo(function Header ({ userInfo }) {
+export default function Header ({ userInfo }) {
 
-  // const { userInfo } = useContext(FilmContext);
   console.log('USERINFO HEADER', userInfo);
+
+  console.log(userInfo.loggedIn);
   return (
     <header className='header'>
       <div className="logo-container">
@@ -30,23 +30,24 @@ export default React.memo(function Header ({ userInfo }) {
             <Link to="/films">Фильмы
             </Link>
           </li>
-          { userInfo.loggedIn
+
+          { (userInfo.loggedIn === true)
             ? <li>
               <i style={ { marginRight: '4px' } } className="far fa-user"></i>
-              <Link to="/logout">{ userInfo.email } Выйти </Link>
+              <Link to="/logout">{ userInfo.email || localStorage.getItem('email') } Выйти </Link>
             </li>
             :
             <>
               <li>
-                <i style={ { marginRight: '4px' } } className="far fa-user"></i>
-                <Link to="/login">Войти</Link>
+
+                <Link to="/login"> <i style={ { marginRight: '4px' } } className="far fa-user"></i> Войти</Link>
               </li>
               <li>
                 <Link to="/registration">Регистрация</Link>
               </li>
             </> }
 
-          { (userInfo.role === 'admin') && userInfo.loggedIn
+          { (userInfo.role === 'admin') && (userInfo.loggedIn === true)
             ? <>
               <li>
                 <Link to="/admin">Админ</Link>
@@ -63,4 +64,4 @@ export default React.memo(function Header ({ userInfo }) {
 
     </header >
   );
-});
+};

@@ -12,8 +12,10 @@ const api = axios.create({
     baseURL:PATHTO.HOST_NAME
   });
   
-api.interceptors.request.use(config => {
+  api.interceptors.request.use(config => {
+  
     config.headers.Authorization = localStorage.getItem('token')
+    console.log(localStorage.getItem('token'))
     return config
   })
   
@@ -21,6 +23,7 @@ api.interceptors.response.use((config) => config,
   async (error) => {
     
     const originalRequest = error.config
+
     if(error.response.status === 401) {
       try {
        

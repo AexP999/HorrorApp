@@ -32,6 +32,5 @@ export const useFetchHook = (url) => {
       setLoading(false);
     }
   }, []);
-
   return { loading, request, error, clearErrors };
 };

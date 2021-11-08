@@ -32,12 +32,15 @@ const LogIn = ({ userInfo, setUserInfo }) => {
 
     const result = await api.post('/auth/login', { ...userData });
     console.log('accessToken', result);
+    console.log('userInfo', userInfo.loggedIn);
     if(result) {
-      localStorage.setItem('token', result.data);
       setIsOpenLogWindow(false);
       setUserData(initData);
       const { userId, email, role } = parseJwt(result.data);
       setUserInfo({ userId, email, role, loggedIn: true });
+      localStorage.setItem('token', result.data);
+      localStorage.setItem('email', email);
+
     }
 
   };
