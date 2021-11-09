@@ -40,6 +40,7 @@ const LogIn = ({ userInfo, setUserInfo }) => {
       setUserInfo({ userId, email, role, loggedIn: true });
       localStorage.setItem('token', result.data);
       localStorage.setItem('email', email);
+      localStorage.setItem('role', role);
 
     }
 

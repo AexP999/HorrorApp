@@ -12,6 +12,7 @@ const LogOut = memo(({ userInfo, setUserInfo }) => {
     setUserInfo({ userId: '', email: '', role: '', loggedIn: false, accessToken: '' });
     localStorage.setItem('token', '');
     localStorage.setItem('email', '');
+    localStorage.setItem('role', '');
   };
 
   useEffect(() => {

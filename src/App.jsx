@@ -14,7 +14,7 @@ import { useHttpHook } from './components/Hooks/api.hook';
 const App = () => {
 
   const [ films, setFilms ] = useState([]);
-  const [ userInfo, setUserInfo ] = useState({ userId: '', email: localStorage.getItem('email'), role: '', loggedIn: localStorage.getItem('token') ? true : false, accessToken: '' });
+  const [ userInfo, setUserInfo ] = useState({ userId: '', email: localStorage.getItem('email') || '', role: localStorage.getItem('role') || '', loggedIn: localStorage.getItem('token') ? true : false, accessToken: '' });
 
   const { api } = useHttpHook();
 
@@ -52,7 +52,7 @@ const App = () => {
             <Registration />
           </Route>
           <Route path="/admin" >
-            { (userInfo.loggedIn === true) && (userInfo.role === 'admin') && <AdminMenu /> }
+            { userInfo.loggedIn && (userInfo.role === 'admin') && <AdminMenu /> }
           </Route >
           <Route path="/films"> <Films show='poster' />
           </Route>

@@ -51,7 +51,7 @@ export default function Header ({ userInfo }) {
               </li>
             </> }
 
-          { (userInfo.role === 'admin') && (userInfo.loggedIn === true)
+          { (userInfo.role === 'admin' || localStorage.getItem('role')) && (userInfo.loggedIn === true)
             ? <>
               <li>
                 <Link to="/admin">Админ</Link>
