@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Slider.css';
 
-
 export const CarouselItem = ({ children, width }) => {
   return (
     <div className='carousel-item' style={ { width: width } }>
@@ -62,13 +61,6 @@ const Slider = ({
       </div>
       <i className='rightbtn fas fa-chevron-right' onClick={ () => updateIndex(activeIndex + 1) }></i>
     </div>
-    // {/* <div className="buttons-slider">
-    //     <button onClick={ () => updateIndex(activeIndex - 1) }>Prev</button>
-    //     <button onClick={ () => updateIndex(activeIndex + 1) }>Next</button>
-
-    //   </div> */}
-
-
   );
 };
 export default Slider;

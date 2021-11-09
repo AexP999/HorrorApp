@@ -1,43 +1,64 @@
 import { useState } from 'react';
 import Modal from '../Modal';
-import Registration from '../Registration/Registration';
-import { PATHTO } from '../../constants/constants';
-import { useFetchHook } from '../Hooks/fetch.hook';
+import { useHttpHook } from '../Hooks/api.hook';
 
-import './Login.css';
+import './LogIn.css';
 
-const Login = () => {
-  const { loading, request } = useFetchHook();
-  const [ isOpen, setIsOpen ] = useState(false);
-  const [ userData, setUserData ] = useState({
-    email: '',
-    password: ''
-  });
+const LogIn = ({ userInfo, setUserInfo }) => {
 
-  const openModal = () => {
-    setIsOpen(true);
+  const { api, apiError, clearApiErrors } = useHttpHook();
+
+  console.log("LOGIN", userInfo);
+
+  console.log("apiError", apiError);
+
+  const initData = { email: '', password: '' };
+
+
+  const [ isOpenLogWindow, setIsOpenLogWindow ] = useState(true);
+  // eslint-disable-next-line no-unused-vars
+  const [ isOpenErrWindow, setIsOpenErrWindow ] = useState(false);
+  const [ userData, setUserData ] = useState(initData);
+
+  const parseJwt = (token) => {
+    try {
+      return JSON.parse(atob(token.split('.')[ 1 ]));
+    } catch(e) {
+      return null;
+    }
   };
 
   const handleSubmit = async () => {
-    try {
-      await request(`${ PATHTO.HOST_NAME }/auth/login`, 'POST', { ...userData });
-    } catch(error) { }
-    setIsOpen(false);
+
+    const result = await api.post('/auth/login', { ...userData });
+    console.log('accessToken', result);
+    console.log('userInfo', userInfo.loggedIn);
+    if(result) {
+      setIsOpenLogWindow(false);
+      setUserData(initData);
+      const { userId, email, role } = parseJwt(result.data);
+      setUserInfo({ userId, email, role, loggedIn: true });
+      localStorage.setItem('token', result.data);
+      localStorage.setItem('email', email);
+
+    }
+
   };
+  console.log(userInfo);
 
   const handleCancel = () => {
-    setIsOpen(false);
-    setUserData({
-      email: '',
-      password: ''
-    });
+    setIsOpenLogWindow(false);
+    setUserData(initData);
   };
-  const handleClose = () => {
-    setIsOpen(false);
-    setUserData({
-      email: '',
-      password: ''
-    });
+
+  const handleClose = (windowTypeErrFlag) => {
+    if(windowTypeErrFlag) {
+      clearApiErrors();
+      setIsOpenErrWindow(false);
+    } else {
+      setIsOpenLogWindow(false);
+      setUserData(initData);
+    }
   };
 
   const updateUserData = (e) => {
@@ -48,16 +69,18 @@ const Login = () => {
   };
   console.log('userData', userData);
 
+  console.log('errorRENDER', apiError);
+
   return (
     <>
-      <div onClick={ openModal }>
-        <i style={ { marginRight: '4px' } } className="far fa-user"></i> Вход | </div>
+
       <Modal
         title="Введите email и пароль"
-        isOpen={ isOpen }
+        isOpen={ isOpenLogWindow }
         onCancel={ handleCancel }
         onSubmit={ handleSubmit }
         onClose={ handleClose }
+        type1={ true }
       >
         <div className="body-cont">
           <div>
@@ -82,18 +105,22 @@ const Login = () => {
 
           <div>
             <button onClick={ handleCancel }>Cancel</button>
-            <button onClick={ handleSubmit } disabled={ loading } >Войти</button>
+            <button
+              onClick={ handleSubmit }
+            >Войти</button>
             <div >
               Забыли пароль? <span>Восстановить</span>
             </div>
-            <div >
-              <Registration />
-            </div>
+            <a href="/registration">Зарегистрировать</a>
+
           </div>
+          { apiError
+            ? <Modal title="Ошибка!" isOpen={ true } type1={ false } onClose={ () => handleClose(true) }>{ apiError }</Modal>
+            : null }
         </div>
       </Modal>
 
     </>
   );
 };
-export default Login;
+export default LogIn;

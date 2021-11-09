@@ -1,42 +1,50 @@
 import { useState } from 'react';
 import Modal from '../Modal';
-import { PATHTO } from '../../constants/constants';
-import { useFetchHook } from '../Hooks/fetch.hook';
+import { useHttpHook } from '../Hooks/api.hook';
 
 import './Registration.css';
 
 const Registration = () => {
-  const { loading, request } = useFetchHook();
-  const [ isOpen, setIsOpen ] = useState(false);
+
+  const { api, apiError, clearApiErrors } = useHttpHook();
+
+  const [ isOpenLogWindow, setIsOpenLogWindow ] = useState(true);
+  // eslint-disable-next-line no-unused-vars
+  const [ isOpenErrWindow, setIsOpenErrWindow ] = useState(false);
   const [ userData, setUserData ] = useState({
     email: '',
     password: ''
   });
 
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
   const handleSubmit = async () => {
-    try {
-      await request(`${ PATHTO.HOST_NAME }/auth/users`, 'POST', { ...userData });
-    } catch(error) { }
-    setIsOpen(false);
+
+    const result = await api.post('/auth/users', { ...userData });
+
+    if(result) {
+      setIsOpenLogWindow(false);
+    };
   };
 
   const handleCancel = () => {
-    setIsOpen(false);
+    setIsOpenLogWindow(false);
     setUserData({
       email: '',
       password: ''
     });
   };
-  const handleClose = () => {
-    setIsOpen(false);
-    setUserData({
-      email: '',
-      password: ''
-    });
+
+  const handleClose = (windowTypeErrFlag) => {
+    if(windowTypeErrFlag) {
+      clearApiErrors();
+      setIsOpenErrWindow(false);
+    } else {
+      setIsOpenLogWindow(false);
+      setUserData({
+        email: '',
+        password: ''
+      }
+      );
+    }
   };
 
   const updateUserData = (e) => {
@@ -49,14 +57,13 @@ const Registration = () => {
 
   return (
     <>
-      <div onClick={ openModal }>&nbsp;Регистрация
-      </div>
       <Modal
         title="Введите логин и пароль"
-        isOpen={ isOpen }
+        isOpen={ isOpenLogWindow }
         onCancel={ handleCancel }
         onSubmit={ handleSubmit }
         onClose={ handleClose }
+        type1={ true }
       >
         <div className="body-cont">
           <div>
@@ -81,17 +88,13 @@ const Registration = () => {
 
           <div>
             <button
-              onClick={ handleCancel }
-            >
-              Cancel
-            </button>
+              onClick={ handleCancel }>Cancel</button>
             <button
               onClick={ handleSubmit }
-              disabled={ loading }
-            >
-              Зарегистрировать
-            </button>
+
+            >Зарегистрировать</button>
           </div>
+          { apiError ? <Modal title="Ошибка!" isOpen={ true } type1={ false } onClose={ () => handleClose(true) }>{ apiError }</Modal> : null }
         </div>
       </Modal>
 

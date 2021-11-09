@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 export default function UseFetch (url) {
   const [ films, setFilms ] = useState([]);
   const [ isLoading, setIsLoading ] = useState(false);
+  // const [ error, setError ] = useState(null);
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
@@ -11,8 +12,8 @@ export default function UseFetch (url) {
       const result = await response.json();
 
       setFilms(result);
-    } catch(error) {
-      console.log('Ошибка загрузки заданий', error);
+    } catch(e) {
+      console.log('Ошибка загрузки заданий', e);
     }
     setIsLoading(false);
   }, [ url ]);
