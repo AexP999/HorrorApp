@@ -12,16 +12,16 @@ function InputActorsData({field, filmsData, setFilmsData, updateFilmData, addPho
 
     const addRemoveItem = (field, action) => {
     
-      console.log('InputActorsData filmsData', filmsData);
       let copyFilmsData = cloneDeep(filmsData);
-      console.log('InputActorsData copyFilmsData', copyFilmsData[field]);
+
       if (action==='ADD') 
-      copyFilmsData[ field ].push({ rewards: [], name: '', photo: {imageName:'', sourceBase:'', sourceLocal:'',} });
+        copyFilmsData[ field ].push({ rewards: [], name: '', photo: {imageName:'', sourceBase:'', sourceLocal:'',} });
       else 
-      copyFilmsData[ field ].pop();
+        copyFilmsData[ field ].pop();
   
       setFilmsData(copyFilmsData);
     };
+
     return (
       <div className='btn-grp'>
         <div className='input-name actw-wid' >

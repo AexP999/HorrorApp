@@ -17,6 +17,7 @@ function FilmEdit (props) {
 
         // if array means fields 'director'/'actors' or 'images' 
         if(Array.isArray(obj[parentField])){
+          //'director'/'actors'
           obj[parentField].forEach((element, index)=>{
             if ((typeof element === 'object') && childField in element){
               element[childField]={

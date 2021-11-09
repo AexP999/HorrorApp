@@ -12,7 +12,8 @@ import { cloneDeep} from 'lodash/fp';
 export default function Admin ({ filmToEdit }) {
   
   const [ filmsData, setFilmsData ] = useState(INITFILMSDATA);
-  const [ filesToSend, setFilesToSend ] = useState(new FormData());
+  let filesToSend = new FormData();
+  let filesToDelete = new FormData();
 
   const addPhoto = (field, e, index)=>{
     // adds photo to array 'actors' or 'directors'
@@ -53,18 +54,13 @@ export default function Admin ({ filmToEdit }) {
     setFilmsData(copyFilmsData);
   };
 
-  function dataToSend () {
-    const fd = new FormData();
-    for(let [ name, value ] of filesToSend) {
-      fd.append(name, value);
-    }
-    // removing _id from filmsData
-    const tmpData = JSON.parse(JSON.stringify(filmsData));
-    delete tmpData._id;
-    fd.append('data', JSON.stringify(tmpData));
-    console.log([ ...fd ]);
-    return fd;
-  }
+  // function filesToSend () {
+  //   const fd = new FormData();
+  //   for(let [ name, value ] of filesToSend) {
+  //     fd.append(name, value);
+  //   }
+  //   return fd;
+  // }
 
   const removeField=(obj,fieldToRemove)=>{
     // removes field 'fieldToRemove' from obj
@@ -84,32 +80,59 @@ export default function Admin ({ filmToEdit }) {
     return obj;
   }
   const fieldObjectToString=(obj, parentField, childField)=>{
-    //transforms each field like
-    // photo: { 
-    //   imageName:'', 
+    // transforms field structured like
+    //  { imageName:'', 
     //   sourceBase:'', 
     //   sourceLocal:''}
-    // to photo:'str' where str=imageName
+    // to str=imageName
         
     if(Array.isArray(obj[parentField])){
       obj[parentField].forEach((element, index)=>{
         if (childField in element){
-          element[childField]=element[childField].imageName;
+          // actors director
+          if(element[childField].sourceLocal ==='')
+            element[childField]=element[childField].imageName;
+          else{
+            element[childField]=element[childField].sourceLocal.name;
+            filesToSend.append(parentField,element[childField].sourceLocal);
+            filesToDelete.append(parentField,element[childField].imageName);
+          }
         } else {
-          obj[parentField][index]=element.imageName}
+          // images
+          if(obj[parentField][index].sourceLocal === '')
+            obj[parentField][index]=element.imageName
+          else{
+            obj[parentField][index]=element.sourceLocal.name;
+            filesToSend.append(parentField,element.sourceLocal);
+            filesToDelete.append(parentField,element.imageName);
+          }
+        }
       })
-    } else obj[parentField]=obj[parentField].imageName;
-    return obj;
+    } else 
+        // poster
+        if(obj[parentField].sourceLocal ==='')
+          obj[parentField]=obj[parentField].imageName;
+        else{
+          obj[parentField]=obj[parentField].sourceLocal.name;
+          filesToSend.append(parentField,obj[parentField].sourceLocal)
+          filesToDelete.append(parentField, obj[parentField].imageName)
+        }
   }
+  
   const normaliseFilmsData=(filmInfo)=>{
-    // needs to remove '_id' field & transform 'photo'
+    // needs to remove '_id' field from whole object
     let data = removeField(filmInfo,'_id');
-    data = fieldObjectToString(data, 'poster','photo');
-    data = fieldObjectToString(data, 'images','photo');
-    data = fieldObjectToString(data, 'director','photo');
-    data = fieldObjectToString(data, 'actors','photo');
+    // needs to transform field 'photo'
+    fieldObjectToString(data, 'poster','photo');
+    fieldObjectToString(data, 'images','photo');
+    fieldObjectToString(data, 'director','photo');
+    fieldObjectToString(data, 'actors','photo');
+
+    console.log([...filesToSend]);
+    console.log([...filesToDelete]);
     return data;
   };
+  
   const handleSubmit = async (e) => {
 
     // const sendData = dataToSend();
@@ -123,7 +146,11 @@ export default function Admin ({ filmToEdit }) {
     // } catch(error) {
     //   console.log('Ошибка загрузки заданий', error);
     // }
-    console.log('handleSubmit before', filmsData);
+
+    // cleaning file inputs
+    document.getElementsByName('poster')[0].value='';
+    document.getElementsByName('images')[0].value='';
+
     const result = normaliseFilmsData(filmsData);
     console.log('handleSubmit after', result);
     setFilmsData(INITFILMSDATA);
