@@ -86,6 +86,20 @@ export default function Admin ({ filmToEdit }) {
     //   sourceLocal:''}
     // to str=imageName
 
+    if(parentField === 'images'){
+      const founded = obj[ parentField ].findIndex( element=> element.sourceLocal !== '')
+      // если нет ни одного элемента с непустым sourceLocal ничего не делаем и идем дальше
+      if(founded !== -1){
+        // был добавлен новый элемент, значит надо все предыдущие внести в список удаления
+        const removeArray = obj[parentField].filter(element =>element.sourceLocal === '') 
+        const saveArray = obj[parentField].filter(element =>element.sourceLocal !== '') 
+        removeArray.forEach(element => filesToDelete.append(parentField,element.imageName))
+        saveArray.forEach(element => filesToSend.append(parentField,element.imageName))
+
+        obj[parentField] = saveArray;
+      }
+    }
+
     if(Array.isArray(obj[ parentField ])) {
       obj[ parentField ].forEach((element, index) => {
         if(childField in element) {
@@ -93,19 +107,16 @@ export default function Admin ({ filmToEdit }) {
           if(element[ childField ].sourceLocal === '')
             element[ childField ] = element[ childField ].imageName;
           else {
-            element[ childField ] = element[ childField ].sourceLocal.name;
             filesToSend.append(parentField, element[ childField ].sourceLocal);
-            filesToDelete.append(parentField, element[ childField ].imageName);
+            if(element[ childField ].imageName !== '') filesToDelete.append(parentField, element[ childField ].imageName);
+            element[ childField ] = element[ childField ].sourceLocal.name;
           }
         } else {
           // images
           if(obj[ parentField ][ index ].sourceLocal === '')
-            obj[ parentField ][ index ] = element.imageName;
-          else {
+              obj[ parentField ][ index ] = element.imageName;
+          else 
             obj[ parentField ][ index ] = element.sourceLocal.name;
-            filesToSend.append(parentField, element.sourceLocal);
-            filesToDelete.append(parentField, element.imageName);
-          }
         }
       });
     } else
@@ -113,9 +124,9 @@ export default function Admin ({ filmToEdit }) {
       if(obj[ parentField ].sourceLocal === '')
         obj[ parentField ] = obj[ parentField ].imageName;
       else {
-        obj[ parentField ] = obj[ parentField ].sourceLocal.name;
         filesToSend.append(parentField, obj[ parentField ].sourceLocal);
         filesToDelete.append(parentField, obj[ parentField ].imageName);
+        obj[ parentField ] = obj[ parentField ].sourceLocal.name;
       }
   };
 
