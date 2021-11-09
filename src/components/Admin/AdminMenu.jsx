@@ -9,18 +9,22 @@ import Admin from './Admin';
 
 import Films from '../Films/Films';
 import FilmEdit from '../Films/FilmEdit';
+import './AdminMenu.css';
 
 function AdminMenu () {
   let { url } = useRouteMatch();
   return (
     <div>
       <nav>
-        <ul className="nav-links">
+        <ul className="admin-menu">
           <li>
             <Link to={ `${ url }/create-film` }><h2>insert new film</h2> </Link>
           </li>
           <li>
             <Link to={ `${ url }/edit-films` }><h2>edit/delete films</h2></Link>
+          </li>
+          <li>
+            <Link to={ `${ url }/users` }><h2>display all</h2></Link>
           </li>
         </ul>
       </nav>

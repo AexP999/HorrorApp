@@ -7,7 +7,6 @@ export default function Header ({ userInfo }) {
 
   console.log('USERINFO HEADER', userInfo);
 
-  console.log(userInfo.loggedIn);
   return (
     <header className='header'>
       <div className="logo-container">

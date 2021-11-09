@@ -52,7 +52,7 @@ const App = () => {
             <Registration />
           </Route>
           <Route path="/admin" >
-            { userInfo.loggedIn && (userInfo.role === 'admin') && <AdminMenu /> }
+            { (userInfo.loggedIn === true) && (userInfo.role === 'admin') && <AdminMenu /> }
           </Route >
           <Route path="/films"> <Films show='poster' />
           </Route>
