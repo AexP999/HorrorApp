@@ -73,7 +73,6 @@ const LogIn = ({ userInfo, setUserInfo }) => {
 
   return (
     <>
-
       <Modal
         title="Введите email и пароль"
         isOpen={ isOpenLogWindow }

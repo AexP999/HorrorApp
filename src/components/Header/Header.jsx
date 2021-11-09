@@ -32,14 +32,19 @@ export default function Header ({ userInfo }) {
 
           { (userInfo.loggedIn === true)
             ? <li>
-              <i style={ { marginRight: '4px' } } className="far fa-user"></i>
-              <Link to="/logout">{ userInfo.email || localStorage.getItem('email') } Выйти </Link>
+
+              <Link to="/logout">
+                <i style={ { marginRight: '4px' } } className="far fa-user"></i>
+                { userInfo.email || localStorage.getItem('email') } Выйти
+              </Link>
             </li>
             :
             <>
               <li>
 
-                <Link to="/login"> <i style={ { marginRight: '4px' } } className="far fa-user"></i> Войти</Link>
+                <Link to="/login">
+                  <i style={ { marginRight: '4px' } } className="far fa-user"></i> Войти
+                </Link>
               </li>
               <li>
                 <Link to="/registration">Регистрация</Link>
