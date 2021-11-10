@@ -17,3 +17,8 @@ flex-direction: column;
   font-size: 22px;
   font-weight: 600;
 }
+
+.users-cont button {
+  margin:10px;
+cursor:pointer
+}

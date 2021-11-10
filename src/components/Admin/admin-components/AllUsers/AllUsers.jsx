@@ -25,15 +25,19 @@ export default function AllUsers () {
   }, []);
 
   const onDelete = async (id) => {
-    try {
-      const result = await api.delete(`/auth/users/${ id }`);
-      if(result) {
-        console.log('deleted successful');
-      }
-      getUsers();
-    } catch(err) {
-      console.log(err);
 
+    if(window.confirm('R U sure?')) {
+
+      try {
+        const result = await api.delete(`/auth/users/${ id }`);
+        if(result) {
+          console.log('deleted successful');
+        }
+        getUsers();
+      } catch(err) {
+        console.log(err);
+
+      };
     };
   };
   console.log('usersRENDER', users);
