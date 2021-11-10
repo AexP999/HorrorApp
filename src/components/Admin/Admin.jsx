@@ -111,13 +111,12 @@ export default function Admin ({ filmToEdit }) {
             if(element[ childField ].imageName !== '') filesToDelete.append(parentField, element[ childField ].imageName);
             element[ childField ] = element[ childField ].sourceLocal.name;
           }
-        } else {
+        } else 
           // images
           if(obj[ parentField ][ index ].sourceLocal === '')
               obj[ parentField ][ index ] = element.imageName;
           else 
             obj[ parentField ][ index ] = element.sourceLocal.name;
-        }
       });
     } else
       // poster
@@ -158,11 +157,13 @@ export default function Admin ({ filmToEdit }) {
     //   console.log('Ошибка загрузки заданий', error);
     // }
 
-    // cleaning file inputs
-    document.getElementsByName('poster')[ 0 ].value = '';
-    document.getElementsByName('images')[ 0 ].value = '';
-
     const result = normaliseFilmsData(filmsData);
+    
+    // cleaning file inputs
+    ['poster','images','actors', 'director'].forEach( item =>
+      document.getElementsByName(item)[ 0 ].value = ''
+    )
+
     console.log('handleSubmit after', result);
     setFilmsData(INITFILMSDATA);
   };
