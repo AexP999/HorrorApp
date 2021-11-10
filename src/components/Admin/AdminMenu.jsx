@@ -6,7 +6,7 @@ import {
   useRouteMatch
 } from "react-router-dom";
 import Admin from './Admin';
-
+import AllUsers from './admin-components/AllUsers/AllUsers';
 import Films from '../Films/Films';
 import FilmEdit from '../Films/FilmEdit';
 import './AdminMenu.css';
@@ -24,7 +24,7 @@ function AdminMenu () {
             <Link to={ `${ url }/edit-films` }><h2>edit/delete films</h2></Link>
           </li>
           <li>
-            <Link to={ `${ url }/users` }><h2>display all</h2></Link>
+            <Link to={ `${ url }/users` }><h2>display all users</h2></Link>
           </li>
         </ul>
       </nav>
@@ -38,6 +38,9 @@ function AdminMenu () {
         </Route>
         <Route exact path={ `${ url }/edit-films/:filmID` }>
           <FilmEdit />
+        </Route>
+        <Route exact path={ `${ url }/users` }>
+          <AllUsers />
         </Route>
       </Switch>
     </div>
