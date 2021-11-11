@@ -1,0 +1,24 @@
+.users-cont{
+display: flex;
+/* display: inline-block; */
+flex-direction: column;
+
+}
+
+.users {
+  border:1px whitesmoke solid;
+  margin: 10px;
+  padding: 10px;
+  min-width: 800px;
+}
+.users span{
+  margin-right: 20px;
+  color: whitesmoke;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.users-cont button {
+  margin:10px;
+cursor:pointer
+}
