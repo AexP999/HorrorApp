@@ -20,11 +20,14 @@ function FilmEdit (props) {
           //'director'/'actors'
           obj[parentField].forEach((element, index)=>{
             if ((typeof element === 'object') && childField in element){
+              let pathToPhoto = PATHTO.DIRECTOR_PHOTO;
+              if(parentField === 'actors') pathToPhoto = PATHTO.ACTORS_PHOTO;
               element[childField]={
                 imageName:element[childField], 
-                sourceBase:`${PATHTO.HOST_NAME}/${obj._id}/${PATHTO.ACTORS_PHOTO}/${element[childField]}`, 
+                sourceBase:`${PATHTO.HOST_NAME}/${obj._id}/${pathToPhoto}/${element[childField]}`, 
                 sourceLocal:''
               }
+
             } else {
               // 'images'
               obj[parentField][index]={
