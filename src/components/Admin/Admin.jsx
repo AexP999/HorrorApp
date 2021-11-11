@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, } from 'react';
-// import { PATHTO } from '../../constants/constants';
+import { PATHTO } from '../../constants/constants';
 import { INITFILMSDATA } from '../../constants/constants';
 import './Admin.css';
 import InputField from './admin-components/InputField';
@@ -12,6 +12,7 @@ import { cloneDeep } from 'lodash/fp';
 export default function Admin ({ filmToEdit }) {
 
   const [ filmsData, setFilmsData ] = useState(INITFILMSDATA);
+  const [ isNewFilm, setIsNewFilm ] = useState(false);
   let filesToSend = new FormData();
   let filesToDelete = new FormData();
 
@@ -54,14 +55,6 @@ export default function Admin ({ filmToEdit }) {
     setFilmsData(copyFilmsData);
   };
 
-  // function filesToSend () {
-  //   const fd = new FormData();
-  //   for(let [ name, value ] of filesToSend) {
-  //     fd.append(name, value);
-  //   }
-  //   return fd;
-  // }
-
   const removeField = (obj, fieldToRemove) => {
     // removes field 'fieldToRemove' from obj
     for(let key in obj) {
@@ -94,7 +87,7 @@ export default function Admin ({ filmToEdit }) {
         const removeArray = obj[parentField].filter(element =>element.sourceLocal === '') 
         const saveArray = obj[parentField].filter(element =>element.sourceLocal !== '') 
         removeArray.forEach(element => filesToDelete.append(parentField,element.imageName))
-        saveArray.forEach(element => filesToSend.append(parentField,element.imageName))
+        saveArray.forEach(element => filesToSend.append(parentField,element.sourceLocal))
 
         obj[parentField] = saveArray;
       }
@@ -124,7 +117,7 @@ export default function Admin ({ filmToEdit }) {
         obj[ parentField ] = obj[ parentField ].imageName;
       else {
         filesToSend.append(parentField, obj[ parentField ].sourceLocal);
-        filesToDelete.append(parentField, obj[ parentField ].imageName);
+        if (obj[ parentField ].imageName !== '') filesToDelete.append(parentField, obj[ parentField ].imageName);
         obj[ parentField ] = obj[ parentField ].sourceLocal.name;
       }
   };
@@ -143,28 +136,52 @@ export default function Admin ({ filmToEdit }) {
     return data;
   };
 
-  const handleSubmit = async (e) => {
-
+  const createFilm = async (film)=>{
+    // console.log('createFilm', film);
+    // console.log([...filesToSend]);
+    // console.log([...filesToDelete]);
     // const sendData = dataToSend();
-    // try {
-    //   const response = await fetch(`${ PATHTO.HOST_NAME }/films`, {
-    //     method: 'POST',
-    //     body: sendData,
-    //   });
-    //   const result = await response.json();
-    //   console.log(result);
-    // } catch(error) {
-    //   console.log('Ошибка загрузки заданий', error);
-    // }
+    // function filesToSend () {
+  //   const fd = new FormData();
+  //   for(let [ name, value ] of filesToSend) {
+  //     fd.append(name, value);
+  //   }
+  //   return fd;
+  // }
 
-    const result = normaliseFilmsData(filmsData);
+  const sendData = new FormData();
+    for(let [ name, value ] of filesToSend) 
+      sendData.append(name, value);
+      // for(let [ name, value ] of filesToDelete) 
+      //   sendData.append(name, value);
+      sendData.append('data', JSON.stringify(film));
+
+      console.log('createFilm', [...sendData]);
+
+    try {
+      const response = await fetch(`${ PATHTO.HOST_NAME }/films`, {
+        method: 'POST',
+        body: sendData,
+      });
+      const result = await response.json();
+      console.log(result);
+    } catch(error) {
+      console.log('Ошибка загрузки заданий', error);
+    }
+  }
+  const editFilm = async (film)=>{
+    
+  }
+  const handleSubmit = () => {
+    const normalisedFilm = normaliseFilmsData(filmsData);
     
     // cleaning file inputs
     ['poster','images','actors', 'director'].forEach( item =>
       document.getElementsByName(item)[ 0 ].value = ''
-    )
+    );
+    console.log('isNewFilm', isNewFilm);
+      isNewFilm ? createFilm(normalisedFilm) : editFilm(normalisedFilm);
 
-    console.log('handleSubmit after', result);
     setFilmsData(INITFILMSDATA);
   };
 
@@ -185,13 +202,17 @@ export default function Admin ({ filmToEdit }) {
 
   useEffect(() => {
     // console.log('Admin', filmToEdit);
-    if(filmToEdit !== undefined) {
+    if(filmToEdit !== undefined){
+      setIsNewFilm(false);
       setFilmsData(filmToEdit);
+    } 
+    else { 
+      setIsNewFilm(true);
+      setFilmsData(INITFILMSDATA);
     }
-    else setFilmsData(INITFILMSDATA);
   }, [ filmToEdit ]);
 
-  console.log('useEffect', filmsData);
+  // console.log('useEffect', filmsData);
   return (
     <div>
       <div>

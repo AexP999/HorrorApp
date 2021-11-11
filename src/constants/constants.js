@@ -37,6 +37,7 @@ actors: [ {
 // poster: '',
 poster: {imageName:'', sourceBase:'', sourceLocal:''},
 trailer: 'trailer',
+// trailer: 'https://www.youtube.com/embed/-KqzMaOBxzM',
 };
 
 
