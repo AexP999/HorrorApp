@@ -1,0 +1,17 @@
+.field-container {
+  display: flex;
+  justify-content: left;
+  flex-wrap: wrap;
+  width: 70%;
+}
+.field-title{
+  width: 120px;
+}
+
+.field-list{
+  margin-left: 5%;
+  width: 50%
+}
+.delete-button{
+  background-color: red;
+}

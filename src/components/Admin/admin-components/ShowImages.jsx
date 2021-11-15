@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid'
 import '../Admin.css';
 import Preview from './Preview';
 
@@ -28,7 +29,7 @@ function ShowImages({imageFiles}) {
             <div style={ { display: 'flex', alignItems: 'center'} }  >
                 {previewData && previewData.map(item => (
                     <div>
-                        <Preview preview={item.image}/>
+                        <Preview key={uuidv4()} preview={item.image}/>
                         <p>{!(item.image ==='') && (item.source)}</p>
                     </div>
                 ))

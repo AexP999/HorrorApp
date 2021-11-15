@@ -10,6 +10,7 @@ import Admin from './Admin';
 import Films from '../Films/Films';
 import FilmEdit from '../Films/FilmEdit';
 import './AdminMenu.css';
+import FilmDelete from '../Films/FilmDelete';
 
 function AdminMenu () {
   let { url } = useRouteMatch();
@@ -39,6 +40,10 @@ function AdminMenu () {
         <Route exact path={ `${ url }/edit-films/:filmID` }>
           <FilmEdit />
         </Route>
+        <Route exact path={ `${ url }/delete-films/:filmID` }>
+          <FilmDelete />
+        </Route>
+       
       </Switch>
     </div>
   );
