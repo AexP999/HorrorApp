@@ -34,22 +34,17 @@ const Slider = ({
       }
     }, 3000);
     return () => {
-      if(interval) {
-        clearInterval(interval);
-      }
+      if(interval) { clearInterval(interval); }
     };
   });
-
 
   return (
     <div className="slider-cont"  >
       <i className='leftbtn fas fa-chevron-left' onClick={ () => updateIndex(activeIndex - 1) }></i>
-
       <div className='carousel' id="width1"
         onMouseEnter={ () => setDoAutoSlidePaused(true) }
         onMouseLeave={ () => setDoAutoSlidePaused(false) }
       >
-
         <div className="inner" style={ { transform: `translateX(-${ activeIndex * 100 / imgOnScreen * imgToSlide }%)` } }
         >
           { React.Children.map(children, (child, i) => {

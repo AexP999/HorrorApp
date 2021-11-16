@@ -1,0 +1,38 @@
+.search-cont{
+ margin: 100px 200px 50px;
+  
+}
+.search-cont h1{
+  margin: 20px 0; 
+}
+.search-cont input{
+  width:300px;
+  height:30px;
+  border-radius: 5px;
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.search-results{
+  font-size: 23px;
+}
+.search-results div{
+  font-size: 23px;
+}
+.cont-film{
+  display: inline-block;
+  border-radius: 5px;
+  border: crimson solid 1px;padding: 10px;
+  margin: 10px;
+
+}
+.cont-film span {
+
+  font-size: 18px;
+  color: antiquewhite;
+  margin-left: 10px;
+}
+
+.act-dir{
+  font-size: 18px !important
+}

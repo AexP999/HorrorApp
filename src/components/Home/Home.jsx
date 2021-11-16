@@ -11,7 +11,6 @@ const postersArr = [];
 export default memo(function Home ({ films }) {
 
   const [ windowSize, setWindowSize ] = useState({ width: 0, height: 0 });
-  // const { films } = useContext(FilmContext);
 
   console.log("HOME", films);
   let numberOfImageOnScreen = 6;
