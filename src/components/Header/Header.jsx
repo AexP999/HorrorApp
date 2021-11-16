@@ -1,4 +1,4 @@
-import React from 'react';
+
 import './Header.css';
 import { Link } from "react-router-dom";
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
@@ -26,8 +26,7 @@ export default function Header ({ userInfo }) {
             </Link>
           </li>
           <li>
-            <Link to="/films">Фильмы
-            </Link>
+            <Link to="/films">Фильмы</Link>
           </li>
 
           { (userInfo.loggedIn === true)
@@ -41,7 +40,6 @@ export default function Header ({ userInfo }) {
             :
             <>
               <li>
-
                 <Link to="/login">
                   <i style={ { marginRight: '4px' } } className="far fa-user"></i> Войти
                 </Link>

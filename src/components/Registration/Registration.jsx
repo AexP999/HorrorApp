@@ -78,7 +78,7 @@ const Registration = () => {
             />
             <h4>Password</h4>
             <input
-              type="text"
+              type="password"
               value={ userData.password }
               name='password'
               placeholder='enter password'

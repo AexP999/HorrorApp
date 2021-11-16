@@ -9,6 +9,7 @@ import AdminMenu from './components/Admin/AdminMenu';
 import Header from '../src/components/Header/Header';
 import FilmsCard from './components/FilmsCard/FilmsCard';
 import Films from './components/Films/Films';
+import Search from './components/Search/Search';
 import { useHttpHook } from './components/Hooks/api.hook';
 
 const App = () => {
@@ -54,6 +55,9 @@ const App = () => {
           <Route path="/admin" >
             { userInfo.loggedIn && (userInfo.role === 'admin') && <AdminMenu /> }
           </Route >
+          <Route path="/search">
+            <Search films={ films } />
+          </Route>
           <Route path="/films"> <Films show='poster' />
           </Route>
           <Route path="/filmscard/:id">
