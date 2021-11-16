@@ -26,4 +26,4 @@ function Preview({preview}) {
     );
 }
 
-export default Preview;
+export default React.memo(Preview);

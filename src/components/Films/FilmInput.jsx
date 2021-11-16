@@ -2,14 +2,14 @@
 import React, { useEffect, useState, } from 'react';
 import { PATHTO } from '../../constants/constants';
 import { INITFILMSDATA } from '../../constants/constants';
-import './Admin.css';
-import InputField from './admin-components/InputField';
-import InputFileField from './admin-components/InputFileField';
-import ShowImages from './admin-components/ShowImages';
-import InputActorsData from './admin-components/InputActorsData';
+import './FilmInput.css';
+import InputField from './film-input-components/InputField';
+import InputFileField from './film-input-components/InputFileField';
+import ShowImages from './film-input-components/ShowImages';
+import InputActorsData from './film-input-components/InputActorsData';
 import { cloneDeep } from 'lodash/fp';
 
-export default function Admin ({ filmToEdit}) {
+export default function FilmInput ({ filmToEdit}) {
 
   const [ filmsData, setFilmsData ] = useState(INITFILMSDATA);
   const [ isNewFilm, setIsNewFilm ] = useState(false);

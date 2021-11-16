@@ -5,7 +5,7 @@ import {
   Link,
   useRouteMatch
 } from "react-router-dom";
-import Admin from './Admin';
+import FilmInput from '../Films/FilmInput';
 
 import Films from '../Films/Films';
 import FilmEdit from '../Films/FilmEdit';
@@ -32,7 +32,7 @@ function AdminMenu () {
 
       <Switch>
         <Route exact path={ `${ url }/create-film` }>
-          <Admin />
+          <FilmInput />
         </Route>
         <Route exact path={ `${ url }/edit-films` }>
           <Films show='list' />
