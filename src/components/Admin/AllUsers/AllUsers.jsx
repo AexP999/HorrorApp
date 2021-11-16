@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHttpHook } from '../../../Hooks/api.hook';
+import { useHttpHook } from '../../Hooks/api.hook';
 import './AllUsers.css';
 
 export default function AllUsers () {

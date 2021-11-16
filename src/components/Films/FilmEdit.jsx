@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Admin from '../Admin/Admin';
+import FilmInput from './FilmInput';
 import { useParams } from 'react-router-dom';
 import { PATHTO } from '../../constants/constants';
 
@@ -64,7 +64,7 @@ function FilmEdit (props) {
         
     return (
         <div>
-            <Admin filmToEdit={ filmById } />
+            <FilmInput filmToEdit={ filmById } />
         </div>
     );
 }

@@ -2,14 +2,14 @@
 import React, { useEffect, useState, } from 'react';
 import { PATHTO } from '../../constants/constants';
 import { INITFILMSDATA } from '../../constants/constants';
-import './Admin.css';
-import InputField from './admin-components/InputField';
-import InputFileField from './admin-components/InputFileField';
-import ShowImages from './admin-components/ShowImages';
-import InputActorsData from './admin-components/InputActorsData';
+import './FilmInput.css';
+import InputField from './film-input-components/InputField';
+import InputFileField from './film-input-components/InputFileField';
+import ShowImages from './film-input-components/ShowImages';
+import InputActorsData from './film-input-components/InputActorsData';
 import { cloneDeep } from 'lodash/fp';
 
-export default function Admin ({ filmToEdit }) {
+export default function FilmInput ({ filmToEdit}) {
 
   const [ filmsData, setFilmsData ] = useState(INITFILMSDATA);
   const [ isNewFilm, setIsNewFilm ] = useState(false);
@@ -137,25 +137,10 @@ export default function Admin ({ filmToEdit }) {
   };
 
   const createFilm = async (film)=>{
-    // console.log('createFilm', film);
-    // console.log([...filesToSend]);
-    // console.log([...filesToDelete]);
-    // const sendData = dataToSend();
-    // function filesToSend () {
-  //   const fd = new FormData();
-  //   for(let [ name, value ] of filesToSend) {
-  //     fd.append(name, value);
-  //   }
-  //   return fd;
-  // }
-
-  const sendData = new FormData();
-    for(let [ name, value ] of filesToSend) 
-      sendData.append(name, value);
-      // for(let [ name, value ] of filesToDelete) 
-      //   sendData.append(name, value);
+    const sendData = new FormData();
+      for(let [ name, value ] of filesToSend) 
+        sendData.append(name, value);
       sendData.append('data', JSON.stringify(film));
-
       console.log('createFilm', [...sendData]);
 
     try {
@@ -169,10 +154,31 @@ export default function Admin ({ filmToEdit }) {
       console.log('Ошибка загрузки заданий', error);
     }
   }
+
   const editFilm = async (film)=>{
-    
+    const sendData = new FormData();
+      for(let [ name, value ] of filesToSend) 
+        sendData.append(name, value);
+      for(let [ name, value ] of filesToDelete)
+        sendData.append('delete_'+name, value);
+      sendData.append('data', JSON.stringify(film));
+
+      console.log('EditFilm', [...sendData]);
+
+      try {
+        const response = await fetch(`${ PATHTO.HOST_NAME }/films/${ film._id }`, {
+          method: 'POST',
+          body: sendData,
+        });
+        const result = await response.json();
+        console.log(result);
+      } catch(error) {
+        console.log('Ошибка загрузки редактированного фильма', error);
+      }
   }
+
   const handleSubmit = () => {
+    const filmID = filmsData._id;
     const normalisedFilm = normaliseFilmsData(filmsData);
     
     // cleaning file inputs
@@ -180,9 +186,14 @@ export default function Admin ({ filmToEdit }) {
       document.getElementsByName(item)[ 0 ].value = ''
     );
     console.log('isNewFilm', isNewFilm);
-      isNewFilm ? createFilm(normalisedFilm) : editFilm(normalisedFilm);
-
-    setFilmsData(INITFILMSDATA);
+      if(isNewFilm){ 
+        createFilm(normalisedFilm)
+        setFilmsData(INITFILMSDATA);
+      }
+      else{
+        normalisedFilm._id=filmID;
+        editFilm(normalisedFilm);
+      }
   };
 
   const updateFilmData = (field, e, index) => {
@@ -201,7 +212,7 @@ export default function Admin ({ filmToEdit }) {
   };
 
   useEffect(() => {
-    // console.log('Admin', filmToEdit);
+    console.log('Admin', filmToEdit);
     if(filmToEdit !== undefined){
       setIsNewFilm(false);
       setFilmsData(filmToEdit);

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import '../Admin.css';
+import '../../Films/FilmInput.css';
 
 function inputToUpperCase(str) {
     return str[0].toUpperCase() + str.slice(1);

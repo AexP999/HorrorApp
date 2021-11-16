@@ -5,11 +5,13 @@ import {
   Link,
   useRouteMatch
 } from "react-router-dom";
-import Admin from './Admin';
-import AllUsers from './admin-components/AllUsers/AllUsers';
+import AllUsers from './AllUsers/AllUsers';
+import FilmInput from '../Films/FilmInput';
+
 import Films from '../Films/Films';
 import FilmEdit from '../Films/FilmEdit';
 import './AdminMenu.css';
+import FilmDelete from '../Films/FilmDelete';
 
 function AdminMenu () {
   let { url } = useRouteMatch();
@@ -31,7 +33,7 @@ function AdminMenu () {
 
       <Switch>
         <Route exact path={ `${ url }/create-film` }>
-          <Admin />
+          <FilmInput />
         </Route>
         <Route exact path={ `${ url }/edit-films` }>
           <Films show='list' />
@@ -42,6 +44,10 @@ function AdminMenu () {
         <Route exact path={ `${ url }/users` }>
           <AllUsers />
         </Route>
+        <Route exact path={ `${ url }/delete-films/:filmID` }>
+          <FilmDelete />
+        </Route>
+       
       </Switch>
     </div>
   );
