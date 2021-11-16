@@ -6,7 +6,7 @@ import './FilmDelete.css'
 
 function FilmDelete(props) {
     const { filmID } = useParams();
-    const his=useHistory();
+    const hist=useHistory();
     const url = `${ PATHTO.HOST_NAME }/films/${ filmID }`;
     const [ filmById, setFilmById ] = useState(undefined);
 
@@ -20,8 +20,14 @@ function FilmDelete(props) {
         filmFetch();
     }, []);
 
-    const onDeleteFilm = () => {
-        his.goBack();
+    const onDeleteFilm = async () => {
+        const response = await fetch(url,{method:'DELETE'});
+        const film = await response.json();
+        if(film)
+            console.log('deleted film', film);
+        else 
+            console.log(`film ${filmById.name} wasn't deleted`, );
+        hist.goBack();
     }
 
     return (
