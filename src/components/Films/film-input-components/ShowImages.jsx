@@ -2,39 +2,39 @@ import React, { useState, useEffect } from 'react';
 import '../../Films/FilmInput.css';
 import Preview from './Preview';
 
-function ShowImages({imageFiles}) {
-    
-    const [previewData, setPreviewData] = useState([]);
-  
-    useEffect(()=>{
-        
-        let filesArray=[]
-        let tmparr=[];
-        
-        if(!Array.isArray(imageFiles)) tmparr[0] = imageFiles;
+function ShowImages ({ imageFiles }) {
+
+    const [ previewData, setPreviewData ] = useState([]);
+
+    useEffect(() => {
+
+        let filesArray = [];
+        let tmparr = [];
+
+        if(!Array.isArray(imageFiles)) tmparr[ 0 ] = imageFiles;
         else tmparr = imageFiles;
 
-        tmparr.forEach(item=>{
+        tmparr.forEach(item => {
             if(item.sourceLocal)
-                filesArray.push({image:item.sourceLocal, source:'local'})
+                filesArray.push({ image: item.sourceLocal, source: 'local' });
             else
-                filesArray.push({image:item.sourceBase, source:'server'})
-        })
-    
+                filesArray.push({ image: item.sourceBase, source: 'server' });
+        });
+
         setPreviewData(filesArray);
-    },[imageFiles]);
+    }, [ imageFiles ]);
 
     return (
-            <div style={ { display: 'flex', alignItems: 'center'} }  >
-                {previewData && previewData.map((item,index) => (
-                    <div>
-                        <Preview key={item.source+index} preview={item.image}/>
-                        <p>{!(item.image ==='') && (item.source)}</p>
-                    </div>
-                ))
-                }
-            </div>
-        );
+        <div style={ { display: 'flex', alignItems: 'center' } }  >
+            { previewData && previewData.map((item, index) => (
+                <div key={ item.source + index }>
+                    <Preview preview={ item.image } />
+                    <p>{ !(item.image === '') && (item.source) }</p>
+                </div>
+            ))
+            }
+        </div>
+    );
 
 }
 export default React.memo(ShowImages);
