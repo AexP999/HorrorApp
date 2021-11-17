@@ -27,8 +27,8 @@ function ShowImages({imageFiles}) {
     return (
             <div style={ { display: 'flex', alignItems: 'center'} }  >
                 {previewData && previewData.map((item,index) => (
-                    <div>
-                        <Preview key={item.source+index} preview={item.image}/>
+                    <div key={item.source+index}>
+                        <Preview preview={item.image}/>
                         <p>{!(item.image ==='') && (item.source)}</p>
                     </div>
                 ))
