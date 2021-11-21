@@ -130,9 +130,6 @@ export default function FilmInput ({ filmToEdit}) {
     fieldObjectToString(data, 'images', 'photo');
     fieldObjectToString(data, 'director', 'photo');
     fieldObjectToString(data, 'actors', 'photo');
-
-    console.log([ ...filesToSend ]);
-    console.log([ ...filesToDelete ]);
     return data;
   };
 
@@ -141,7 +138,6 @@ export default function FilmInput ({ filmToEdit}) {
       for(let [ name, value ] of filesToSend) 
         sendData.append(name, value);
       sendData.append('data', JSON.stringify(film));
-      console.log('createFilm', [...sendData]);
 
     try {
       const response = await fetch(`${ PATHTO.HOST_NAME }/films`, {
@@ -159,8 +155,10 @@ export default function FilmInput ({ filmToEdit}) {
     const sendData = new FormData();
       for(let [ name, value ] of filesToSend) 
         sendData.append(name, value);
-      for(let [ name, value ] of filesToDelete)
-        sendData.append('delete_'+name, value);
+      for(let [ name, value ] of filesToDelete){
+        const deleteName = name[0].toUpperCase() + name.slice(1)
+        sendData.append('delete'+deleteName, value);
+      }
       sendData.append('data', JSON.stringify(film));
 
       console.log('EditFilm', [...sendData]);
@@ -212,7 +210,6 @@ export default function FilmInput ({ filmToEdit}) {
   };
 
   useEffect(() => {
-    console.log('Admin', filmToEdit);
     if(filmToEdit !== undefined){
       setIsNewFilm(false);
       setFilmsData(filmToEdit);
@@ -223,7 +220,6 @@ export default function FilmInput ({ filmToEdit}) {
     }
   }, [ filmToEdit ]);
 
-  // console.log('useEffect', filmsData);
   return (
     <div>
       <div>
