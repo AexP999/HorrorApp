@@ -30,8 +30,7 @@ export default function Header ({ userInfo }) {
           </li>
 
           { (userInfo.loggedIn === true)
-            ? <li>
-
+            ? <li >
               <Link to="/logout">
                 <i style={ { marginRight: '4px' } } className="far fa-user"></i>
                 { userInfo.email || localStorage.getItem('email') } Выйти

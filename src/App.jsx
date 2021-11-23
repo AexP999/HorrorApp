@@ -11,13 +11,23 @@ import FilmsCard from './components/FilmsCard/FilmsCard';
 import Films from './components/Films/Films';
 import Search from './components/Search/Search';
 import { useHttpHook } from './components/Hooks/api.hook';
+import { useUserDataHook } from './components/Hooks/getUserData.hook';
 
 const App = () => {
 
   const [ films, setFilms ] = useState([]);
-  const [ userInfo, setUserInfo ] = useState({ userId: '', email: localStorage.getItem('email') || '', role: localStorage.getItem('role') || '', loggedIn: localStorage.getItem('token') ? true : false, accessToken: '' });
+  const [ userInfo, setUserInfo ] = useState({
+    userId: '',
+    email: '',
+    role: '',
+    loggedIn: localStorage.getItem('token')
+      ? true
+      : false,
+    accessToken: localStorage.getItem('token')
+  });
 
   const { api } = useHttpHook();
+  const { getUserDataFromDb } = useUserDataHook();
 
   const fetchData = async () => {
     try {
@@ -30,6 +40,15 @@ const App = () => {
 
   useEffect(() => {
     fetchData();
+    if(localStorage.getItem('token')) {
+      getUserDataFromDb()
+        .then(res => {
+          const { userId, email, role } = res;
+          setUserInfo({ userId, email, role, loggedIn: true });
+        });
+    };
+
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

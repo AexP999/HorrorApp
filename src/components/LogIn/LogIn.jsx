@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import Modal from '../Modal';
 import { useHttpHook } from '../Hooks/api.hook';
+import { useParseJwtHook } from '../Hooks/parse.hook';
 
 import './LogIn.css';
 
 const LogIn = ({ userInfo, setUserInfo }) => {
 
   const { api, apiError, clearApiErrors } = useHttpHook();
+  const { parseJwt } = useParseJwtHook();
 
   console.log("LOGIN", userInfo);
 
@@ -14,19 +16,10 @@ const LogIn = ({ userInfo, setUserInfo }) => {
 
   const initData = { email: '', password: '' };
 
-
   const [ isOpenLogWindow, setIsOpenLogWindow ] = useState(true);
   // eslint-disable-next-line no-unused-vars
   const [ isOpenErrWindow, setIsOpenErrWindow ] = useState(false);
   const [ userData, setUserData ] = useState(initData);
-
-  const parseJwt = (token) => {
-    try {
-      return JSON.parse(atob(token.split('.')[ 1 ]));
-    } catch(e) {
-      return null;
-    }
-  };
 
   const handleSubmit = async () => {
 
@@ -39,11 +32,7 @@ const LogIn = ({ userInfo, setUserInfo }) => {
       const { userId, email, role } = parseJwt(result.data);
       setUserInfo({ userId, email, role, loggedIn: true });
       localStorage.setItem('token', result.data);
-      localStorage.setItem('email', email);
-      localStorage.setItem('role', role);
-
     }
-
   };
   console.log(userInfo);
 

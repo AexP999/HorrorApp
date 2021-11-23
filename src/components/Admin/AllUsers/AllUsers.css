@@ -19,6 +19,14 @@ flex-direction: column;
 }
 
 .users-cont button {
-  margin:10px;
-cursor:pointer
+  margin-right: 20px;
+  padding:5px;
+  cursor:pointer
+}
+.change-role-form button {
+margin-left: 10px;
+}
+.user-form-cont{
+  display: flex;
+  align-items: center;
 }
