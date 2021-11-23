@@ -24,7 +24,7 @@ const LogIn = ({ userInfo, setUserInfo }) => {
   const handleSubmit = async () => {
 
     const result = await api.post('/auth/login', { ...userData });
-    console.log('accessToken', result);
+
     console.log('userInfo', userInfo.loggedIn);
     if(result) {
       setIsOpenLogWindow(false);

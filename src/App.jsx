@@ -52,8 +52,6 @@ const App = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log('APP RENDER', films);
-  console.log('loggedIn APP', userInfo.loggedIn);
   return (
     <main className='App'>
       <Router>
@@ -62,28 +60,42 @@ const App = () => {
           <Route path="/" exact>
             <Home films={ films } />
           </Route>
+
           <Route path="/login" exact>
-            { !userInfo.loggedIn && <LogIn userInfo={ userInfo } setUserInfo={ setUserInfo } /> }
+            { !userInfo.loggedIn
+              && <LogIn userInfo={ userInfo } setUserInfo={ setUserInfo } /> }
           </Route>
+
           <Route path="/logout">
-            { userInfo.loggedIn && <LogOut userInfo={ userInfo } setUserInfo={ setUserInfo } /> }
+            { userInfo.loggedIn
+              && <LogOut userInfo={ userInfo } setUserInfo={ setUserInfo } /> }
           </Route>
+
           <Route path="/registration" >
             <Registration />
           </Route>
+
           <Route path="/admin" >
-            { userInfo.loggedIn && (userInfo.role === 'admin') && <AdminMenu /> }
+            { userInfo.loggedIn
+              && (userInfo.role === 'admin'
+                || userInfo.role === 'moderator')
+              && <AdminMenu userInfo={ userInfo } /> }
           </Route >
+
           <Route path="/search">
             <Search films={ films } />
           </Route>
-          <Route path="/films"> <Films show='poster' />
+
+          <Route path="/films">
+            <Films show='poster' />
           </Route>
+
           <Route path="/filmscard/:id">
             <FilmsCard />
           </Route>
-          <Route><h2>
-            404 Page not found</h2>
+
+          <Route>
+            <h2>404 Page not found</h2>
           </Route>
         </Switch>
       </Router>

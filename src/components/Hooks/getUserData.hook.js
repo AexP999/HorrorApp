@@ -12,7 +12,7 @@ export const useUserDataHook = () => {
 
     try {
       const result = await api.get(`/auth/users/${ id }`);
-      console.log('RESULT', result.data)
+      
       if(!result) {
           console.log('wrong token');
       }

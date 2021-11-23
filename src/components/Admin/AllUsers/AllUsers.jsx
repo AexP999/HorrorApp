@@ -40,8 +40,6 @@ export default function AllUsers () {
 
   const handleSendRole = async (id, role, e) => {
     e.preventDefault();
-    console.log('READY TO SEND', id, role);
-
     try {
       const result = await api.put(`/auth/users/${ id }`, { role });
       if(result) {

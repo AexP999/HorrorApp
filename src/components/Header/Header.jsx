@@ -5,8 +5,6 @@ import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
 
 export default function Header ({ userInfo }) {
 
-  console.log('USERINFO HEADER', userInfo);
-
   return (
     <header className='header'>
       <div className="logo-container">
@@ -20,11 +18,13 @@ export default function Header ({ userInfo }) {
               <i className="fa fa-bars"></i>
             </Link>
           </li>
+
           <li>
             <Link to="/search">
               <i className="fa fa-search"></i>
             </Link>
           </li>
+
           <li>
             <Link to="/films">Фильмы</Link>
           </li>
@@ -33,11 +33,10 @@ export default function Header ({ userInfo }) {
             ? <li >
               <Link to="/logout">
                 <i style={ { marginRight: '4px' } } className="far fa-user"></i>
-                { userInfo.email || localStorage.getItem('email') } Выйти
+                { userInfo.email } Выйти
               </Link>
             </li>
-            :
-            <>
+            : <>
               <li>
                 <Link to="/login">
                   <i style={ { marginRight: '4px' } } className="far fa-user"></i> Войти
@@ -48,7 +47,9 @@ export default function Header ({ userInfo }) {
               </li>
             </> }
 
-          { (userInfo.role === 'admin' || localStorage.getItem('role')) && (userInfo.loggedIn === true)
+          { userInfo.loggedIn
+            && (userInfo.role === 'admin'
+              || userInfo.role === 'moderator')
             ? <>
               <li>
                 <Link to="/admin">Админ</Link>
