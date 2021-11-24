@@ -39,37 +39,24 @@ function AdminMenu ({ userInfo }) {
       <Switch>
 
         <Route exact path={ `${ url }/create-film` }>
-          { userInfo.loggedIn
-            && (userInfo.role === 'admin'
-              || userInfo.role === 'moderator')
-            && <FilmInput /> }
+          <FilmInput />
         </Route>
 
         <Route exact path={ `${ url }/edit-films` }>
-          { userInfo.loggedIn
-            && (userInfo.role === 'admin'
-              || userInfo.role === 'moderator')
-            && <Films show='list' /> }
+          <Films show='list' />
         </Route>
 
         <Route exact path={ `${ url }/edit-films/:filmID` }>
-          { userInfo.loggedIn
-            && (userInfo.role === 'admin'
-              || userInfo.role === 'moderator')
-            && <FilmEdit /> }
+          <FilmEdit />
         </Route>
 
         <Route exact path={ `${ url }/users` }>
-          { userInfo.loggedIn
-            && (userInfo.role === 'admin')
+          { (userInfo.role === 'admin')
             && <AllUsers /> }
         </Route>
 
         <Route exact path={ `${ url }/delete-films/:filmID` }>
-          { userInfo.loggedIn
-            && (userInfo.role === 'admin'
-              || userInfo.role === 'moderator')
-            && <FilmDelete /> }
+          <FilmDelete />
         </Route>
 
       </Switch>

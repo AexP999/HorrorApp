@@ -30,3 +30,6 @@ margin-left: 10px;
   display: flex;
   align-items: center;
 }
+.change-role-form{
+  border:solid 1px whitesmoke
+}
