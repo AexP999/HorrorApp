@@ -4,24 +4,22 @@ import './AllUsers.css';
 
 export default function AllUsers () {
   const [ users, setUsers ] = useState([]);
+  const [ userDataSearch, setUserDataSearch ] = useState('');
   const { api } = useHttpHook();
 
-  const getUsers = async () => {
+  const getUsersBySearchRqst = async () => {
     try {
-      const result = await api.get('/auth/users');
-      setUsers(result.data);
+      const result = await api.post(`/users/search`, { email: userDataSearch });
+      console.log('RESULT', result.data);
       if(!result) {
-        console.log('Something went wrong');
+        throw new Error(result.message || 'Где-то ошибка');
       }
+      setUsers(result.data);
+
     } catch(err) {
       console.log(err);
-    }
+    };
   };
-
-  useEffect(() => {
-    getUsers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const onDelete = async (id) => {
 
@@ -45,7 +43,7 @@ export default function AllUsers () {
       if(result) {
         console.log('updated successful');
       }
-      getUsers();
+      getUsersBySearchRqst();
     } catch(err) {
       console.log(err);
     };
@@ -57,10 +55,35 @@ export default function AllUsers () {
     setUsers([ ...users ]);
   };
 
+
+  const userSearchUpdate = (e) => {
+    e.preventDefault();
+    setUserDataSearch(e.target.value);
+  };
+
+  useEffect(() => {
+    getUsersBySearchRqst();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ userDataSearch ]);
+
+
   console.log('usersRENDER', users);
+  console.log('userSearch', userDataSearch);
 
   return (
     <div className='users-cont'>
+      <div>
+        <span>Find User by email </span>
+        <input
+          type="text"
+          name="usersearch"
+          value={ userDataSearch }
+          onChange={ userSearchUpdate }
+        />
+        <i className="fa fa-search"></i>
+
+      </div>
       { users.map((elem, index) => {
         return (
           <div key={ elem.id + index } className='user-form-cont' >
