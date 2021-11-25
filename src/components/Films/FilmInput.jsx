@@ -32,6 +32,7 @@ export default function FilmInput ({ filmToEdit}) {
     // adds field photo to 'images' and 'poster'
     let { target: { files } } = e;
     let copyFilmsData = cloneDeep(filmsData);
+    console.log('addImageFiles', copyFilmsData);
 
     // files == undefined means to clear file's input 
     if(files !== undefined) files = Array.from(files);
@@ -145,7 +146,15 @@ export default function FilmInput ({ filmToEdit}) {
         body: sendData,
       });
       const result = await response.json();
-      console.log(result);
+      if(result.hasOwnProperty("customCode")){
+        // пришла ошибка
+        window.alert(result.message)
+        return false;
+      } else{
+        window.alert("film saved successfully")
+        console.log(result);
+        return true;
+      }
     } catch(error) {
       console.log('Ошибка загрузки заданий', error);
     }
@@ -169,29 +178,42 @@ export default function FilmInput ({ filmToEdit}) {
           body: sendData,
         });
         const result = await response.json();
-        console.log(result);
+        if(result.hasOwnProperty("customCode")){
+          // пришла ошибка
+          window.alert(result.message)
+          return false;
+        } else{
+          window.alert("film saved successfully")
+          console.log(result);
+          return true;
+        }
       } catch(error) {
         console.log('Ошибка загрузки редактированного фильма', error);
       }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const filmID = filmsData._id;
-    const normalisedFilm = normaliseFilmsData(filmsData);
+    let copyFilmsData = cloneDeep(filmsData);
+    const normalisedFilm = normaliseFilmsData(copyFilmsData);
+    let isFilmCreated=true;
     
-    // cleaning file inputs
-    ['poster','images','actors', 'director'].forEach( item =>
-      document.getElementsByName(item)[ 0 ].value = ''
-    );
-    console.log('isNewFilm', isNewFilm);
-      if(isNewFilm){ 
-        createFilm(normalisedFilm)
+    if(isNewFilm){ 
+      isFilmCreated = await createFilm(normalisedFilm).then(response=>response);
+      if (isFilmCreated)
         setFilmsData(INITFILMSDATA);
+      else isFilmCreated=false;
       }
       else{
         normalisedFilm._id=filmID;
-        editFilm(normalisedFilm);
+        isFilmCreated = await editFilm(normalisedFilm).then(response=>response);
+        
       }
+      // cleaning file inputs
+      if(isFilmCreated)
+        ['poster','images','actors', 'director'].forEach( item =>
+          document.getElementsByName(item)[ 0 ].value = ''
+        );
   };
 
   const updateFilmData = (field, e, index) => {
@@ -216,10 +238,10 @@ export default function FilmInput ({ filmToEdit}) {
     } 
     else { 
       setIsNewFilm(true);
-      setFilmsData(INITFILMSDATA);
     }
   }, [ filmToEdit ]);
 
+  // console.log('render',filmsData);
   return (
     <div>
       <div>
