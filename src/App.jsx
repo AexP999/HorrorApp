@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import './App.css';
 import Home from './components/Home/Home.jsx';
-import LogIn from './components/LogIn/LogIn';
+import LogIn from './components/Login/LogIn';
 import LogOut from './components/LogOut/LogOut';
 import Registration from './components/Registration/Registration';
 import AdminMenu from './components/Admin/AdminMenu';

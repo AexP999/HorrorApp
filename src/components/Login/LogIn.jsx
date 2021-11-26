@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Modal from '../Modal';
 import { useHttpHook } from '../Hooks/api.hook';
 
-import './LogIn.css';
+import './Login.css';
 
 const LogIn = ({ userInfo, setUserInfo }) => {
 

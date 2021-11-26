@@ -195,7 +195,9 @@ export default function FilmInput ({ filmToEdit}) {
   const handleSubmit = async () => {
     const filmID = filmsData._id;
     let copyFilmsData = cloneDeep(filmsData);
+    console.log('handleSubmit before normalised', copyFilmsData);
     const normalisedFilm = normaliseFilmsData(copyFilmsData);
+    console.log('handleSubmit after', normalisedFilm);
     let isFilmCreated=true;
     
     if(isNewFilm){ 
