@@ -38,6 +38,8 @@ actors: [ {
 // poster: '',
 poster: {imageName:'', sourceBase:'', sourceLocal:''},
 trailer: 'trailer',
+rating : 0,
+viewsNumber: 0,
 // trailer: 'https://www.youtube.com/embed/-KqzMaOBxzM',
 };
 

@@ -3,7 +3,7 @@ import Modal from '../Modal';
 import { useHttpHook } from '../Hooks/api.hook';
 import { useParseJwtHook } from '../Hooks/parse.hook';
 
-import './LogIn.css';
+import './Login.css';
 
 const LogIn = ({ userInfo, setUserInfo }) => {
 
