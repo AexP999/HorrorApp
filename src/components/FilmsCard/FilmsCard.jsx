@@ -1,4 +1,8 @@
+
 import React, { useState } from 'react';
+
+import FilmPlayer from './FilmPlayer';
+
 import UseFetch from '../UseFetch';
 import { PATHTO, PATHTODATANODE } from '../../constants/constants';
 import { useParams } from "react-router-dom";
@@ -6,7 +10,9 @@ import StarRating from '../Rating/Rating';
 import './FilmsCard.css';
 
 
-export default function FilmsCard (props) {
+
+export default function FilmsCard ({ userId }) {
+
   const [ rate, setRate ] = useState(0);
   const { id } = useParams();
 
@@ -40,13 +46,15 @@ export default function FilmsCard (props) {
             }) }
             </div>
             <div style={ { display: "flex" } }>
-              { !!films.trailer.includes('youtube') && <iframe width="70%" height="400" src={ `${ films.trailer }` }
-                title="YouTube video player" frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen>
-              </iframe> }
+              { !!films.trailer.includes('youtube') &&
+                <FilmPlayer
+                  videoUrl={ films.trailer }
+                  filmId={ id }
+                  userId={ userId }
+                /> }
 
               <div className="rates-cont">
+
 
                 <StarRating setRate={ setRate } rate={ rate } />
 
