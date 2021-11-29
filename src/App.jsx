@@ -91,7 +91,7 @@ const App = () => {
           </Route>
 
           <Route path="/filmscard/:id">
-            <FilmsCard />
+            <FilmsCard userId={userInfo.userId}/>
           </Route>
 
           <Route>

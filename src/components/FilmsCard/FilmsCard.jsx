@@ -1,4 +1,5 @@
 import React from 'react';
+import FilmPlayer from './FilmPlayer' ;
 // import { FilmContext } from '../Context';
 import UseFetch from '../UseFetch';
 import { PATHTO, PATHTODATANODE } from '../../constants/constants';
@@ -6,7 +7,7 @@ import { useParams } from "react-router-dom";
 import './FilmsCard.css';
 
 
-export default function FilmsCard (props) {
+export default function FilmsCard ({userId}) {
   const { id } = useParams();
 
   const url = `${ PATHTO.HOST_NAME }/films/${ id }  `;
@@ -39,12 +40,12 @@ export default function FilmsCard (props) {
             }) }
             </div>
 
-            {!!films.trailer.includes('youtube') && <iframe width="70%" height="400" src={ `${ films.trailer }`} 
-              title="YouTube video player" frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            >
-            </iframe>}
+            {!!films.trailer.includes('youtube') && 
+              <FilmPlayer 
+                videoUrl={films.trailer}
+                filmId={id}
+                userId={userId}
+              />}
 
             <h2>Актеры и создатели</h2>
             <div className='directors-actors-cont'>
