@@ -15,16 +15,23 @@
 }
 
 .logo-container{
+    position: relative;
     flex: 1;
 }
 
 .logo-container img{
     position: absolute;
-    top: 0px;
-    left: -10px;
-    height: 100px;
+    top: -10px;
+    left: -10%;
+    height: 150px;
     margin-left: 10px;
 }
+#pupil {
+  /* transform: translateX(10%);
+  transform: translateY(8%) ; 
+  transform: translateY(8%) ;  */
+}
+
 
 .header nav{
     display: flex;

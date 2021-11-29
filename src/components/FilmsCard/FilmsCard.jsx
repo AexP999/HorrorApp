@@ -1,18 +1,19 @@
-import React from 'react';
-// import { FilmContext } from '../Context';
+import React, { useState } from 'react';
 import UseFetch from '../UseFetch';
 import { PATHTO, PATHTODATANODE } from '../../constants/constants';
 import { useParams } from "react-router-dom";
+import StarRating from '../Rating/Rating';
 import './FilmsCard.css';
 
 
 export default function FilmsCard (props) {
+  const [ rate, setRate ] = useState(0);
   const { id } = useParams();
 
   const url = `${ PATHTO.HOST_NAME }/films/${ id }  `;
 
   const { films } = UseFetch(url);
-
+  console.log(rate);
   return (
     <div>
       { films.length !== 0 ?
@@ -38,13 +39,19 @@ export default function FilmsCard (props) {
               );
             }) }
             </div>
+            <div style={ { display: "flex" } }>
+              { !!films.trailer.includes('youtube') && <iframe width="70%" height="400" src={ `${ films.trailer }` }
+                title="YouTube video player" frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen>
+              </iframe> }
 
-            {!!films.trailer.includes('youtube') && <iframe width="70%" height="400" src={ `${ films.trailer }`} 
-              title="YouTube video player" frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            >
-            </iframe>}
+              <div className="rates-cont">
+
+                <StarRating setRate={ setRate } rate={ rate } />
+
+              </div>
+            </div>
 
             <h2>Актеры и создатели</h2>
             <div className='directors-actors-cont'>
@@ -78,14 +85,14 @@ export default function FilmsCard (props) {
               </>
             </div>
 
-            {films.images.map((image, i) => 
-              <img key={ `image${i}` } 
-              style = {{width:'200px'}}
-                src={ `${ PATHTODATANODE }/${ films._id }/img/${ image }` } 
+            { films.images.map((image, i) =>
+              <img key={ `image${ i }` }
+                style={ { width: '200px' } }
+                src={ `${ PATHTODATANODE }/${ films._id }/img/${ image }` }
                 alt="" />
-              )
+            )
             }
-            
+
             {/* </div>
             <div >Poster:  <img src={ `${ PATHTODATANODE }/${ films._id }/poster/${ films.poster }` } alt="" />
             </div>} */}

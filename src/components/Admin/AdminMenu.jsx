@@ -15,13 +15,12 @@ import FilmDelete from '../Films/FilmDelete';
 
 function AdminMenu ({ userInfo }) {
   let { url } = useRouteMatch();
+
+
   return (
     <div>
       <nav>
         <ul className="admin-menu">
-          {
-
-          }
           <li>
             <Link to={ `${ url }/create-film` }><h2>insert new film</h2> </Link>
           </li>

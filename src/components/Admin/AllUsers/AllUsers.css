@@ -1,6 +1,5 @@
 .users-cont{
 display: flex;
-/* display: inline-block; */
 flex-direction: column;
 
 }

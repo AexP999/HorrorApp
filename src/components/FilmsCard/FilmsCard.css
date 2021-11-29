@@ -58,3 +58,13 @@ font-size: 30px;
   margin: 15px 0 0 5px;
   font-size: 14px;
 }
+
+.rates-cont {
+max-width: 100%;
+width: 25%;
+text-align: center;
+
+}
+.rates-cont h3 {
+margin-bottom: 20px;
+}

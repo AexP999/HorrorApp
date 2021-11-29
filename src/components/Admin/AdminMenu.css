@@ -1,12 +1,11 @@
 .admin-menu{
- 
+
  list-style-type: disclosure-closed;
   width:250px;
-  margin: 50px
-  
+  margin:  100px  100px 30px
 }
 
 .admin-menu h2 {
   color:whitesmoke;
-  /* margin: 0px; */
-}
+ }
+
