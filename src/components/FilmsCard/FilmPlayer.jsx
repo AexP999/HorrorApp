@@ -14,14 +14,17 @@ function FilmPlayer({videoUrl, filmId, userId}) {
     };
 
     const fetchWatching = async() => {
-        const b = new FormData();
-       b.append('userId',userId);
-       b.append('filmId',filmId);
-        console.log('FilmPlayer.', [...b]);
+    
         try {
             const response = await fetch(`${ PATHTO.HOST_NAME }/watching`, {
               method: 'POST',
-              body: b,
+              headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+              },
+              body: JSON.stringify({
+                userId: userId,
+                filmId: filmId,
+              }),
             });
             const result = await response.json();
             if(result.hasOwnProperty("customCode"))
