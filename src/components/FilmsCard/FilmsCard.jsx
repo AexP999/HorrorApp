@@ -1,25 +1,37 @@
 
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import FilmPlayer from './FilmPlayer';
-
-import UseFetch from '../UseFetch';
-import { PATHTO, PATHTODATANODE } from '../../constants/constants';
+// import UseFetch from '../UseFetch';
+import { useHttpHook } from '../Hooks/api.hook';
+import { PATHTODATANODE } from '../../constants/constants';
 import { useParams } from "react-router-dom";
 import StarRating from '../Rating/Rating';
 import './FilmsCard.css';
 
-
-
 export default function FilmsCard ({ userId }) {
 
   const [ rate, setRate ] = useState(0);
+  const [ films, setFilms ] = useState([]);
+  const { api } = useHttpHook();
   const { id } = useParams();
 
-  const url = `${ PATHTO.HOST_NAME }/films/${ id }  `;
+  useEffect(() => {
+    getFilm();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const { films } = UseFetch(url);
-  console.log(rate);
+  const getFilm = async () => {
+
+    try {
+      const res = await api.get(`/films/${ id }`);
+      setFilms(res.data);
+      if(res.statusText !== 'OK') {
+        console.log('что-то не так');
+      }
+    } catch(err) {
+      console.log(err);
+    };
+  };
   return (
     <div>
       { films.length !== 0 ?
@@ -54,10 +66,7 @@ export default function FilmsCard ({ userId }) {
                 /> }
 
               <div className="rates-cont">
-
-
                 <StarRating setRate={ setRate } rate={ rate } />
-
               </div>
             </div>
 
@@ -100,10 +109,6 @@ export default function FilmsCard ({ userId }) {
                 alt="" />
             )
             }
-
-            {/* </div>
-            <div >Poster:  <img src={ `${ PATHTODATANODE }/${ films._id }/poster/${ films.poster }` } alt="" />
-            </div>} */}
           </div>
 
         </div> : null }
