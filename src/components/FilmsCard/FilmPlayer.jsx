@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import YouTube from 'react-youtube';
 import {PATHTO} from '../../constants/constants'
+import './FilmsCard.css'
 
 function FilmPlayer({videoUrl, filmId, userId}) {
     const [playBackDuration, setPlayBackDuration] = useState(0);
@@ -9,8 +10,8 @@ function FilmPlayer({videoUrl, filmId, userId}) {
     const urlArray = videoUrl.split("/");
     const videoId = urlArray[urlArray.length-1];
     const opts={
-        height: '300',
-        width: '500',
+        height: '480',
+        width: '640',
     };
 
     const fetchWatching = async() => {
@@ -54,8 +55,9 @@ function FilmPlayer({videoUrl, filmId, userId}) {
         }
     }
     return (
-        <div>
-           return <YouTube videoId={videoId} opts={opts} onStateChange={_onStateChange}  />;
+        // <div>
+        <div className='video-container'>
+           <YouTube videoId={videoId} opts={opts} onStateChange={_onStateChange}  />;
         </div>
     );
 }
