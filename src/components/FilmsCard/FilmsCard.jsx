@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import FilmPlayer from './FilmPlayer';
-// import UseFetch from '../UseFetch';
 import { useHttpHook } from '../Hooks/api.hook';
 import { PATHTODATANODE } from '../../constants/constants';
 import { useParams } from "react-router-dom";
@@ -10,18 +9,17 @@ import './FilmsCard.css';
 
 export default function FilmsCard ({ userId }) {
 
-  const [ rate, setRate ] = useState(0);
+  const [ rate, setRate ] = useState('');
   const [ films, setFilms ] = useState([]);
   const { api } = useHttpHook();
   const { id } = useParams();
 
   useEffect(() => {
-    getFilm();
+    getFilmById();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getFilm = async () => {
-
+  const getFilmById = async () => {
     try {
       const res = await api.get(`/films/${ id }`);
       setFilms(res.data);
@@ -32,6 +30,26 @@ export default function FilmsCard ({ userId }) {
       console.log(err);
     };
   };
+
+  useEffect(() => {
+    const fetchRate = async () => {
+      try {
+        console.log(id, userId, rate);
+        if(rate) {
+          const res = await api.put(`/rating/`, { filmId: id, userId, rating: rate });
+          if(res.statusText !== 'OK') {
+            console.log('что-то не так');
+          }
+        }
+      } catch(err) {
+        console.log(err);
+      };
+
+    };
+    fetchRate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ rate ]);
+  console.log('rate', rate);
   return (
     <div>
       { films.length !== 0 ?
