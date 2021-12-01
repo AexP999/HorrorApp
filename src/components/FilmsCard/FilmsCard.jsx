@@ -75,7 +75,7 @@ export default function FilmsCard ({ userId }) {
               );
             }) }
             </div>
-            <div style={ { display: "flex" } }>
+            <div>
               { !!films.trailer.includes('youtube') &&
                 <FilmPlayer
                   videoUrl={ films.trailer }
