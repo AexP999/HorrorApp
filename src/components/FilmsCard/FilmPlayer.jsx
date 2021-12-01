@@ -3,10 +3,10 @@ import YouTube from 'react-youtube';
 import {PATHTO} from '../../constants/constants'
 import './FilmsCard.css'
 
-function FilmPlayer({videoUrl, filmId, userId}) {
-    const [playBackDuration, setPlayBackDuration] = useState(0);
-    const [isWatched, setIsWatched] = useState(false);
-    
+function FilmPlayer ({ videoUrl, filmId, userId }) {
+    const [ playBackDuration, setPlayBackDuration ] = useState(0);
+    const [ isWatched, setIsWatched ] = useState(false);
+
     const urlArray = videoUrl.split("/");
     const videoId = urlArray[urlArray.length-1];
     const opts={
@@ -29,23 +29,23 @@ function FilmPlayer({videoUrl, filmId, userId}) {
             });
             const result = await response.json();
             if(result.hasOwnProperty("customCode"))
-              // пришла ошибка
-              console.log('fetchWatching error', result.message);
-             else
+                // пришла ошибка
+                console.log('fetchWatching error', result.message);
+            else
                 console.log('fetchWatching success', result);
-          } catch(error) {
+        } catch(error) {
             console.log('Ошибка загрузки редактированного фильма', error);
-          }
-    }
-    
-    function _onStateChange (e){
-        if(!isWatched){
-            const currentTime = e.target.getCurrentTime()
+        }
+    };
+
+    function _onStateChange (e) {
+        if(!isWatched) {
+            const currentTime = e.target.getCurrentTime();
             const duration = currentTime - playBackDuration;
 
             console.log('FilmPlayer', e.target.getPlayerState());
-            
-            if(duration > 10 ) {
+
+            if(duration > 10) {
                 setIsWatched(true);
                 fetchWatching();
                 // save wastching to database
