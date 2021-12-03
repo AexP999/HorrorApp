@@ -6,16 +6,26 @@ export default function StarRating ({ setRate, rate }) {
 
   return (
     <div className="stars-cont">
-      <h3>Оцените фильм</h3>
-      { [ ...Array(10) ].map((star, ind) => (
-        <label key={ ind } >
-          { (ind >= rate)
-            ? <i onClick={ () => setRate(ind + 1) } className="far fa-star"></i>
-            : <i onClick={ () => setRate(ind + 1) } className="fas fa-star"></i>
+      <div style={ { margin: "auto" } }>
+        <div className="rate-it">
+          { [ ...Array(10) ].map((star, ind) => (
+            <label key={ ind } >
+              { (ind >= rate)
+                ? <div onClick={ () => setRate(ind + 1) } className="star1">★</div>
+                : <div onClick={ () => setRate(ind + 1) } className="star2">★</div>
+              }
+            </label>
+          ))
           }
-        </label>
-      ))
-      }
-    </div >
+
+        </div >
+
+        <div style={ { fontSize: "70%", color: "crimson" } }>
+          { rate ? rate : 0 } of 10
+        </div>
+      </div>
+
+
+    </div>
   );
 }

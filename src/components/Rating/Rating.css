@@ -1,3 +1,18 @@
 .stars-cont{
-  font-size: 22px;
+  display: flex;
+  font-size: 1.8rem;
 }
+.star1 {
+color:grey
+}
+.star2 {
+ color:crimson;
+}
+.do-rate-thefilm{
+  display: flex;
+
+}
+.rate-it{
+  display: flex;
+  margin:auto
+  }
