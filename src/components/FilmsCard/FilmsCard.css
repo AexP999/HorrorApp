@@ -79,7 +79,8 @@ font-size: 30px;
 .rates-cont {
   display: flex;
 /* max-width: 100%; */
-/* width: 30%; */
+width: 100%;
+flex-wrap: wrap;
 /* text-align: center; */
 }
 .ave-rate-cont{
