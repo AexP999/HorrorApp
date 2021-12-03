@@ -49,11 +49,14 @@ export default function FilmsCard ({ userId }) {
     fetchRate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ rate ]);
+
+  const aveRating = 3.3;
+
   console.log('rate', rate);
   return (
     <div>
-      { films.length !== 0 ?
-        <div className='filmCard-container' >
+      { films.length !== 0
+        ? <div className='filmCard-container' >
 
           <div className='fimCard-body'>
             <h1 > Фильм "{ films.name }"</h1>
@@ -75,15 +78,35 @@ export default function FilmsCard ({ userId }) {
               );
             }) }
             </div>
+
             <div>
+
               { !!films.trailer.includes('youtube') &&
                 <FilmPlayer
                   videoUrl={ films.trailer }
                   filmId={ id }
                   userId={ userId }
                 /> }
+            </div>
 
-              <div className="rates-cont">
+            <div className="rates-cont">
+              <div className="ave-rate-cont" >
+                <h3>Рейтинг фильма</h3>
+                <div className="stars-cont2">
+                  <div className="stars-body">
+                    <div className="test1">★★★★★★★★★★
+                      <div
+                        style={ { width: `${ aveRating * 10 }%` } } className="test1-inner">★★★★★★★★★★
+                      </div>
+                      <div style={ { fontSize: "70%", color: "crimson" } }>
+                        { aveRating } of 10
+                      </div>
+                    </div>
+                  </div>
+                </div >
+              </div>
+              <div className="do-rate-thefilm" >
+                <h3>Оцените фильм</h3>
                 <StarRating setRate={ setRate } rate={ rate } />
               </div>
             </div>
@@ -128,10 +151,7 @@ export default function FilmsCard ({ userId }) {
             )
             }
           </div>
-
         </div> : null }
-
     </div>
-
   );
 }
