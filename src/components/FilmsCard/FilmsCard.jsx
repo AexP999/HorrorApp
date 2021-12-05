@@ -10,26 +10,28 @@ import './FilmsCard.css';
 export default function FilmsCard ({ userId }) {
 
   const [ rate, setRate ] = useState('');
+  const [ aveRating, setAveRating ] = useState('');
   const [ films, setFilms ] = useState([]);
   const { api } = useHttpHook();
   const { id } = useParams();
 
   useEffect(() => {
+    const getFilmById = async () => {
+      try {
+        const res = await api.get(`/films/${ id }`);
+        setFilms(res.data);
+        setAveRating(res.data.rating);
+        if(res.statusText !== 'OK') {
+          console.log('что-то не так');
+        }
+      } catch(err) {
+        console.log(err);
+      };
+    };
     getFilmById();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [ rate ]);
 
-  const getFilmById = async () => {
-    try {
-      const res = await api.get(`/films/${ id }`);
-      setFilms(res.data);
-      if(res.statusText !== 'OK') {
-        console.log('что-то не так');
-      }
-    } catch(err) {
-      console.log(err);
-    };
-  };
 
   useEffect(() => {
     const fetchRate = async () => {
@@ -44,15 +46,14 @@ export default function FilmsCard ({ userId }) {
       } catch(err) {
         console.log(err);
       };
-
     };
     fetchRate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ rate ]);
 
-  const aveRating = 3.3;
-
+  console.log('aveRating', aveRating);
   console.log('rate', rate);
+  console.log(films);
   return (
     <div>
       { films.length !== 0
@@ -69,7 +70,6 @@ export default function FilmsCard ({ userId }) {
                 }) }
                 </>
               </span>
-
             </div>
 
             <div style={ { marginBottom: '30px' } } >Актеры: { !!films.actors && films.actors.map((actor) => {
@@ -99,7 +99,7 @@ export default function FilmsCard ({ userId }) {
                         style={ { width: `${ aveRating * 10 }%` } } className="test1-inner">★★★★★★★★★★
                       </div>
                       <div style={ { fontSize: "70%", color: "crimson" } }>
-                        { aveRating } of 10
+                        { aveRating ? aveRating : 0 } of 10
                       </div>
                     </div>
                   </div>
