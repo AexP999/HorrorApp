@@ -20,6 +20,7 @@ export default function FilmsCard ({ userId }) {
       try {
         const res = await api.get(`/films/${ id }`);
         setFilms(res.data);
+        console.log(res.data);
         setAveRating(res.data.rating);
         if(res.statusText !== 'OK') {
           console.log('что-то не так');
