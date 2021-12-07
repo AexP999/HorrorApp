@@ -15,34 +15,45 @@ export default function FilmsCard ({ userId }) {
   const { api } = useHttpHook();
   const { id } = useParams();
 
-  useEffect(() => {
-    const getFilmById = async () => {
-      try {
-        const res = await api.get(`/films/${ id }`);
-        setFilms(res.data);
-        setAveRating(res.data.rating);
-        if(res.statusText !== 'OK') {
-          console.log('что-то не так');
-        }
-      } catch(err) {
-        console.log(err);
-      };
-    };
-    getFilmById();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ rate ]);
+  const getFilmById = async () => {
+    try {
+      const res = await api.get(`/films/${ id }`);
+      setFilms(res.data);
 
+      setAveRating(res.data.rating);
+
+      if(res.statusText !== 'OK') {
+        console.log('что-то не так');
+      }
+    } catch(err) {
+      console.log(err);
+    };
+  };
+
+  useEffect(() => {
+    const getFilmRateByUserId = async () => {
+
+      const combId = id + "|" + userId;
+
+      const res = await api.get(`/rating/${ combId }`);
+
+      setRate(res?.data);
+    };
+    getFilmRateByUserId();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ userId ]);
 
   useEffect(() => {
     const fetchRate = async () => {
       try {
-        console.log(id, userId, rate);
+
         if(rate) {
           const res = await api.put(`/rating/`, { filmId: id, userId, rating: rate });
           if(res.statusText !== 'OK') {
             console.log('что-то не так');
           }
         }
+        await getFilmById();
       } catch(err) {
         console.log(err);
       };
@@ -51,9 +62,6 @@ export default function FilmsCard ({ userId }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ rate ]);
 
-  console.log('aveRating', aveRating);
-  console.log('rate', rate);
-  console.log(films);
   return (
     <div>
       { films.length !== 0
