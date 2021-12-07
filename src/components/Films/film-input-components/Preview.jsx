@@ -1,9 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
+import FullPreview from './FullPreview';
 
 function Preview({preview}) {
     
     const [source, setSource] = useState([]);
+    const [isActive, setIsActive] = useState(false);
     useEffect(()=>{
 
         if(preview && source !== preview){
@@ -21,9 +23,12 @@ function Preview({preview}) {
     },[preview]);
     
     return (
-        <>
-            {source && <img className='image-preview' src={source} alt={''}/>}
-        </>
+        <div>
+            {source && <img onClick={()=>setIsActive(true)} className='image-preview' src={source} alt={''}/>}
+            <FullPreview active={isActive} setActive={setIsActive}>
+                <img src={source} alt={''}/>
+            </FullPreview>
+        </div>
     );
 }
 
