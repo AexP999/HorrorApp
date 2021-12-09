@@ -5,7 +5,7 @@ function FullPreview({active, setActive, children}) {
     return (
         <div className={active ? "full-preview active": "full-preview"}>
             <div className={active ? "full-preview-content active": "full-preview-content"} onClick={()=>setActive(false)}>
-                    {children && children}
+                    {!!children && children}
             </div>
         </div>
     );

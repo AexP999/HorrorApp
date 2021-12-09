@@ -6,7 +6,6 @@ import { PATHTODATANODE } from '../../constants/constants';
 import { useParams } from "react-router-dom";
 import StarRating from '../Rating/Rating';
 import './FilmsCard.css';
-import FilmsCardImageShow from './FilmsCardImageShow';
 import Preview from '../Films/film-input-components/Preview';
 
 export default function FilmsCard ({ userId }) {
@@ -124,42 +123,32 @@ export default function FilmsCard ({ userId }) {
 
             <h2>Актеры и создатели</h2>
             <div className='directors-actors-cont'>
-              <>{ !!films.director && films.director.map((director1) => {
+              { !!films.director && films.director.map((director1) => {
                 return (
                   <div className='card-inner' key={ director1._id } >
-
-                    <div className='img-cont circle'>
-                      <img 
-                          width={ 100 }
-                          src={ `${ PATHTODATANODE }/${ films._id }/directors_img/${ director1.photo }` } alt="" 
+                      <Preview 
+                        preview={`${ PATHTODATANODE }/${ films._id }/directors_img/${ director1.photo }` }
+                        extraClassName='img-cont circle'
                       />
-                    </div>
-                      
                     <div className='dir-act-text'>
                       <div style={ { fontWeight: '700' } }>{ director1.name }</div> режисер</div>
                   </div>
                 );
               }) }
-              </>
 
-              <>{ films.actors && films.actors.map((actor) => {
+              { films.actors && films.actors.map((actor) => {
                 return (
                   <div className='card-inner' key={ actor._id }>
-                    {/* <div className='img-cont circle'> */}
-                    {/* <div> */}
-                      {/* <img  src={ `${ PATHTODATANODE }/${ films._id }/actors_img/${ actor.photo }` } alt="" /> */}
                       <Preview 
                         preview={`${ PATHTODATANODE }/${ films._id }/actors_img/${ actor.photo }`}
                         extraClassName='img-cont circle'
                       />
-                    {/* </div > */}
                     <div className='dir-act-text'>
                         <div style={ { fontWeight: '700' } }>{ actor.name }</div> актер
                     </div>
                   </div>
                 );
               }) }
-              </>
             </div>
             <div className='images-container'>
             { films.images.map((image, i) =>{
