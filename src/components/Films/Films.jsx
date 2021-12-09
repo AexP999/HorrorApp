@@ -15,7 +15,7 @@ export default function Films ({ show }) {
 
   useEffect(() => {
     async function fetchData () {
-      console.log('fetching');
+
       const response = await fetch(`${ url }`);
       const { result, totalPages } = await response.json();
       console.log('result', result, 'totalPages', totalPages);
@@ -41,8 +41,6 @@ export default function Films ({ show }) {
       setFetching(true);
     };
   };
-
-  console.log('films render', films);
 
   return (
 
