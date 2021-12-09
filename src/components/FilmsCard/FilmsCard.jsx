@@ -6,6 +6,8 @@ import { PATHTODATANODE } from '../../constants/constants';
 import { useParams } from "react-router-dom";
 import StarRating from '../Rating/Rating';
 import './FilmsCard.css';
+import FilmsCardImageShow from './FilmsCardImageShow';
+import Preview from '../Films/film-input-components/Preview';
 
 export default function FilmsCard ({ userId }) {
 
@@ -14,6 +16,7 @@ export default function FilmsCard ({ userId }) {
   const [ films, setFilms ] = useState([]);
   const { api } = useHttpHook();
   const { id } = useParams();
+  
 
   const getFilmById = async () => {
     try {
@@ -126,9 +129,12 @@ export default function FilmsCard ({ userId }) {
                   <div className='card-inner' key={ director1._id } >
 
                     <div className='img-cont circle'>
-
-                      <img width={ 100 } src={ `${ PATHTODATANODE }/${ films._id }/directors_img/${ director1.photo }` } alt="" />
+                      <img 
+                          width={ 100 }
+                          src={ `${ PATHTODATANODE }/${ films._id }/directors_img/${ director1.photo }` } alt="" 
+                      />
                     </div>
+                      
                     <div className='dir-act-text'>
                       <div style={ { fontWeight: '700' } }>{ director1.name }</div> режисер</div>
                   </div>
@@ -139,25 +145,32 @@ export default function FilmsCard ({ userId }) {
               <>{ films.actors && films.actors.map((actor) => {
                 return (
                   <div className='card-inner' key={ actor._id }>
-                    <div className='img-cont circle'>
-                      { <img src={ `${ PATHTODATANODE }/${ films._id }/actors_img/${ actor.photo }` } alt="" /> }
-                    </div >
+                    {/* <div className='img-cont circle'> */}
+                    {/* <div> */}
+                      {/* <img  src={ `${ PATHTODATANODE }/${ films._id }/actors_img/${ actor.photo }` } alt="" /> */}
+                      <Preview 
+                        preview={`${ PATHTODATANODE }/${ films._id }/actors_img/${ actor.photo }`}
+                        extraClassName='img-cont circle'
+                      />
+                    {/* </div > */}
                     <div className='dir-act-text'>
-                      <div style={ { fontWeight: '700' } }>{ actor.name }</div> актер
+                        <div style={ { fontWeight: '700' } }>{ actor.name }</div> актер
                     </div>
                   </div>
                 );
               }) }
               </>
             </div>
-
-            { films.images.map((image, i) =>
-              <img key={ `image${ i }` }
-                style={ { width: '200px' } }
-                src={ `${ PATHTODATANODE }/${ films._id }/img/${ image }` }
-                alt="" />
-            )
+            <div className='images-container'>
+            { films.images.map((image, i) =>{
+              return(
+                <div key={ `image${ i }`}>
+                  <Preview preview={ `${ PATHTODATANODE }/${ films._id }/img/${ image }`}></Preview>
+                </div>
+                )}
+              )
             }
+            </div>
           </div>
         </div> : null }
     </div>

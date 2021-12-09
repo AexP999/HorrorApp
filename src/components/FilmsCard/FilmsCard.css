@@ -118,3 +118,11 @@ align-items: center;
   font-size: 1.8rem;
 }
 
+
+.images-container{ 
+  display: flex;
+  flex-direction:row ; 
+  flex-wrap: wrap; 
+}
+
+

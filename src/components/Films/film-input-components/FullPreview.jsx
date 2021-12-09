@@ -1,6 +1,5 @@
 import React from 'react';
 import './FullPreview.css'
-import '../../Modal.css'
 
 function FullPreview({active, setActive, children}) {
     return (
