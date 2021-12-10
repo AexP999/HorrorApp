@@ -38,7 +38,6 @@ font-size: 30px;
 .img-cont{
   width: 130px;
   height: 130px;
-  position: relative;  
 }
 
 .circle{
@@ -48,10 +47,7 @@ font-size: 30px;
 
 .img-cont img{
   width: 100%;
- 
-  position: absolute;
   top: -5%;
-  
 }
 
 .dir-act-text{
@@ -117,4 +113,11 @@ align-items: center;
   color:crimson;
   font-size: 1.8rem;
 }
+
+.images-container{ 
+  display: flex;
+  flex-direction:row ; 
+  flex-wrap: wrap; 
+}
+
 
