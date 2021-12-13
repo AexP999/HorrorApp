@@ -10,7 +10,7 @@ export default function AllUsers () {
   const getUsersBySearchRqst = async () => {
     try {
       const result = await api.post(`/users/search`, { email: userDataSearch });
-      console.log('RESULT', result.data);
+
       if(!result) {
         throw new Error(result.message || 'Где-то ошибка');
       }
@@ -63,7 +63,6 @@ export default function AllUsers () {
 
   useEffect(() => {
     getUsersBySearchRqst();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ userDataSearch ]);
 
