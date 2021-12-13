@@ -90,7 +90,6 @@ export default function FilmsCard ({ userId }) {
             </div>
 
             <div>
-
               { !!films.trailer.includes('youtube') &&
                 <FilmPlayer
                   videoUrl={ films.trailer }
@@ -115,12 +114,22 @@ export default function FilmsCard ({ userId }) {
                   </div>
                 </div >
               </div>
+            
               <div className="do-rate-thefilm" >
                 <h3>Оцените фильм</h3>
                 <StarRating setRate={ setRate } rate={ rate } />
               </div>
             </div>
-
+            
+            <div className="rates-cont">
+              <div className="ave-rate-cont" >
+                <h3>Количество просмотров</h3>
+              </div>
+              <div className="do-rate-thefilm" >
+                <h3 style={ { fontSize: "140%", color: "crimson" } }>{films.viewsNumber}</h3>
+              </div>
+            </div>
+            
             <h2>Актеры и создатели</h2>
             <div className='directors-actors-cont'>
               { !!films.director && films.director.map((director1) => {
