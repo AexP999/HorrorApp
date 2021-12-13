@@ -12,6 +12,7 @@ import Films from '../Films/Films';
 import FilmEdit from '../Films/FilmEdit';
 import './AdminMenu.css';
 import FilmDelete from '../Films/FilmDelete';
+import UserStatInfo from './AllUsers/UserStatInfo';
 
 function AdminMenu ({ userInfo }) {
   let { url } = useRouteMatch();
@@ -52,6 +53,11 @@ function AdminMenu ({ userInfo }) {
         <Route exact path={ `${ url }/users` }>
           { (userInfo.role === 'admin')
             && <AllUsers /> }
+        </Route>
+        
+        <Route exact path={ `${ url }/users/:userId` }>
+          { (userInfo.role === 'admin')
+            && <UserStatInfo /> }
         </Route>
 
         <Route exact path={ `${ url }/delete-films/:filmID` }>
