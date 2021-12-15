@@ -55,7 +55,6 @@ function FilmPlayer ({ videoUrl, filmId, userId }) {
         }
     }
     return (
-        // <div>
         <div className='video-container'>
             <YouTube videoId={ videoId } opts={ opts } onStateChange={ _onStateChange } />
         </div>
