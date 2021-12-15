@@ -1,0 +1,15 @@
+.film-stat-container {
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content:space-around;
+    align-items: center;
+}
+
+.film-stat-item {
+    margin: 10px;
+    padding: 5px;
+    border: 2px solid grey;
+    border-radius: 5px;
+    width: 200px;
+}

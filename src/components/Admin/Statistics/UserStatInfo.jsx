@@ -1,7 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
 import {useParams, useHistory} from 'react-router-dom';
 import { useHttpHook } from '../../Hooks/api.hook';
 import UserFilmItem from './UserFilmItem';
+import './Statistic.css'
+
 
 function UserStatInfo(props) {
     const {userId} = useParams();
@@ -26,7 +29,6 @@ function UserStatInfo(props) {
     const fetchWatchings = async ()=>{
         try {
             const result = await api.get(`watching/${userId}`);
-            console.log(result.data)
             if(!result) {
               throw new Error(result.message || 'Где-то ошибка');
             }
@@ -45,14 +47,16 @@ function UserStatInfo(props) {
     return (
         <div>
             <button onClick={ () => history.go(-1) }>
-              Вернуться к списку
+              Вернуться к списку пользователей
             </button>
             <hr/>
+            <div   className='film-stat-container'>
             {!!watchings && watchings.map((item, index)=>
               <div key={index}>
-                <UserFilmItem filmId={item.filmId} />
+                <UserFilmItem filmWatching={item} userId={userId}/>
               </div>
             )}
+            </div>
         </div>
     );
 }
