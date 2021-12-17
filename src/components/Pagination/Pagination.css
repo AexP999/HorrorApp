@@ -1,0 +1,40 @@
+.pagination {
+display:flex;
+margin: 0 0 50px 10%;
+align-items: center;
+
+}
+
+.number-cell, .number-cell-flag {
+  border:solid 1px grey;
+  cursor:pointer;
+  font-size: 28px;
+  padding: 6px;
+  width: 40px;
+  text-align: center;
+  margin: 5px;
+  box-sizing: border-box;
+  transition: all .3s ease; 
+   box-shadow: 0 8px 16px 0 rgba(153, 27, 27, 0.2), 0 6px 20px 0 rgba(158, 27, 27, 0.19);
+}
+
+.number-cell:hover {
+background-color: slategray;
+ box-shadow: 0 12px 16px 0 rgba(233, 2, 2, 0.3), 0 17px 50px 0 rgba(218, 4, 4, 0.25);
+}
+.number-cell-flag {
+background-color: slategray;
+ box-shadow: 0 12px 16px 0 rgba(233, 2, 2, 0.3), 0 17px 50px 0 rgba(218, 4, 4, 0.25);
+}
+.pagination i {
+  cursor: pointer;
+
+  font-size: 30px;
+  margin: 15px;
+}
+
+.point-view {
+  display: flex;
+  font-size: 30px;
+  align-items: flex-end;
+}

@@ -1,20 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './Slider.css';
 
-export const CarouselItem = ({ children, width }) => {
-  return (
-    <div className='carousel-item' style={ { width: width } }>
-      { children }
-    </div>
-  );
-};
+export const CarouselItem = ({ children, width }) => (
+  <div className='carousel-item' style={ { width: width } }>
+    { children }
+  </div>
+);
 
-const Slider = ({
-  children,
-  imgOnScreen,
-  imgToSlide,
-  slideOn
-}) => {
+const Slider = ({ children, imgOnScreen, imgToSlide, slideOn }) => {
   const [ activeIndex, setActiveIndex ] = useState(0);
   const [ doAutoSlidePaused, setDoAutoSlidePaused ] = useState(false);
 
@@ -51,7 +44,6 @@ const Slider = ({
             return React.cloneElement(child, { width: `${ 100 / imgOnScreen }%` });
           }
           ) }
-
         </div >
       </div>
       <i className='rightbtn fas fa-chevron-right' onClick={ () => updateIndex(activeIndex + 1) }></i>

@@ -1,10 +1,11 @@
 .users-cont{
-display: flex;
-flex-direction: column;
-
+  display: flex;
+  flex-direction: column;
+  
 }
 
 .users {
+  background:rgb(55, 17, 83) ;
   border:1px whitesmoke solid;
   margin: 10px;
   padding: 10px;
@@ -18,8 +19,8 @@ flex-direction: column;
 }
 
 .users-cont button {
-  margin-right: 20px;
-  padding:5px;
+  margin-right: 10px;
+  padding: 5px;
   cursor:pointer
 }
 .change-role-form button {

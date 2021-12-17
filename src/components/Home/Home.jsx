@@ -12,20 +12,17 @@ export default memo(function Home ({ films }) {
 
   const [ windowSize, setWindowSize ] = useState({ width: 0, height: 0 });
 
-  console.log("HOME", films);
-  let numberOfImageOnScreen = 6;
   if(img.length === 0) {
     films &&
       <nav>
-        { films.map((film) => {
-          return (
-            img.push(
-              <Link to={ `/filmscard/${ film._id }` } >
-                <img className='bigslider' key={ film._id } src={ `${ PATHTO.HOST_NAME }/${ film._id }/img/${ film.images[ 0 ] }` } alt='' />
-              </Link>
-            )
-          );
-        }) }
+        { films.map((film) => (
+          img.push(
+            <Link to={ `/filmscard/${ film._id }` } >
+              <img className='bigslider' key={ film._id } src={ `${ PATHTO.HOST_NAME }/${ film._id }/img/${ film.images[ 0 ] }` } alt='' />
+            </Link>
+          )
+        )
+        ) }
       </nav>;
 
   }
@@ -53,26 +50,25 @@ export default memo(function Home ({ films }) {
     return () => window.removeEventListener('resize', updateSize);
   }, []);
 
-  numberOfImageOnScreen = Math.floor(windowSize.width * 0.9 / 185);
-
+  const numberOfImageOnScreen = Math.floor(windowSize.width * 0.9 / 185);
 
   return (
     <div className='Home'>
       <div className='home-body'>
         <Slider slideOn={ true } imgOnScreen={ 1 } imgToSlide={ 1 }>
-          { img.map((image, i) => {
-            return <CarouselItem key={ i }>{ image }</CarouselItem>;
-          }) }
+          { img.map((image, i) => (
+            <CarouselItem key={ i }>{ image }</CarouselItem>
+          )) }
         </Slider>
+
         <h1 style={ { textAlign: 'center', margin: '30px' } }>Recomended to you</h1>
+
         <Slider slideOn={ false } imgOnScreen={ numberOfImageOnScreen } imgToSlide={ numberOfImageOnScreen } >
-          { postersArr.map((image, i) => {
-            return <CarouselItem key={ i }>{ image }</CarouselItem>;
-          }) }
+          { postersArr.map((image, i) => (
+            <CarouselItem key={ i }>{ image }</CarouselItem>
+          )) }
         </Slider>
       </div>
     </div >
-
-
   );
 });
