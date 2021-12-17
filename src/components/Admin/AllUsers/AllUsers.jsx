@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useHttpHook } from '../../Hooks/api.hook';
 import Pagination from '../../Pagination/Pagination';
+
+import { Link, useRouteMatch } from 'react-router-dom';
+
 import './AllUsers.css';
 
 export default function AllUsers () {
@@ -13,6 +16,7 @@ export default function AllUsers () {
   const [ usersQtyPerPage, setUsersQtyPerPage ] = useState(usersQtyPerPageInit);
 
   const { api } = useHttpHook();
+  const { url } = useRouteMatch();
 
   // const qtyPerCurrentPage = usersQtyPerPage * currentPage > queryUsersQty
   //   ? queryUsersQty - usersQtyPerPage * (currentPage - 1)
@@ -117,7 +121,7 @@ export default function AllUsers () {
         return (
           <div key={ elem.id + index } className='user-form-cont' >
             <div className='users'>
-              id: <span> { elem.id }</span>
+              id: <Link to={ `${ url }/${ elem.id }` }><span> { elem.id }</span></Link>
               role: <span style={ { color: elem.role === 'admin' ? 'red' : elem.role === 'moderator' ? 'orange' : 'whitesmoke' } }>{ elem.role }</span>
               email: <span>{ elem.email }</span>
             </div>
