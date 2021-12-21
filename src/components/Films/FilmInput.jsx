@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, } from 'react';
+import { useHistory } from 'react-router-dom';
 import { PATHTO } from '../../constants/constants';
 import { INITFILMSDATA } from '../../constants/constants';
 import './FilmInput.css';
@@ -13,6 +14,7 @@ export default function FilmInput ({ filmToEdit}) {
 
   const [ filmsData, setFilmsData ] = useState(INITFILMSDATA);
   const [ isNewFilm, setIsNewFilm ] = useState(false);
+  const history = useHistory();
   let filesToSend = new FormData();
   let filesToDelete = new FormData();
 
@@ -303,7 +305,6 @@ export default function FilmInput ({ filmToEdit}) {
               showTitle={ true }
             />
             <ShowImages imageFiles={ filmsData.poster } />
-            {/* <ShowImages fieldName={'poster'} imageFiles={filmsData.poster} /> */ }
           </div>
           <InputField
             value={ filmsData.trailer }
@@ -321,11 +322,13 @@ export default function FilmInput ({ filmToEdit}) {
               showTitle={ true }
             />
             <ShowImages imageFiles={ filmsData.images } />
-            {/* <ShowImages fieldName={'images'} imageFiles={filmsData.images} /> */ }
           </div>
-
         </div>
-        <button onClick={ handleSubmit }>Submit</button>
+
+        <div className='buttons-block'>
+          <button className='back-button' onClick={()=>history.go(-1)}>{`< Вернуться`}</button>
+          <button className='submit-button' onClick={ handleSubmit }>Submit</button>
+        </div>
       </div>
     </div>
   );

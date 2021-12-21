@@ -70,3 +70,35 @@ margin-right: 3px;
 .nav-links{
   margin-top: 50px;
 }
+
+.buttons-block{
+  margin: 20px 0;
+  display: flex;
+  width: 40%;
+  flex-direction: row;
+  justify-content:space-around;
+}
+.buttons-block button {
+  margin: 0 40px;
+}
+.submit-button {
+  margin: 0 40px;
+  background-color: lightgreen;
+  font-size: 1.5rem;
+  padding: 5px;
+  border-radius: 10px;
+  transition: border-radius 0.4s;
+}
+.submit-button:hover {
+  background-color: green;
+  border-radius: 50%;
+}
+
+.back-button {
+  margin: 0 40px;
+  background-color: lightgray;
+  transition: background-color ease-out 0.7s;
+}
+.back-button:hover {
+  background-color: green;
+}
