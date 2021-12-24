@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, } from 'react';
 import { PATHTO } from '../../constants/constants';
-import FilmEditList from './FilmEditList';
+
 import FilmPoster from './FilmPoster';
 import { useHttpHook } from '../Hooks/api.hook';
 import './Films.css';
@@ -45,11 +45,7 @@ export default function Films ({ show }) {
   };
 
   return (
-
-    show === "poster"
-      ? <FilmPoster films={ films } />
-      : <FilmEditList />
-
+      <FilmPoster films={ films } />
   );
 }
 
