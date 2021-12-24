@@ -48,7 +48,7 @@ export default function Films ({ show }) {
 
     show === "poster"
       ? <FilmPoster films={ films } />
-      : <FilmEditList films={ films } />
+      : <FilmEditList />
 
   );
 }
