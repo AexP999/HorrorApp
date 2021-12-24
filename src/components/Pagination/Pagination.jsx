@@ -1,10 +1,8 @@
 import './Pagination.css';
 
-const Pagination = ({ queryUsersQty, usersQtyPerPage, setCurrentPage, currentPage }) => {
+const Pagination = ({ queryElementQty, elementQtyPerPage, setCurrentPage, currentPage }) => {
 
-  const pageQty = Math.ceil(queryUsersQty / usersQtyPerPage);
-
-  console.log('pageQty', pageQty);
+  const pageQty = Math.ceil(queryElementQty / elementQtyPerPage);
 
   const turnToPage = (i) => {
     setCurrentPage(i);
@@ -21,7 +19,8 @@ const Pagination = ({ queryUsersQty, usersQtyPerPage, setCurrentPage, currentPag
 
           { i + 1 === 1
             ? i + 1 !== currentPage
-              ? <div className={ currentPage !== i + 1 ? 'number-cell'
+              ? <div className={ currentPage !== i + 1
+                ? 'number-cell'
                 : 'number-cell-flag' }>{ i + 1 }</div>
               : ''
             : '' }

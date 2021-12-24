@@ -29,20 +29,46 @@
 }
 
 .film-item {
+  width:60%;
   border: 1px solid grey;
   display:flex;
   flex-direction: row;
   justify-content: center;
-  padding: 10px;
+  padding:10px;
+  font-size: 1.5rem;
+  height: 100px;
+  margin: 10px;
 }
 .film-name{
-  width: 30%
+  display: flex;
+  width: 70%;
+  align-items: center;
 }
+.film-name:hover{
+  font-size: 1.6rem;
+  transition: .3s;
+  font-weight: 600;
+  }
+.film-name a {
+  color:ivory;
+}  
+.film-name a:hover {
+  color:crimson;
+}  
 .film-year{
-  width: 10%
+  display: flex;
+  align-items: center;
+  width: 20%
 }
 
 .film-item button{
-  background-color: red;
+  background-color: rgb(236,77,77);
+  border-radius: 3px;
   width:10%;
 }
+.film-item button:hover {
+  background-color: crimson;
+}
+/* #usersContDivHeight {
+  height:65vh
+} */

@@ -1,48 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import { useHttpHook } from '../../Hooks/api.hook';
 import Pagination from '../../Pagination/Pagination';
-
 import { Link, useRouteMatch } from 'react-router-dom';
-
 import './AllUsers.css';
 
 export default function AllUsers () {
-  const usersQtyPerPageInit = 3;
-
+  // const usersQtyPerPageInit = 3;
+  const filmsQtyPerPageOnWindowInit = Math.floor((window.innerHeight - 480) / 50);
   const [ users, setUsers ] = useState([]);
   const [ userDataSearch, setUserDataSearch ] = useState('');
-  const [ queryUsersQty, setQueryUsersQty ] = useState(usersQtyPerPageInit);
+  const [ queryUsersQty, setQueryUsersQty ] = useState(filmsQtyPerPageOnWindowInit);
   const [ currentPage, setCurrentPage ] = useState(1);
-  const [ usersQtyPerPage, setUsersQtyPerPage ] = useState(usersQtyPerPageInit);
+  const [ usersQtyPerPage, setUsersQtyPerPage ] = useState(filmsQtyPerPageOnWindowInit);
 
   const { api } = useHttpHook();
   const { url } = useRouteMatch();
 
-  // const qtyPerCurrentPage = usersQtyPerPage * currentPage > queryUsersQty
-  //   ? queryUsersQty - usersQtyPerPage * (currentPage - 1)
-  //   : usersQtyPerPage;
-
+  useEffect(() => {
+    const changeHeight = () => {
+      setUsersQtyPerPage(Math.floor((window.innerHeight - 480) / 50));
+    };
+    window.addEventListener('resize', changeHeight);
+    return () => window.removeEventListener('resize', changeHeight);
+  }, []);
 
   useEffect(() => {
     getUsersBySearchRqst();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ currentPage ]);
+  }, [ currentPage, usersQtyPerPage ]);
 
   const getUsersBySearchRqst = async () => {
     try {
-      const result = await api.post(`/users/search?page=${ currentPage }&limit=${ usersQtyPerPageInit }`, {
+      const result = await api.post(`/users/search?page=${ currentPage }&limit=${ usersQtyPerPage }`, {
         email: userDataSearch
       });
 
       if(!result) {
         throw new Error(result.message || 'Где-то ошибка');
       }
-
       setQueryUsersQty(result.data.pop());
       setUsers(result.data);
-
-
     } catch(err) {
       console.log(err);
     };
@@ -82,7 +79,6 @@ export default function AllUsers () {
     setUsers([ ...users ]);
   };
 
-
   const userSearchUpdate = (e) => {
     e.preventDefault();
     setUserDataSearch(e.target.value);
@@ -91,18 +87,9 @@ export default function AllUsers () {
   useEffect(() => {
     getUsersBySearchRqst();
     setCurrentPage(1);
-    setUsersQtyPerPage(usersQtyPerPageInit);
+    setUsersQtyPerPage(usersQtyPerPage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ userDataSearch ]);
-
-
-  // setUsersQtyPerPage(x < usersQtyPerPage ? x : usersQtyPerPage);
-
-  console.log('usersRENDER', users);
-  console.log('userSearch', userDataSearch);
-  console.log('queryUsersQty', queryUsersQty);
-  console.log('currentPage', currentPage);
-  console.log('qtyPerCurrentPage', usersQtyPerPageInit);
 
   return (
     <div className='users-cont'>
@@ -142,8 +129,8 @@ export default function AllUsers () {
 
       }) }
       <Pagination
-        usersQtyPerPage={ usersQtyPerPage }
-        queryUsersQty={ queryUsersQty }
+        elementQtyPerPage={ usersQtyPerPage }
+        queryElementQty={ queryUsersQty }
         setCurrentPage={ setCurrentPage }
         currentPage={ currentPage }
       />
