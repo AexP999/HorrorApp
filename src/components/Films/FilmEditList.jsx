@@ -7,7 +7,7 @@ import './Films.css';
 function FilmEditList () {
   // const divHeight = document.querySelector('.film-item');
   // divHeight && console.log('divHeight', divHeight.offsetHeight);
-  const filmsQtyPerPageOnWindowInit = Math.floor((window.innerHeight - 450) / 100);
+  const filmsQtyPerPageOnWindowInit = Math.floor((window.innerHeight - 430) / 80);
   const { api } = useHttpHook();
   const { url } = useRouteMatch();
   const [ filmsQtyPerPageOnWindow, setFilmsQtyPerPageOnWindow ] = useState(filmsQtyPerPageOnWindowInit);
@@ -18,7 +18,7 @@ function FilmEditList () {
 
   useEffect(() => {
     const changeHeight = () => {
-      setFilmsQtyPerPageOnWindow(Math.floor((window.innerHeight - 450) / 100));
+      setFilmsQtyPerPageOnWindow(Math.floor((window.innerHeight - 430) / 80));
     };
     window.addEventListener('resize', changeHeight);
     return () => window.removeEventListener('resize', changeHeight);
