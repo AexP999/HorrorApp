@@ -8,8 +8,8 @@ import {
 import AllUsers from './AllUsers/AllUsers';
 import FilmInput from '../Films/FilmInput';
 
-import Films from '../Films/Films';
 import FilmEdit from '../Films/FilmEdit';
+import FilmEditList from '../Films/FilmEditList';
 import './AdminMenu.css';
 import FilmDelete from '../Films/FilmDelete';
 import UserStatInfo from '../Admin/Statistics/UserStatInfo';
@@ -45,7 +45,7 @@ function AdminMenu ({ userInfo }) {
         </Route>
 
         <Route exact path={ `${ url }/edit-films` }>
-          <Films show='list' />
+          <FilmEditList />
         </Route>
 
         <Route exact path={ `${ url }/edit-films/:filmID` }>
