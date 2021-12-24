@@ -9,7 +9,7 @@ export default function StarRating ({ setRate, rate }) {
       <div style={ { margin: "auto" } }>
         <div className="rate-it">
           { [ ...Array(10) ].map((star, ind) => (
-            <label key={ ind } >
+            <label style={ { cursor: 'pointer' } } key={ ind } >
               { (ind >= rate)
                 ? <div onClick={ () => setRate(ind + 1) } className="star1">★</div>
                 : <div onClick={ () => setRate(ind + 1) } className="star2">★</div>

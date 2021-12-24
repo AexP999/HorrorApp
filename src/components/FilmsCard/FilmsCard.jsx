@@ -162,7 +162,7 @@ export default function FilmsCard ({ userId }) {
             <div className='images-container'>
               { films.images.map((image, i) => {
                 return (
-                  <div key={ `image${ i }` }>
+                  <div style={ { cursor: 'pointer' } } key={ `image${ i }` }>
                     <Preview preview={ `${ PATHTODATANODE }/${ films._id }/img/${ image }` }></Preview>
                   </div>
                 );
