@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Children, cloneElement } from 'react';
 import './Slider.css';
 
 export const CarouselItem = ({ children, width }) => (
@@ -7,15 +7,22 @@ export const CarouselItem = ({ children, width }) => (
   </div>
 );
 
-const Slider = ({ children, imgOnScreen, imgToSlide, slideOn }) => {
+const Slider = ({ children, imgOnScreen, imgToSlide, slideOn, setFetching }) => {
   const [ activeIndex, setActiveIndex ] = useState(0);
   const [ doAutoSlidePaused, setDoAutoSlidePaused ] = useState(false);
 
+  console.log('activeIndex', activeIndex);
+
+  console.log('Children.count(children)', Children.count(children));
+
   const updateIndex = (newIndex) => {
     if(newIndex < 0) {
-      newIndex = Math.ceil(React.Children.count(children) / imgToSlide) - 1;
-    } else if(newIndex >= Math.ceil(React.Children.count(children) / imgToSlide)) {
+      newIndex = Math.ceil(Children.count(children) / imgToSlide) - 1;
+    } else if(newIndex >= Math.ceil(Children.count(children) / imgToSlide)) {
       newIndex = 0;
+    }
+    if(newIndex >= Children.count(children) - 2) {
+      setFetching(true);
     }
     setActiveIndex(newIndex);
   };
@@ -25,7 +32,7 @@ const Slider = ({ children, imgOnScreen, imgToSlide, slideOn }) => {
       if(!doAutoSlidePaused && slideOn) {
         updateIndex(activeIndex + 1);
       }
-    }, 3000);
+    }, 7000);
     return () => {
       if(interval) { clearInterval(interval); }
     };
@@ -40,8 +47,8 @@ const Slider = ({ children, imgOnScreen, imgToSlide, slideOn }) => {
       >
         <div className="inner" style={ { transform: `translateX(-${ activeIndex * 100 / imgOnScreen * imgToSlide }%)` } }
         >
-          { React.Children.map(children, (child, i) => {
-            return React.cloneElement(child, { width: `${ 100 / imgOnScreen }%` });
+          { Children.map(children, (child, i) => {
+            return cloneElement(child, { width: `${ 100 / imgOnScreen }%` });
           }
           ) }
         </div >

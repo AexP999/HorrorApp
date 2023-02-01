@@ -58,7 +58,7 @@ const App = () => {
         < Header userInfo={ userInfo } />
         <Switch>
           <Route path="/" exact>
-            <Home films={ films } />
+            <Home />
           </Route>
 
           <Route path="/login" exact>
@@ -91,7 +91,7 @@ const App = () => {
           </Route>
 
           <Route path="/filmscard/:id">
-            <FilmsCard userId={userInfo.userId}/>
+            <FilmsCard userId={ userInfo.userId } />
           </Route>
 
           <Route>
